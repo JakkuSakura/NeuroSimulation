@@ -1,33 +1,52 @@
 package com.jeekrs.threatenbody.entity;
 
-import com.jeekrs.threatenbody.component.PhysicsComponent;
+import com.jeekrs.threatenbody.component.CivilazationComponent;
+import com.jeekrs.threatenbody.component.OreComponent;
 import com.jeekrs.threatenbody.interfaces.Collidable;
 import com.jeekrs.threatenbody.interfaces.Gravity;
 import com.jeekrs.threatenbody.interfaces.Renderable;
+import com.jeekrs.threatenbody.utils.Vec2d;
 
 public class Planet implements Entity, Gravity, Collidable, Renderable {
-    public PhysicsComponent physicsComponent = new PhysicsComponent(this);
-    public float radius;
-    public float pho;
+    public Vec2d acc = new Vec2d(), vel = new Vec2d(), pos = new Vec2d();
+    public CivilazationComponent civil = new CivilazationComponent();
+    public OreComponent ores = new OreComponent();
+    public double radius;
+    public double mass;
 
-    public Planet(float radius, float pho) {
+    public Planet(double radius, double mass) {
         this.radius = radius;
-        this.pho = pho;
+        this.mass = mass;
     }
 
     public double getMass() {
-        return (float) (radius * radius * Math.PI * pho);
+        return mass;
     }
 
 
     @Override
-    public float getCollidingRadius(Collidable other) {
+    public double getRadius() {
         return radius;
     }
 
+    @Override
+    public Vec2d getAcc() {
+        return acc;
+    }
 
     @Override
-    public PhysicsComponent getPhysicsComponent() {
-        return physicsComponent;
+    public Vec2d getPos() {
+        return pos;
+    }
+
+    @Override
+    public Vec2d getVel() {
+        return vel;
+    }
+
+
+    @Override
+    public int compareTo(Entity entity) {
+        return Integer.compare(this.hashCode(), entity.hashCode());
     }
 }

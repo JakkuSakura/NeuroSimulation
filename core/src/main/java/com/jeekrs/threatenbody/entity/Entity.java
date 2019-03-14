@@ -1,4 +1,4 @@
 package com.jeekrs.threatenbody.entity;
 
-public interface Entity {
+public interface Entity extends Comparable<Entity> {
 }

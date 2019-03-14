@@ -9,7 +9,7 @@ public class ThreatenBodyMain extends Game {
 
     @Override
     public void create() {
-        setScreen(new FirstScreen());
+        setScreen(new GameScreen());
 
     }
 

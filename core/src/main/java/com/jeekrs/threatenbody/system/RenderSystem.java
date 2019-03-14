@@ -22,17 +22,15 @@ public class RenderSystem extends SimpleSystem {
         addRenderer(new PlanetRenderer());
     }
 
-    public int width = 600;
-    public int height = 800;
+    public int minWorldWidth = 600;
+    public int minWorldHeight = 800;
 
     public Camera camera = new OrthographicCamera();
-    public Viewport viewport = new ExtendViewport(800, 480, camera);
+    public Viewport viewport = new ExtendViewport(minWorldWidth, minWorldHeight, camera);
 
     public SpriteBatch batch = new SpriteBatch();
 
     public void setWindowSize(int width, int height) {
-        this.width = width;
-        this.height = height;
         viewport.update(width, height);
     }
 

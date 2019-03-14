@@ -1,6 +1,8 @@
 package com.jeekrs.threatenbody.utils;
 
-public class Vec2d implements Cloneable {
+import com.jeekrs.threatenbody.component.Component;
+
+public class Vec2d implements Cloneable, Component {
     public double x;
     public double y;
 
@@ -86,5 +88,15 @@ public class Vec2d implements Cloneable {
     @Override
     public String toString() {
         return "(" + x + ", " + y + ")";
+    }
+
+    public void set(Vec2d p) {
+        x = p.x;
+        y = p.y;
+    }
+
+    public void set(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 }

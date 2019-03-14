@@ -13,7 +13,7 @@ public class PlanetRenderer extends Renderer {
         world.entities.forEach(e -> {
             if (e instanceof Planet) {
                 Planet pl = (Planet) e;
-                batch.draw(sphere, (float) pl.physicsComponent.p.x, (float) pl.physicsComponent.p.y);
+                batch.draw(sphere, (float) pl.getPos().x, (float) pl.getPos().y);
             }
         });
     }

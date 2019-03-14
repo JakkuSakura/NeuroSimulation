@@ -1,4 +1,6 @@
 package com.jeekrs.threatenbody.interfaces;
 
-public interface Renderable {
+import com.jeekrs.threatenbody.entity.Entity;
+
+public interface Renderable extends Entity {
 }

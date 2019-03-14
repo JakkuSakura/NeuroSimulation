@@ -1,134 +1,88 @@
 package com.jeekrs.threatenbody.system;
 
-import com.jeekrs.threatenbody.component.CoordinateComponent;
 import com.jeekrs.threatenbody.entity.Entity;
 import com.jeekrs.threatenbody.entity.Planet;
 import com.jeekrs.threatenbody.interfaces.Collidable;
 import com.jeekrs.threatenbody.interfaces.Gravity;
-import com.jeekrs.threatenbody.interfaces.Physics;
-import com.jeekrs.threatenbody.utils.Vec2d;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
+@SuppressWarnings("ALL")
 public class PhysicsSystem extends SimpleSystem {
-    public final static double G = 1;
+    public final static double G = 10;
 
-    public void collidate(Collidable lhs, Collidable rhs) {
-        if (lhs instanceof Planet && rhs instanceof Planet) {
-            System.out.println("boom" + lhs.getPhysicsComponent().p + rhs.getPhysicsComponent().p);
-        }
-    }
 
-    @Override
     public void update(float delta) {
-        ArrayList<Physics> phy = new ArrayList<>();
-        systemManager.world.entities.forEach(e -> {
-            if (e instanceof Physics) {
-                phy.add((Physics) e);
-                ((Physics) e).getPhysicsComponent().a.clear();
-            }
-        });
-
-
-        // for collision
-        ArrayList<Collidable> collidable = new ArrayList<>();
-        phy.forEach(e -> {
-            if (e instanceof Collidable) {
-                collidable.add((Collidable) e);
-            }
-        });
-
-        collidable.forEach(e1 -> collidable.forEach(e2 -> {
-            if (e1 != e2 && e1.getPhysicsComponent().p.dist(e2.getPhysicsComponent().p) <= e1.getCollidingRadius(e2) + e2.getCollidingRadius(e1)) {
-                collidate(e1, e2);
-            }
-        }));
-
-        // for gravity
-        for (Physics e1 : phy) {
+        ArrayList<Gravity> entities = new ArrayList<>();
+        for (Entity e1 : systemManager.world.entities) {
             if (e1 instanceof Gravity) {
-                for (Physics e2 : phy) {
-                    if (e1 != e2 && e2 instanceof Gravity) {
-                        CoordinateComponent p1 = e1.getPhysicsComponent().p;
-                        CoordinateComponent p2 = e2.getPhysicsComponent().p;
+                entities.add((Gravity) e1);
+            }
+        }
 
-                        double dist = p1.distSquare(p2);
-                        if (dist < 5) continue;
+        Set<Entity> toAdd = new HashSet<>();
+        Set<Entity> toDel = new HashSet<>();
+        for (Gravity gr1 : entities) {
+            double acc_x = 0;
+            double acc_y = 0;
 
-                        double totAcc = G * e2.getMass() / dist;
-                        Vec2d dis = new Vec2d(Math.abs(p1.x - p2.x), Math.abs(p1.y - p2.y));
+            for (Gravity gr2 : entities) {
+                if (gr1 == gr2) continue;
 
-                        double angle = Math.atan2(dis.y, dis.x);
+                if (toDel.contains(gr1) || toDel.contains(gr2))
+                    continue;
 
-                        Vec2d a = new Vec2d(Math.cos(angle), Math.sin(angle)).multiBy(totAcc);
-
-                        if (p1.x > p2.x) {
-                            a.x *= -1.0;
-                        }
-
-                        if (p1.y > p2.y) {
-                            a.y *= -1.0;
-                        }
-
-                        e1.getPhysicsComponent().a.add(a);
-
+                double dx = gr2.getPos().x - gr1.getPos().x;
+                double dy = gr2.getPos().y - gr1.getPos().y;
+                double dist = gr2.getPos().dist(gr1.getPos());
+                if (gr1 instanceof Collidable && gr2 instanceof Collidable) {
+                    if (dist < ((Collidable) gr1).getRadius() + ((Collidable) gr2).getRadius()) {
+                        collide(toAdd, toDel, gr1, gr2);
                     }
+
                 }
+                double totacc = G * gr2.getMass() / (dist * dist);
+                acc_x += totacc * dx / dist;
+                acc_y += totacc * dy / dist;
             }
+
+            gr1.getAcc().set(acc_x, acc_y);
+
+            entities.forEach(ent ->
+            {
+                ((Gravity) ent).getVel().add(((Gravity) ent).getAcc().multi(delta));
+                ((Gravity) ent).getPos().add(((Gravity) ent).getVel().multi(delta));
+            });
+
+            systemManager.world.entities.addAll(toAdd);
+            systemManager.world.entities.removeAll(toDel);
         }
-
-        double[] energies = new double[phy.size()];
-        int index = 0;
-        for (Physics e1 : phy) {
-            double energy = getKineticEnergy(e1) + getGravitationalPotentialEnergy(e1);
-            energies[index++] = energy;
-        }
-
-        // for velocity
-        for (Physics physics : phy) {
-            physics.getPhysicsComponent().v.add(physics.getPhysicsComponent().a.multi(delta));
-        }
-
-
-        // for position
-        for (Physics physics : phy) {
-            physics.getPhysicsComponent().p.add(physics.getPhysicsComponent().v.multi(delta));
-        }
-
-        // for velocity fix
-        index = 0;
-        for (Physics e1 : phy) {
-            double energy = energies[index++];
-            double Ek = energy - getGravitationalPotentialEnergy(e1);
-
-            double vel = Math.sqrt(2 * Ek / e1.getMass());
-            double scale = vel <= 1e-6 ? 0 : vel / e1.getPhysicsComponent().v.abs();
-            e1.getPhysicsComponent().v.multiBy(scale);
-        }
-
-//        phy.forEach(o -> System.out.println(o.getPhysicsComponent().a + " " + o.getPhysicsComponent().v + " " + o.getPhysicsComponent().p));
-
 
     }
 
-    public static double getKineticEnergy(Physics ph) {
-        return 0.5 * ph.getMass() * ph.getPhysicsComponent().v.square();
-    }
+    private void collide(Set<Entity> toAdd, Set<Entity> toDel, Entity lhs, Entity rhs) {
+        if (lhs instanceof Planet && rhs instanceof Planet) {
+            Planet gr1 = (Planet) lhs;
+            Planet gr2 = (Planet) rhs;
+            toDel.add(gr1);
+            toDel.add(gr2);
 
-    public static double getGravitationalPotentialEnergy(Physics g1, Physics g2) {
-        if (g1 instanceof Gravity && g2 instanceof Gravity)
-            return -g1.getMass() * g2.getMass() / g1.getPhysicsComponent().p.dist(g2.getPhysicsComponent().p);
-        return 0;
-    }
+            double totMass = gr1.getMass() + gr2.getMass();
 
-    public double getGravitationalPotentialEnergy(Physics ph) {
-        double sum = 0;
-        if (ph instanceof Gravity) {
-            for (Entity e : systemManager.world.entities) {
-                if (e instanceof Physics && ph != e)
-                    sum += getGravitationalPotentialEnergy(ph, (Physics) e);
-            }
+            double vx = (gr1.getVel().x * gr1.getMass() + gr2.getVel().x * gr2.getMass()) / totMass;
+            double vy = (gr1.getVel().y * gr1.getMass() + gr2.getVel().y * gr2.getMass()) / totMass;
+
+            double x = (gr1.getPos().x * gr1.getMass() + gr2.getPos().x * gr2.getMass()) / totMass;
+            double y = (gr1.getPos().y * gr1.getMass() + gr2.getPos().y * gr2.getMass()) / totMass;
+            Planet planet = new Planet(Math.sqrt(gr1.getRadius() * gr1.getRadius() + gr2.getRadius() * gr2.getRadius()), totMass);
+            planet.vel.set(vx, vy);
+            planet.pos.set(x, y);
+
+            toAdd.add(planet);
+
         }
-        return sum;
     }
 }
+

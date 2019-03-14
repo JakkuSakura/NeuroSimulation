@@ -5,8 +5,7 @@ import com.jeekrs.threatenbody.entity.Planet;
 import com.jeekrs.threatenbody.system.*;
 import com.jeekrs.threatenbody.system.World;
 
-/** First screen of the application. Displayed after the application is created. */
-public class FirstScreen implements Screen {
+public class GameScreen implements Screen {
     public World world = new World();
     public SystemManager systemManager = new SystemManager();
 
@@ -17,16 +16,17 @@ public class FirstScreen implements Screen {
 
         systemManager.init();
 
-        Planet p1 = new Planet(10, 50);
-        p1.physicsComponent.p.x = 200;
+        Planet p1 = new Planet(10, 5000);
+        p1.getPos().x = 200;
 
 
-        Planet p2 = new Planet(10, 50);
-        p2.physicsComponent.p.x = -200;
+        Planet p2 = new Planet(10, 5000);
+        p2.getPos().x = -200;
 
 
-        Planet p3 = new Planet(10, 50);
-        p3.physicsComponent.p.y = -200;
+        Planet p3 = new Planet(10, 5000);
+        p3.getPos().y = -200;
+
 
 
         world.entities.add(p1);
