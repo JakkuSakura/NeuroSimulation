@@ -19,6 +19,11 @@ public class Planet implements Entity, Gravity, Collidable, Renderable {
         this.mass = mass;
     }
 
+    @Override
+    public String toString() {
+        return "Planet@" + hashCode() + " p: " + pos + " v:" + vel;
+    }
+
     public double getMass() {
         return mass;
     }

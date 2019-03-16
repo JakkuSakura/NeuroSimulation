@@ -1,21 +1,22 @@
 package com.jeekrs.threatenbody.system;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.jeekrs.threatenbody.entity.Planet;
 
 public class PlanetRenderer extends Renderer {
 
-    public Texture sphere = new Texture("box.png");
+
 
     @Override
     public void render() {
-        world.entities.forEach(e -> {
+        renderSystem.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        renderSystem.systemManager.worldSystem.entities.forEach(e -> {
             if (e instanceof Planet) {
                 Planet pl = (Planet) e;
-                batch.draw(sphere, (float) pl.getPos().x, (float) pl.getPos().y);
+                renderSystem.shapeRenderer.circle((float) pl.pos.x, (float) pl.pos.y, (float) pl.radius);
             }
         });
+        renderSystem.shapeRenderer.end();
     }
 
     @Override

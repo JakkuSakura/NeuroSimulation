@@ -7,7 +7,8 @@ public class SystemManager {
     public PhysicsSystem physicsSystem = new PhysicsSystem();
     public RenderSystem renderSystem = new RenderSystem();
     public InputSystem inputSystem = new InputSystem();
-    public World world;
+    public WorldSystem worldSystem;
+    public UISystem UISystem = new UISystem();
 
     public SystemManager() {
 
@@ -18,6 +19,7 @@ public class SystemManager {
         this.addSystem(inputSystem);
         this.addSystem(physicsSystem);
         this.addSystem(renderSystem);
+        this.addSystem(UISystem);
 
         systems.forEach(SimpleSystem::init);
     }
@@ -31,8 +33,11 @@ public class SystemManager {
         system.setSystemManager(this);
     }
 
-    public void setWorld(World world) {
-        this.world = world;
+    public void resize(int width, int height) {
+        systems.forEach(e -> e.resize(width, height));
+    }
+    public void setWorldSystem(WorldSystem worldSystem) {
+        this.worldSystem = worldSystem;
     }
 
     public void dispose() {

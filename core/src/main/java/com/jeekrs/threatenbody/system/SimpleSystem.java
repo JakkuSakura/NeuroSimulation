@@ -15,4 +15,7 @@ abstract public class SimpleSystem {
     public void setSystemManager(SystemManager systemManager) {
         this.systemManager = systemManager;
     }
+
+    public void resize(int width, int height) {
+    }
 }

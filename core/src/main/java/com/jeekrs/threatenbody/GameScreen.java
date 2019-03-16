@@ -3,35 +3,27 @@ package com.jeekrs.threatenbody;
 import com.badlogic.gdx.Screen;
 import com.jeekrs.threatenbody.entity.Planet;
 import com.jeekrs.threatenbody.system.*;
-import com.jeekrs.threatenbody.system.World;
+import com.jeekrs.threatenbody.system.WorldSystem;
 
 public class GameScreen implements Screen {
-    public World world = new World();
+    public WorldSystem worldSystem = new WorldSystem();
     public SystemManager systemManager = new SystemManager();
 
     @Override
     public void show() {
-        systemManager.setWorld(world);
-        systemManager.addSystem(world);
-
+        systemManager.setWorldSystem(worldSystem);
+        systemManager.addSystem(worldSystem);
         systemManager.init();
 
-        Planet p1 = new Planet(10, 5000);
-        p1.getPos().x = 200;
+        for (int i = 0; i < 100; ++i) {
+            Planet p1 = new Planet(10, 300);
+            p1.getPos().x = (Math.random() - 0.5) * 500;
+            p1.getPos().y = (Math.random() - 0.5) * 500;
+            p1.getVel().x = (Math.random() - 0.5) * 5;
+            p1.getVel().y = (Math.random() - 0.5) * 5;
+            worldSystem.entities.add(p1);
 
-
-        Planet p2 = new Planet(10, 5000);
-        p2.getPos().x = -200;
-
-
-        Planet p3 = new Planet(10, 5000);
-        p3.getPos().y = -200;
-
-
-
-        world.entities.add(p1);
-        world.entities.add(p2);
-        world.entities.add(p3);
+        }
     }
 
     @Override
@@ -41,7 +33,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        systemManager.renderSystem.setWindowSize(width, height);
+        systemManager.resize(width, height);
     }
 
     @Override

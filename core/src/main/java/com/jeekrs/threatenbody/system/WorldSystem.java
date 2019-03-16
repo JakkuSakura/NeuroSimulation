@@ -5,10 +5,10 @@ import com.jeekrs.threatenbody.entity.Entity;
 import java.util.LinkedList;
 import java.util.TreeSet;
 
-public class World extends SimpleSystem {
+public class WorldSystem extends SimpleSystem {
     public TreeSet<Entity> entities = new TreeSet<>();
 
-    public World() {
+    public WorldSystem() {
 
     }
 }

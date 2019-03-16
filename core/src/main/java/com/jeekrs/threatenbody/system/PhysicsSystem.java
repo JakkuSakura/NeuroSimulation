@@ -1,13 +1,12 @@
 package com.jeekrs.threatenbody.system;
 
+import com.jeekrs.threatenbody.component.OreComponent;
 import com.jeekrs.threatenbody.entity.Entity;
 import com.jeekrs.threatenbody.entity.Planet;
 import com.jeekrs.threatenbody.interfaces.Collidable;
 import com.jeekrs.threatenbody.interfaces.Gravity;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 @SuppressWarnings("ALL")
 public class PhysicsSystem extends SimpleSystem {
@@ -16,14 +15,14 @@ public class PhysicsSystem extends SimpleSystem {
 
     public void update(float delta) {
         ArrayList<Gravity> entities = new ArrayList<>();
-        for (Entity e1 : systemManager.world.entities) {
+        for (Entity e1 : systemManager.worldSystem.entities) {
             if (e1 instanceof Gravity) {
                 entities.add((Gravity) e1);
             }
         }
 
-        Set<Entity> toAdd = new HashSet<>();
-        Set<Entity> toDel = new HashSet<>();
+        ArrayList<Entity> toAdd = new ArrayList<>();
+        ArrayList<Entity> toDel = new ArrayList<>();
         for (Gravity gr1 : entities) {
             double acc_x = 0;
             double acc_y = 0;
@@ -52,17 +51,17 @@ public class PhysicsSystem extends SimpleSystem {
 
             entities.forEach(ent ->
             {
-                ((Gravity) ent).getVel().add(((Gravity) ent).getAcc().multi(delta));
-                ((Gravity) ent).getPos().add(((Gravity) ent).getVel().multi(delta));
+                ent.getVel().add(ent.getAcc().multi(delta));
+                ent.getPos().add(ent.getVel().multi(delta));
             });
 
-            systemManager.world.entities.addAll(toAdd);
-            systemManager.world.entities.removeAll(toDel);
+            systemManager.worldSystem.entities.addAll(toAdd);
+            systemManager.worldSystem.entities.removeAll(toDel);
         }
 
     }
 
-    private void collide(Set<Entity> toAdd, Set<Entity> toDel, Entity lhs, Entity rhs) {
+    private void collide(ArrayList<Entity> toAdd, ArrayList<Entity> toDel, Entity lhs, Entity rhs) {
         if (lhs instanceof Planet && rhs instanceof Planet) {
             Planet gr1 = (Planet) lhs;
             Planet gr2 = (Planet) rhs;
@@ -79,7 +78,7 @@ public class PhysicsSystem extends SimpleSystem {
             Planet planet = new Planet(Math.sqrt(gr1.getRadius() * gr1.getRadius() + gr2.getRadius() * gr2.getRadius()), totMass);
             planet.vel.set(vx, vy);
             planet.pos.set(x, y);
-
+            planet.ores = OreComponent.merge(gr1.ores, gr2.ores);
             toAdd.add(planet);
 
         }
