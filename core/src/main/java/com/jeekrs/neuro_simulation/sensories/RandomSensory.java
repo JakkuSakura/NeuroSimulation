@@ -1,11 +1,17 @@
 package com.jeekrs.neuro_simulation.sensories;
 
+import com.jeekrs.neuro_simulation.entities.Living;
+import com.jeekrs.neuro_simulation.utils.ImprovedNoise;
 import com.jeekrs.neuro_simulation.utils.Package;
-import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
 public class RandomSensory implements Sensory {
     @Override
-    public Package detect() {
-        return new Package(RandomUtil.nextDouble());
+    public Package detect(Living l) {
+        return new Package((float) ImprovedNoise.fade(System.currentTimeMillis()));
+    }
+
+    @Override
+    public Sensory clone() {
+        return new RandomSensory();
     }
 }

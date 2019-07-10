@@ -3,6 +3,7 @@ package com.jeekrs.neuro_simulation.system;
 import java.util.ArrayList;
 
 public class SystemManager {
+    public static SystemManager systemManager;
     public ArrayList<SimpleSystem> systems = new ArrayList<>();
     public PhysicsSystem physicsSystem = new PhysicsSystem();
     public RenderSystem renderSystem = new RenderSystem();
@@ -12,7 +13,7 @@ public class SystemManager {
     public UISystem UISystem = new UISystem();
 
     public SystemManager() {
-
+        systemManager = this;
     }
 
 

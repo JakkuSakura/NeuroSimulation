@@ -1,34 +1,44 @@
 package com.jeekrs.neuro_simulation.effectors;
 
-import com.jeekrs.neuro_simulation.component.Movable;
+import com.badlogic.gdx.math.Vector2;
+import com.jeekrs.neuro_simulation.entities.Living;
 import com.jeekrs.neuro_simulation.utils.Package;
-import com.jeekrs.neuro_simulation.utils.Vec2d;
 
 public class Legs implements Effector {
 
-    private Movable movable;
-    private double speedLimit;
+    private float speedLimit;
 
-    public Legs(Movable movable) {
-        this.movable = movable;
-    }
-
-    private double softsign(double x) {
+    private float softsign(float x) {
         return x / (1 + Math.abs(x));
     }
 
-    private double adjust(double x) {
-        return (x - 0.5) * 2;
+    private float adjust(float x) {
+        return (float) ((x - 0.5) * 2);
     }
 
     @Override
-    public void effect(Package p) {
-        Vec2d v = new Vec2d(p.vals).apply(this::adjust);
-        if (v.abs() > 1) {
-            v.multiBy(1f / v.abs());
+    public Effector clone() {
+        Object clone = null;
+        try {
+            clone = super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
         }
-        v.multiBy(getSpeedLimit());
-        movable.getPhy().vel.set(v);
+        return (Effector) clone;
+    }
+
+    @Override
+    public void effect(Package p, Living l) {
+        Vector2 v = new Vector2(adjust(p.vals.get(0)), adjust(p.vals.get(1)));
+
+        float abs = v.dst(0, 0);
+        if (abs > 1) {
+            v.x /= abs;
+            v.y /= abs;
+        }
+        v.x *= getSpeedLimit();
+        v.y *= getSpeedLimit();
+        l.getVel().set(v);
     }
 
     @Override
@@ -36,11 +46,12 @@ public class Legs implements Effector {
         return 2;
     }
 
-    public double getSpeedLimit() {
+    public float getSpeedLimit() {
         return speedLimit;
     }
 
-    public void setSpeedLimit(double speedLimit) {
+    public void setSpeedLimit(float speedLimit) {
         this.speedLimit = speedLimit;
     }
+
 }

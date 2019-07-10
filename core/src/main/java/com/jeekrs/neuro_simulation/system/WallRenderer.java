@@ -10,7 +10,7 @@ public class WallRenderer extends Renderer {
         renderSystem.systemManager.worldSystem.entities.forEach(e -> {
             if (e instanceof Wall) {
                 Wall lv = (Wall) e;
-                renderSystem.shapeRenderer.rect((float) lv.getPhy().pos.x, (float) lv.getPhy().pos.y, (float)lv.getWidth(), (float)lv.getHeight());
+                renderSystem.shapeRenderer.rect(lv.getPos().x, lv.getPos().y, lv.getWidth(), lv.getHeight());
 
             }
         });

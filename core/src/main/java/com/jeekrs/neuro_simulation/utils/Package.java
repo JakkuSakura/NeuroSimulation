@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Package {
-    public ArrayList<Double> vals;
-    public Package(ArrayList<Double> vals)
+    public ArrayList<Float> vals;
+
+    public Package(ArrayList<Float> vals)
     {
         this.vals = vals;
     }
@@ -13,9 +14,10 @@ public class Package {
     {
         this.vals = new ArrayList<>();
     }
-    public Package(double... vals) {
+
+    public Package(float... vals) {
         this();
-        for (double v : vals) {
+        for (float v : vals) {
             this.vals.add(v);
         }
     }
@@ -27,11 +29,12 @@ public class Package {
     }
 
     public Package slice(int i, int length) {
-        List<Double> list = vals.subList(i, length + i);
+        List<Float> list = vals.subList(i, length + i);
         return new Package(new ArrayList<>(list));
     }
-    public double[] getRawArray() {
-        double[] d = new double[vals.size()];
+
+    public float[] getRawArray() {
+        float[] d = new float[vals.size()];
         for (int i = 0; i < vals.size(); i++) {
             d[i] = vals.get(i);
         }

@@ -3,18 +3,19 @@ package com.jeekrs.neuro_simulation.utils;
 import java.util.Random;
 
 public class RandomUtil {
-	public static final int RAND_SEED = 2016;
+    public static final int RAND_SEED = (int) System.currentTimeMillis();
 	public static Random rand = new Random (RAND_SEED);
-	
-	public static double nextDouble () {
-		return rand.nextDouble();
-	}
-	public static double nextDouble (double a, double b) {
+
+    public static float nextFloat() {
+        return rand.nextFloat();
+    }
+
+    public static float nextFloat(float a, float b) {
 		if (a > b) {
-			double tmp = a;
+            float tmp = a;
 			a = b;
 			b = tmp;
 		}
-		return rand.nextDouble() * (b - a) + a;
+        return rand.nextFloat() * (b - a) + a;
 	}
 }

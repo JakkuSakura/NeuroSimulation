@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class TextHelper {
     public static final FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("arial.ttf"));
@@ -17,7 +16,7 @@ public class TextHelper {
 
     }
 
-    static public void printf(Batch batch, double x, double y, String fmt, Object... args) {
+    static public void printf(Batch batch, float x, float y, String fmt, Object... args) {
         String str = String.format(fmt, args);
         font.draw(batch, str, (float) x, (float) y);
     }

@@ -1,29 +1,32 @@
 package com.jeekrs.neuro_simulation.system;
 
-import com.jeekrs.neuro_simulation.component.Shape;
-import com.jeekrs.neuro_simulation.entities.Entity;
+import com.badlogic.gdx.math.Intersector;
 import com.jeekrs.neuro_simulation.component.Movable;
+import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.entities.Living;
 import com.jeekrs.neuro_simulation.entities.Wall;
-import com.jeekrs.neuro_simulation.utils.Geometry;
 
 import java.util.ArrayList;
 
 
 @SuppressWarnings("ALL")
 public class PhysicsSystem extends SimpleSystem {
-    public final static double G = 10;
+    public final static float G = 10;
 
 
     public void update(float delta) {
         for (Entity e1 : systemManager.worldSystem.entities) {
             if (e1 instanceof Movable) {
 
-                e1.getPhy().vel.add(e1.getPhy().acc.multi(delta));
+                e1.getVel().mulAdd(e1.getAcc(), delta);
 
-                e1.getPhy().vel.multiBy(1 - 0.5f*delta);
+                e1.getVel().x *= 1 - 0.5f * delta;
+                e1.getVel().y *= 1 - 0.5f * delta;
 
-                e1.getPhy().pos.add(e1.getPhy().vel.multi(delta));
+                e1.getPos().mulAdd(e1.getVel(), delta);
+
+                // wind effect
+//                e1.getPos().mulAdd(Vector2.X, delta * 80);
             }
         }
 
@@ -32,7 +35,7 @@ public class PhysicsSystem extends SimpleSystem {
             if (e1 instanceof Living) {
                 for (Entity e2 : systemManager.worldSystem.entities) {
                     if (e2 instanceof Wall) {
-                        if (Geometry.intersects((Shape)e1, (Shape)e2))
+                        if (Intersector.overlaps(((Living) e1).getCircle(), ((Wall) e2).getRectangle()))
                             entities.add(e1);
                     }
                 }

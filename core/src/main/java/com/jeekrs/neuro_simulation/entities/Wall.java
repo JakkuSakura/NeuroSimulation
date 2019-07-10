@@ -1,45 +1,53 @@
 package com.jeekrs.neuro_simulation.entities;
 
+import com.badlogic.gdx.math.Vector2;
 import com.jeekrs.neuro_simulation.component.Rectangle;
-import com.jeekrs.neuro_simulation.utils.RandomUtil;
-import com.jeekrs.neuro_simulation.utils.Vec2d;
+
 
 public class Wall extends Structure implements Rectangle {
-    private double width, height;
+    private float width, height;
 
-    public Wall(double width, double height) {
+    public Wall(float width, float height) {
         this.width = width;
         this.height = height;
     }
 
-    public double getHeight() {
+    @Override
+    public String toString() {
+        return "Wall";
+    }
+
+    public float getHeight() {
         return height;
     }
 
-    public void setHeight(double height) {
+    public void setHeight(float height) {
         this.height = height;
     }
 
-    public double getWidth() {
+    public float getWidth() {
         return width;
     }
 
-    public void setWidth(double width) {
+    public void setWidth(float width) {
         this.width = width;
     }
 
     @Override
-    public boolean hitCheck(Vec2d pos) {
-        if (pos.x > getPhy().pos.x && pos.x < getPhy().pos.x + width)
-            if (pos.y > getPhy().pos.y && pos.y < getPhy().pos.y + height)
-                return true;
-        return false;
-
+    public boolean contains(Vector2 pos) {
+        return contains(pos.x, pos.y);
     }
 
     @Override
-    public Vec2d getInnerPoint() {
-        return new Vec2d(getPhy().pos.x + width * RandomUtil.nextDouble(0,1),
-                    getPhy().pos.y + height * RandomUtil.nextDouble(0,1));
+    public boolean contains(float x, float y) {
+        if (x > getPos().x && x < getPos().x + width)
+            if (y > getPos().y && y < getPos().y + height)
+                return true;
+        return false;
+    }
+
+    @Override
+    public com.badlogic.gdx.math.Rectangle getRectangle() {
+        return new com.badlogic.gdx.math.Rectangle(getPos().x, getPos().y, width, height);
     }
 }

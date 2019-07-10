@@ -1,21 +1,30 @@
 package com.jeekrs.neuro_simulation.system;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.entities.Living;
 
 public class LivingRenderer extends Renderer {
 
     @Override
     public void render() {
+        int count = 0;
         renderSystem.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         renderSystem.batch.begin();
-        renderSystem.systemManager.worldSystem.entities.forEach(e -> {
+        for (Entity e : renderSystem.systemManager.worldSystem.entities) {
             if (e instanceof Living) {
                 Living lv = (Living) e;
-                renderSystem.shapeRenderer.circle((float) lv.getPhy().pos.x, (float) lv.getPhy().pos.y, (float) lv.getRadius());
-                TextHelper.printf(renderSystem.batch, lv.getPhy().pos.x - 30, lv.getPhy().pos.y + 55, "%s", lv.toString());
+                renderSystem.shapeRenderer.circle(lv.getPos().x, lv.getPos().y, lv.getRadius());
+                TextHelper.printf(renderSystem.batch, lv.getPos().x - 30, lv.getPos().y + 55, "%s", lv.toString());
+                count += 1;
+                if (count % 20 == 0) {
+                    renderSystem.batch.end();
+                    renderSystem.shapeRenderer.end();
+                    renderSystem.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                    renderSystem.batch.begin();
+                }
             }
-        });
+        }
         renderSystem.batch.end();
         renderSystem.shapeRenderer.end();
     }

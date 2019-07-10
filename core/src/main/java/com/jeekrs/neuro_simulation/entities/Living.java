@@ -1,17 +1,16 @@
 package com.jeekrs.neuro_simulation.entities;
 
+
+import com.badlogic.gdx.math.Vector2;
 import com.jeekrs.neuro_simulation.component.Circle;
 import com.jeekrs.neuro_simulation.component.Movable;
-import com.jeekrs.neuro_simulation.component.Physics;
-import com.jeekrs.neuro_simulation.sensories.Sensory;
 import com.jeekrs.neuro_simulation.effectors.Effector;
 import com.jeekrs.neuro_simulation.processors.Processor;
+import com.jeekrs.neuro_simulation.sensories.Sensory;
+import com.jeekrs.neuro_simulation.utils.Cloner;
 import com.jeekrs.neuro_simulation.utils.Package;
-import com.jeekrs.neuro_simulation.utils.RandomUtil;
-import com.jeekrs.neuro_simulation.utils.Vec2d;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class Living extends Entity implements Movable, Circle {
     private String name = getClass().getSimpleName() + getClass().hashCode();
@@ -19,7 +18,7 @@ public class Living extends Entity implements Movable, Circle {
     private ArrayList<Sensory> sensories = new ArrayList<>();
     private ArrayList<Effector> effects = new ArrayList<>();
     private float direction;
-    protected double radius = 30;
+    protected float radius = 30;
 
     public Living() {
     }
@@ -33,16 +32,20 @@ public class Living extends Entity implements Movable, Circle {
     }
 
     public int sensoryPackageLength() {
-        return collect().vals.size();
+        return detect().vals.size();
     }
 
     public int effectorPackageLength() {
         return effects.stream().mapToInt(Effector::neededLength).sum();
     }
 
-    public Package collect() {
+    public Processor getProcessor() {
+        return processor;
+    }
+
+    public Package detect() {
         Package p = new Package();
-        sensories.forEach(e -> p.append(e.detect()));
+        sensories.forEach(e -> p.append(e.detect(this)));
         return p;
     }
 
@@ -52,7 +55,7 @@ public class Living extends Entity implements Movable, Circle {
 
     public void effect(Package p) {
         for (int i = 0, j = 0; i < effects.size(); i++) {
-            effects.get(i).effect(p.slice(j, effects.get(i).neededLength()));
+            effects.get(i).effect(p.slice(j, effects.get(i).neededLength()), this);
         }
     }
 
@@ -78,9 +81,6 @@ public class Living extends Entity implements Movable, Circle {
         this.processor = processor;
     }
 
-    public void initProcessor() {
-        processor.init();
-    }
 
     public String getName() {
         return name;
@@ -90,21 +90,49 @@ public class Living extends Entity implements Movable, Circle {
         this.name = name;
     }
 
-    @Override
-    public double getRadius() {
+    public float getRadius() {
         return radius;
     }
 
     @Override
-    public boolean hitCheck(Vec2d pos) {
-        return getPhy().pos.distSquare(pos) <= getRadius() * getRadius();
+    public com.badlogic.gdx.math.Circle getCircle() {
+        return new com.badlogic.gdx.math.Circle(getPos().x, getPos().y, radius);
     }
 
     @Override
-    public Vec2d getInnerPoint() {
-        Vec2d p = new Vec2d(getPhy().pos.x + RandomUtil.nextDouble(-1, 1) * radius, getPhy().pos.y + RandomUtil.nextDouble(-1, 1) * radius);
-        return p;
+    public boolean contains(Vector2 point) {
+        return getPos().dst2(point) <= getRadius() * getRadius();
+    }
+
+    @Override
+    public boolean contains(float x, float y) {
+        return getPos().dst2(x, y) < radius * radius;
+    }
 
 
+    @Override
+    public Living clone() {
+        Living living = (Living) super.clone();
+        living.processor = living.processor.clone();
+
+        living.effects = Cloner.deepCopy(living.effects);
+        living.sensories = Cloner.deepCopy(living.sensories);
+
+        return living;
+    }
+
+    @Override
+    public Vector2 getPos() {
+        return phy.pos;
+    }
+
+    @Override
+    public Vector2 getVel() {
+        return phy.vel;
+    }
+
+    @Override
+    public Vector2 getAcc() {
+        return phy.acc;
     }
 }

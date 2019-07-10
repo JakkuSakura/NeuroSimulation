@@ -2,7 +2,8 @@ package com.jeekrs.neuro_simulation.entities;
 
 import com.jeekrs.neuro_simulation.effectors.Legs;
 import com.jeekrs.neuro_simulation.processors.NeuroProcessor;
-import com.jeekrs.neuro_simulation.sensories.PositionSensory;
+import com.jeekrs.neuro_simulation.sensories.NearbyLivingSensory;
+import com.jeekrs.neuro_simulation.sensories.NearbyWallSensory;
 import com.jeekrs.neuro_simulation.sensories.RandomSensory;
 
 public class Ant extends Living {
@@ -10,13 +11,26 @@ public class Ant extends Living {
 
     public Ant() {
         super();
-        addSensory(new PositionSensory(this));
-        addSensory(new RandomSensory());
-        Legs legs = new Legs(this);
-        legs.setSpeedLimit(100);
-        addEffector(legs);
-        setProcessor(new NeuroProcessor(this, 10, 10));
-        initProcessor();
         setName("Ant" + (++count));
+        addSensory(new NearbyLivingSensory());
+        addSensory(new NearbyWallSensory());
+        addSensory(new RandomSensory());
+        Legs legs = new Legs();
+        legs.setSpeedLimit(200);
+        addEffector(legs);
+        NeuroProcessor processor = new NeuroProcessor(this, 3, 5);
+        setProcessor(processor);
+        processor.init();
+        System.out.println("Shuffling " + getName());
+        processor.shuffle(10);
+
+
+    }
+
+    public static void main(String[] args) {
+        Ant ant = new Ant();
+        Living clone = ant.clone();
+
+        System.out.println("done");
     }
 }
