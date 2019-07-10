@@ -22,7 +22,7 @@ public class EntitySystem extends SimpleSystem {
             last_time = System.currentTimeMillis();
             TreeSet<Entity> entities = (TreeSet<Entity>) systemManager.worldSystem.entities.clone();
             for (Entity e : entities) {
-                if (e instanceof Living && systemManager.worldSystem.entities.size() < 300) {
+                if (e instanceof Living && systemManager.worldSystem.entities.size() < 800) {
                     Living living = (Living) e.clone();
                     living.getPos().x += RandomUtil.nextFloat(-50, 50);
                     living.getPos().y += RandomUtil.nextFloat(-50, 50);
@@ -48,7 +48,7 @@ public class EntitySystem extends SimpleSystem {
                         }
                     }
                 }
-                if ((count - 3) * delta * 10 > RandomUtil.nextFloat())
+                if ((count - 5) * delta * 10 > RandomUtil.nextFloat())
                     dead.add(l1);
             }
         }

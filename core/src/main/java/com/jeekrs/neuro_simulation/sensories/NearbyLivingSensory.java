@@ -18,10 +18,10 @@ public class NearbyLivingSensory implements Sensory {
         for (Entity entity : worldSystem.entities) {
             if (entity instanceof Living) {
                 float dst = entity.getPos().dst(living.getPos());
-                if (dst < 50) {
+                if (dst < 200) {
                     i += .1;
-                    x += entity.getPos().x * dst * .1f;
-                    y += entity.getPos().y * dst * .1f;
+                    x += (entity.getPos().x - living.getPos().x) / (dst + 1) * 100;
+                    y += (entity.getPos().y - living.getPos().y) / (dst + 1) * 100;
                 }
             }
         }

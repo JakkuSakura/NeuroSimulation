@@ -7,7 +7,7 @@ import com.jeekrs.neuro_simulation.utils.Package;
 public class RandomSensory implements Sensory {
     @Override
     public Package detect(Living l) {
-        return new Package((float) ImprovedNoise.fade(System.currentTimeMillis()));
+        return new Package((float) ImprovedNoise.noise(System.currentTimeMillis(), 0, 0));
     }
 
     @Override
