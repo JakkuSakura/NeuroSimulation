@@ -11,6 +11,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
+import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
+
 
 public class RenderSystem extends SimpleSystem {
     public ArrayList<Renderer> renderers = new ArrayList<>();
@@ -26,80 +28,9 @@ public class RenderSystem extends SimpleSystem {
 
     }
 
-    public boolean zoomin, zoomout;
-    public float mvx, mvy;
-
+    public ViewController viewController = new ViewController(this);
     public void init() {
-        systemManager.inputSystem.inputStack.stack.addFirst(new SimpleInputProcessor() {
-
-            @Override
-            public boolean keyDown(int keycode) {
-                if (keycode == Input.Keys.J) {
-                    zoomin = true;
-                    return true;
-                }
-                if (keycode == Input.Keys.K) {
-                    zoomout = true;
-                    return true;
-                }
-
-                if (keycode == Input.Keys.W) {
-                    mvy += 300;
-                    return true;
-                }
-
-                if (keycode == Input.Keys.S) {
-                    mvy += -300;
-                    return true;
-                }
-
-                if (keycode == Input.Keys.A) {
-                    mvx += -300;
-                    return true;
-                }
-
-                if (keycode == Input.Keys.D) {
-                    mvx += 300;
-                    return true;
-                }
-                return false;
-            }
-
-            @Override
-            public boolean keyUp(int keycode) {
-                if (keycode == Input.Keys.J) {
-                    zoomin = false;
-                    return true;
-                }
-
-                if (keycode == Input.Keys.K) {
-                    zoomout = false;
-                    return true;
-                }
-                if (keycode == Input.Keys.W) {
-                    mvy -= 300;
-                    return true;
-                }
-
-                if (keycode == Input.Keys.S) {
-                    mvy -= -300;
-                    return true;
-                }
-
-                if (keycode == Input.Keys.A) {
-                    mvx -= -300;
-                    return true;
-                }
-
-                if (keycode == Input.Keys.D) {
-                    mvx -= 300;
-                    return true;
-                }
-
-                return false;
-            }
-
-        });
+        systemManager.inputSystem.inputStack.stack.addFirst(viewController);
     }
 
 
@@ -120,13 +51,7 @@ public class RenderSystem extends SimpleSystem {
     @Override
     public void update(float delta) {
         render(delta);
-        if (zoomin)
-            camera.zoom *= 1 - 0.5 * delta;
-
-        if (zoomout)
-            camera.zoom *= 1 + 0.5 * delta;
-
-        camera.translate(mvx * delta * camera.zoom, mvy * delta * camera.zoom, 0);
+        viewController.update(delta);
 
     }
 

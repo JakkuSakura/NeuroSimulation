@@ -1,4 +1,7 @@
 package com.jeekrs.neuro_simulation.component;
 
-public interface Movable extends HasPhysics {
+import com.badlogic.gdx.math.Vector2;
+
+public interface Movable extends Position {
+    Vector2 getVel();
 }

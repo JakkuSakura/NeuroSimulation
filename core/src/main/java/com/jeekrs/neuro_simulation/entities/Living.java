@@ -113,26 +113,19 @@ public class Living extends Entity implements Movable, Circle {
     @Override
     public Living clone() {
         Living living = (Living) super.clone();
-        living.processor = living.processor.clone();
-
-        living.effects = Cloner.deepCopy(living.effects);
-        living.sensories = Cloner.deepCopy(living.sensories);
+        living.processor = processor.clone();
+        living.effects = Cloner.deepCopy(effects);
+        living.sensories = Cloner.deepCopy(sensories);
+        living.vel = new Vector2(vel);
 
         return living;
     }
 
-    @Override
-    public Vector2 getPos() {
-        return phy.pos;
-    }
+    private Vector2 vel = new Vector2();
 
     @Override
     public Vector2 getVel() {
-        return phy.vel;
+        return vel;
     }
 
-    @Override
-    public Vector2 getAcc() {
-        return phy.acc;
-    }
 }

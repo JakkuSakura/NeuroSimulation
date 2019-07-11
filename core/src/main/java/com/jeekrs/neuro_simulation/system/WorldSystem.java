@@ -5,7 +5,7 @@ import com.jeekrs.neuro_simulation.entities.Entity;
 import java.util.TreeSet;
 
 public class WorldSystem extends SimpleSystem {
-    public TreeSet<Entity> entities = new TreeSet<>();
+
 
     public WorldSystem() {
 

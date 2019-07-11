@@ -1,7 +1,6 @@
 package com.jeekrs.neuro_simulation.system;
 
 abstract public class SimpleSystem {
-    public SystemManager systemManager;
 
     public void init() {
 
@@ -10,10 +9,6 @@ abstract public class SimpleSystem {
     }
 
     public void dispose() {
-    }
-
-    public void setSystemManager(SystemManager systemManager) {
-        this.systemManager = systemManager;
     }
 
     public void resize(int width, int height) {

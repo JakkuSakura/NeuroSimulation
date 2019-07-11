@@ -1,30 +1,20 @@
 package com.jeekrs.neuro_simulation.entities;
 
 import com.badlogic.gdx.math.Vector2;
-import com.jeekrs.neuro_simulation.component.HasPhysics;
-import com.jeekrs.neuro_simulation.component.Physics;
+import com.jeekrs.neuro_simulation.component.Position;
 
-public abstract class Entity implements Comparable<Entity>, HasPhysics, Cloneable {
-    protected Physics phy = new Physics();
+
+public abstract class Entity implements Comparable<Entity>, Position, Cloneable {
+    private Vector2 pos = new Vector2();
 
     @Override
     public Vector2 getPos() {
-        return phy.pos;
+        return pos;
     }
 
-    @Override
-    public Vector2 getVel() {
-        return phy.vel;
-    }
 
     @Override
-    public Vector2 getAcc() {
-        return phy.acc;
-    }
-
-    @Override
-    public int compareTo(Entity e)
-    {
+    public int compareTo(Entity e) {
         return Integer.compare(hashCode(), e.hashCode());
     }
 
@@ -32,7 +22,8 @@ public abstract class Entity implements Comparable<Entity>, HasPhysics, Cloneabl
     public Entity clone() {
         try {
             Entity clone = (Entity) super.clone();
-            clone.phy = phy.clone();
+
+            clone.pos = new Vector2(pos);
             return clone;
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();

@@ -16,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.entities.Living;
 
+import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
+
 public class UISystem extends SimpleSystem {
     public Skin skin = new Skin();
     public Stage stage = new Stage();
@@ -66,9 +68,9 @@ public class UISystem extends SimpleSystem {
     @Override
     public void update(float delta) {
         StringBuilder describe = new StringBuilder();
-        Entity lastSelect = systemManager.inputSystem.selected;
+        Entity lastSelect = systemManager.inputSystem.picker.selected;
         describe.delete(0, describe.length());
-        if (systemManager.inputSystem.selected != null) {
+        if (systemManager.inputSystem.picker.selected != null) {
             if (lastSelect instanceof Living)
                 describe.append(lastSelect);
             // etc
