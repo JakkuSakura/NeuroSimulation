@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/NeuroSimulation.iml" filepath="$PROJECT_DIR$/.idea/modules/NeuroSimulation.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/NeuroSimulation.core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/NeuroSimulation.core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/NeuroSimulation.core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/core/NeuroSimulation.core.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/NeuroSimulation.core.test.iml" filepath="$PROJECT_DIR$/.idea/modules/core/NeuroSimulation.core.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lwjgl3/NeuroSimulation.lwjgl3.iml" filepath="$PROJECT_DIR$/.idea/modules/lwjgl3/NeuroSimulation.lwjgl3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lwjgl3/NeuroSimulation.lwjgl3.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lwjgl3/NeuroSimulation.lwjgl3.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lwjgl3/NeuroSimulation.lwjgl3.test.iml" filepath="$PROJECT_DIR$/.idea/modules/lwjgl3/NeuroSimulation.lwjgl3.test.iml" />
+    </modules>
+  </component>
+</project>

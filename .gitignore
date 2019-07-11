@@ -30,10 +30,10 @@ www-test/
 .gwt-tmp/
 
 ## IntelliJ, Android Studio:
-.idea/
-*.ipr
-*.iws
-*.iml
+#.idea/
+#*.ipr
+#*.iws
+#*.iml
 out/
 
 ## Eclipse
@@ -62,3 +62,5 @@ nb-configuration.xml
 
 ## OS Specific
 .DS_Store
+assets/arial.ttf
+core/src/main/java/com/jeekrs/neuro_simulation/world/
