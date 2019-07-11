@@ -31,8 +31,9 @@ public class Legs implements Effector {
     public void effect(Package p, Living l) {
 
         l.setDirection(p.vals.get(0) * 360);
-        Vector2 v = new Vector2(-(float) Math.sin(l.getDirection() * Math.PI / 180) * p.vals.get(1) * getSpeedLimit(),
-                (float) Math.cos(l.getDirection() * Math.PI / 180) * p.vals.get(1) * getSpeedLimit());
+        float speed = Math.max(Math.min(1, p.vals.get(1)), 0.5f) * getSpeedLimit();
+        Vector2 v = new Vector2(-(float) Math.sin(l.getDirection() * Math.PI / 180) * speed,
+                (float) Math.cos(l.getDirection() * Math.PI / 180) * p.vals.get(1) * speed);
         l.getVel().set(v);
     }
 

@@ -4,7 +4,6 @@ import com.jeekrs.neuro_simulation.GameScreen;
 import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.entities.Living;
 import com.jeekrs.neuro_simulation.entities.Wall;
-import com.jeekrs.neuro_simulation.system.WorldSystem;
 import com.jeekrs.neuro_simulation.utils.Package;
 
 public class NearbyWallSensory implements Sensory {
@@ -18,11 +17,9 @@ public class NearbyWallSensory implements Sensory {
         for (Entity entity : GameScreen.systemManager.entitySystem.entities) {
             if (entity instanceof Wall) {
                 float dst = entity.getPos().dst(living.getPos());
-                if (dst < 300) {
-                    i += .1;
-                    x += (entity.getPos().x - living.getPos().x) / (dst + 1) * 100;
-                    y += (entity.getPos().y - living.getPos().y) / (dst + 1) * 100;
-                }
+                i += .1;
+                x += (entity.getPos().x - living.getPos().x) / (dst + 1) * 100;
+                y += (entity.getPos().y - living.getPos().y) / (dst + 1) * 100;
             }
         }
         float tot = Math.abs(x) + Math.abs(y) + 1e-5f;

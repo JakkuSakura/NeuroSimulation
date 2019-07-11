@@ -22,7 +22,7 @@ public class Ant extends Living {
         setProcessor(processor);
         processor.init();
         System.out.println("Shuffling " + getName());
-        processor.shuffle(5);
+        processor.shuffle(10);
 
 
     }
