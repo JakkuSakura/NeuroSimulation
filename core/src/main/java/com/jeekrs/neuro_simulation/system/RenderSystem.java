@@ -1,11 +1,8 @@
 package com.jeekrs.neuro_simulation.system;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -21,30 +18,25 @@ public class RenderSystem extends SimpleSystem {
     public OrthographicCamera camera = new OrthographicCamera();
     public Viewport viewport = new ExtendViewport(worldWidth, worldHeight, camera);
 
-    public SpriteBatch batch = new SpriteBatch();
-    public ShapeRenderer shapeRenderer = new ShapeRenderer();
-
     public RenderSystem() {
 
     }
 
     public ViewController viewController = new ViewController(this);
+
+
+    @Override
     public void init() {
         systemManager.inputSystem.inputStack.stack.addFirst(viewController);
     }
 
-
+    @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
 
     public void addRenderer(Renderer renderer) {
         renderers.add(renderer);
-        bind(renderer);
-    }
-
-    private void bind(Renderer renderer) {
-        renderer.setSystem(this);
     }
 
 
@@ -57,9 +49,8 @@ public class RenderSystem extends SimpleSystem {
 
     public void render(float delta) {
         camera.update();
-        batch.setProjectionMatrix(camera.combined);
-        shapeRenderer.setProjectionMatrix(camera.combined);
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+
+        Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
         renderers.forEach(Renderer::render);

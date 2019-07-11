@@ -63,4 +63,3 @@ nb-configuration.xml
 ## OS Specific
 .DS_Store
 assets/arial.ttf
-core/src/main/java/com/jeekrs/neuro_simulation/world/

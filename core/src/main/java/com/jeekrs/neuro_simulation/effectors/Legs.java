@@ -29,15 +29,10 @@ public class Legs implements Effector {
 
     @Override
     public void effect(Package p, Living l) {
-        Vector2 v = new Vector2(adjust(p.vals.get(0)), adjust(p.vals.get(1)));
 
-        float abs = v.dst(0, 0);
-        if (abs > 1) {
-            v.x /= abs;
-            v.y /= abs;
-        }
-        v.x *= getSpeedLimit();
-        v.y *= getSpeedLimit();
+        l.setDirection(p.vals.get(0) * 360);
+        Vector2 v = new Vector2(-(float) Math.sin(l.getDirection() * Math.PI / 180) * p.vals.get(1) * getSpeedLimit(),
+                (float) Math.cos(l.getDirection() * Math.PI / 180) * p.vals.get(1) * getSpeedLimit());
         l.getVel().set(v);
     }
 

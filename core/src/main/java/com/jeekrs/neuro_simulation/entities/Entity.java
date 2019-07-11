@@ -22,7 +22,6 @@ public abstract class Entity implements Comparable<Entity>, Position, Cloneable 
     public Entity clone() {
         try {
             Entity clone = (Entity) super.clone();
-
             clone.pos = new Vector2(pos);
             return clone;
         } catch (CloneNotSupportedException e) {

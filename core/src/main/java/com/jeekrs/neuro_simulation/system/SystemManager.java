@@ -17,7 +17,7 @@ public class SystemManager {
         this.addSystem(renderSystem);
         this.addSystem(UISystem);
 
-        renderSystem.addRenderer(new LivingRenderer());
+        renderSystem.addRenderer(new AntRenderer());
         renderSystem.addRenderer(new WallRenderer());
         systems.forEach(SimpleSystem::init);
     }

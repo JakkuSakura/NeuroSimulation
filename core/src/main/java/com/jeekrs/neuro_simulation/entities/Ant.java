@@ -22,15 +22,9 @@ public class Ant extends Living {
         setProcessor(processor);
         processor.init();
         System.out.println("Shuffling " + getName());
-        processor.shuffle(10);
+        processor.shuffle(5);
 
 
     }
 
-    public static void main(String[] args) {
-        Ant ant = new Ant();
-        Living clone = ant.clone();
-
-        System.out.println("done");
-    }
 }

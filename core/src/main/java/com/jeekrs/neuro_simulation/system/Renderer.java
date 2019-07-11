@@ -1,8 +1,6 @@
 package com.jeekrs.neuro_simulation.system;
 
 abstract public class Renderer {
-    public RenderSystem renderSystem;
-
     public void render() {
 
     }
@@ -11,7 +9,4 @@ abstract public class Renderer {
 
     }
 
-    public void setSystem(RenderSystem renderSystem) {
-        this.renderSystem = renderSystem;
-    }
 }
