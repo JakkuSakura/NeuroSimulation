@@ -1,11 +1,9 @@
 package com.jeekrs.neuro_simulation;
 
 import com.badlogic.gdx.Screen;
-import com.jeekrs.neuro_simulation.entities.Ant;
-import com.jeekrs.neuro_simulation.entities.Living;
 import com.jeekrs.neuro_simulation.entities.Wall;
+import com.jeekrs.neuro_simulation.entities.nest.AntFighterNest;
 import com.jeekrs.neuro_simulation.system.SystemManager;
-import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
 public class GameScreen implements Screen {
 
@@ -14,19 +12,16 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
 
+
         systemManager.init();
 
-        for (int i = 0; i < 1; ++i) {
-            Living p1 = new Ant();
-            p1.getPos().set(RandomUtil.nextFloat(-400, 400), RandomUtil.nextFloat(-400, 400));
-            systemManager.entitySystem.addEntity(p1);
-        }
+        AntFighterNest p1 = new AntFighterNest();
+        p1.setAgenda(new Agenda() {{
+            setNumber(1);
+        }});
+        systemManager.entitySystem.addEntity(p1);
         placeWallRect(50, -1000, -1000, 40, 40);
-        for (int i = 0; i < 20; ++i) {
-            Wall w = new Wall(50, 50);
-            w.getPos().set(RandomUtil.nextFloat(-800, 800), RandomUtil.nextFloat(-800, 800));
-            systemManager.entitySystem.addEntity(w);
-        }
+
     }
 
     public void placeWallRect(int size, int beginx, int beginy, int nx, int ny) {
@@ -47,7 +42,7 @@ public class GameScreen implements Screen {
             systemManager.entitySystem.addEntity(w);
         }
 
-        for (int i = 0; i < nx; ++i) {
+        for (int i = 1; i <= nx; ++i) {
             Wall w = new Wall(size, size);
             w.getPos().set(beginx + size * nx, beginy + size * i);
             systemManager.entitySystem.addEntity(w);

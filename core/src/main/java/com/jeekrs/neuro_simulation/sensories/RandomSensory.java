@@ -1,6 +1,6 @@
 package com.jeekrs.neuro_simulation.sensories;
 
-import com.jeekrs.neuro_simulation.entities.Living;
+import com.jeekrs.neuro_simulation.entities.livings.Living;
 import com.jeekrs.neuro_simulation.utils.Package;
 import com.jeekrs.neuro_simulation.utils.PerlinNoise;
 

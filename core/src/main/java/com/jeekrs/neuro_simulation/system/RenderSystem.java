@@ -53,7 +53,9 @@ public class RenderSystem extends SimpleSystem {
         Gdx.gl.glClearColor(0.5f, 0.5f, 0.5f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-        renderers.forEach(Renderer::render);
+        for (Renderer renderer : renderers) {
+            renderer.render();
+        }
     }
 
     @Override

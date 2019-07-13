@@ -15,10 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.jeekrs.neuro_simulation.entities.Entity;
-import com.jeekrs.neuro_simulation.entities.Living;
-import com.jeekrs.neuro_simulation.entities.Nest;
+import com.jeekrs.neuro_simulation.entities.livings.Living;
+import com.jeekrs.neuro_simulation.entities.nest.Nest;
 
-import java.sql.Time;
 import java.util.ArrayList;
 
 import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
