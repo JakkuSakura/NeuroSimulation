@@ -3,17 +3,13 @@ package com.jeekrs.neuro_simulation.system;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.entities.livings.Living;
 import com.jeekrs.neuro_simulation.entities.nest.Nest;
@@ -31,7 +27,7 @@ public class UISystem extends SimpleSystem {
     private int campCnt = 1;
     private int nestCnt = 1;
     private int enemiesKilled = 0;
-    private ArrayList<Camp> campArrayList = new ArrayList<Camp>();
+    //    private ArrayList<Camp> campArrayList = new ArrayList<Camp>();
     private ArrayList<Nest> nestArrayList = new ArrayList<Nest>();
     Dialog dialog;
     Dialog constructionDialog;
@@ -64,12 +60,12 @@ public class UISystem extends SimpleSystem {
 
         // add actors to show on stage
         selectButtons.forEach(dialog::add);
-        dialog.align(0);
+//        dialog.align(0);
 
-        // create a dialog window for choosing construction
-        constructionDialog = new Dialog("Construct", skin);
-        constructionDialog.setPosition(Gdx.graphics.getWidth()-1, Gdx.graphics.getHeight()-1);
-        constructionDialog.show(stage);
+//        // create a dialog window for choosing construction
+//        constructionDialog = new Dialog("Construct", skin);
+//        constructionDialog.setPosition(Gdx.graphics.getWidth()-1, Gdx.graphics.getHeight()-1);
+//        constructionDialog.show(stage);
 
         systemManager.inputSystem.inputStack.stack.addFirst(systemManager.UISystem.stage);
         systemManager.inputSystem.inputStack.stack.addFirst(systemManager.UISystem.dialog.getStage());

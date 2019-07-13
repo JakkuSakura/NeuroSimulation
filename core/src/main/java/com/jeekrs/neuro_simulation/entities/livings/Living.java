@@ -6,10 +6,11 @@ import com.jeekrs.neuro_simulation.Agenda;
 import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.interfaces.Alive;
 import com.jeekrs.neuro_simulation.interfaces.Circle;
+import com.jeekrs.neuro_simulation.interfaces.Fightable;
 import com.jeekrs.neuro_simulation.interfaces.Movable;
 import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
-public class Living extends Entity implements Movable, Circle, Alive {
+public class Living extends Entity implements Movable, Circle, Alive, Fightable {
     private String name = getClass().getSimpleName() + getClass().hashCode();
     private Agenda agenda;
     private Vector2 vel = new Vector2();
@@ -109,13 +110,14 @@ public class Living extends Entity implements Movable, Circle, Alive {
         return damage;
     }
 
+    public float getDefence() {
+        return defence;
+    }
+
     public void setDamage(float damage) {
         this.damage = damage;
     }
 
-    public float getDefence() {
-        return defence;
-    }
 
     public void setDefence(float defence) {
         this.defence = defence;
@@ -128,6 +130,7 @@ public class Living extends Entity implements Movable, Circle, Alive {
     public void setAgenda(Agenda agenda) {
         this.agenda = agenda;
     }
+
 
     public Living breed() {
         Living living = clone();

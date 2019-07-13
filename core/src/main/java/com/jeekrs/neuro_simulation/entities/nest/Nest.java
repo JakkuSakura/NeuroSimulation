@@ -3,6 +3,7 @@ package com.jeekrs.neuro_simulation.entities.nest;
 import com.badlogic.gdx.math.Vector2;
 import com.jeekrs.neuro_simulation.Agenda;
 import com.jeekrs.neuro_simulation.entities.Structure;
+import com.jeekrs.neuro_simulation.entities.livings.Living;
 import com.jeekrs.neuro_simulation.entities.livings.NeuralLiving;
 import com.jeekrs.neuro_simulation.interfaces.Alive;
 import com.jeekrs.neuro_simulation.interfaces.Rectangle;
@@ -87,6 +88,11 @@ public class Nest extends Structure implements Alive, Rectangle {
         return getRectangle().contains(x, y);
     }
 
+    public Living reproduce() {
+        prototype.getPos().set(getPos().x, getPos().y);
+        Living living = prototype.breed();
+        return living;
+    }
     public void evolve() {
 
     }
