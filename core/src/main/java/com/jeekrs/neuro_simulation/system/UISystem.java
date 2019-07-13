@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
+import com.jeekrs.neuro_simulation.entities.BaseCamp;
 import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.entities.livings.Living;
 import com.jeekrs.neuro_simulation.entities.nest.Nest;
@@ -31,10 +32,8 @@ public class UISystem extends SimpleSystem {
     private int campCnt = 1;
     private int nestCnt = 1;
     private int enemiesKilled = 0;
-    private ArrayList<Camp> campArrayList = new ArrayList<Camp>();
-    private ArrayList<Nest> nestArrayList = new ArrayList<Nest>();
+
     Dialog dialog;
-    Dialog constructionDialog;
 
     Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
     ArrayList<TextButton> selectButtons = new ArrayList<TextButton>(){{
@@ -66,11 +65,6 @@ public class UISystem extends SimpleSystem {
         selectButtons.forEach(dialog::add);
         dialog.align(0);
 
-        // create a dialog window for choosing construction
-        constructionDialog = new Dialog("Construct", skin);
-        constructionDialog.setPosition(Gdx.graphics.getWidth()-1, Gdx.graphics.getHeight()-1);
-        constructionDialog.show(stage);
-
         systemManager.inputSystem.inputStack.stack.addFirst(systemManager.UISystem.stage);
         systemManager.inputSystem.inputStack.stack.addFirst(systemManager.UISystem.dialog.getStage());
 
@@ -80,8 +74,10 @@ public class UISystem extends SimpleSystem {
     public void update(float delta) {
 
         selectButtons.forEach(e -> {
-            if(e.isPressed())
+            if(e.isPressed()) {
+                systemManager.inputSystem.inputStack.stack.pop();
                 dialog.hide();
+            }
         });
 
         StringBuilder describe = new StringBuilder();
