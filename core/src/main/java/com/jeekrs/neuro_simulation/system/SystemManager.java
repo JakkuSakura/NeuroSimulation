@@ -9,13 +9,14 @@ public class SystemManager {
     public InputSystem inputSystem = new InputSystem();
     public EntitySystem entitySystem = new EntitySystem();
     public UISystem UISystem = new UISystem();
-
+    public FightingSystem fightingSystem = new FightingSystem();
 
     public void init() {
         this.addSystem(inputSystem);
         this.addSystem(entitySystem);
         this.addSystem(renderSystem);
         this.addSystem(UISystem);
+        this.addSystem(fightingSystem);
 
         renderSystem.addRenderer(new AntRenderer());
         renderSystem.addRenderer(new WallRenderer());

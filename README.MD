@@ -24,28 +24,49 @@ NeuroSimulationMain -> GameScreen -> SystemManager -> XXXSystem
 
 
 
+Package - 多个float,可以理解为`ArrayList<Float>`
+
+
+
 Entity - 实体的基类
 
 - Living - 生物类
   - Processor - 接受一个Package,输出一个Package
   - Sensory - 感受周围环境,可自定义.输出一个Package
   - Effector - 根据 Processor 提供的 Package, 作出相应的动作
+- Agenda - 所属势力(包括中立敌对和中立友好)
+  - Health - 会变化
+  - HealthLimit - 会变化
+  - Defence
+  - Damage
+- Structure - 建筑类
 
-- Structure - 非生物类
+  - BaseCamp - 大本营
+  - Nest - 巢穴
+  - 
+- Functional
+  - Food
 
 
 
-Package - 多个float,可以理解为`ArrayList<Float>`
+
+
+AgendaSystem - 阵营
+
+
+
+FightingSystem - 随机战斗结果
+
+- 需要伤害计算公式
+- 
 
 ## Features
 
-- [ ] 帮派
-- [ ] 玩家控制
+- [ ] 势力
 - [ ] 天灾
-- [ ] 优胜劣汰
 - [ ] 进化
 - [ ] 巢穴
-- [ ] 设计场景
+- [ ] 建造
 - [ ] 食物
-- [ ] 垃圾
-
+- [ ] 实时
+- [ ] 战斗

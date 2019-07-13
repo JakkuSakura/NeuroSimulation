@@ -28,7 +28,6 @@ public class Ant extends Living implements Breedable {
     }
 
     public Ant breed() {
-
         return (Ant) super.breed();
     }
 }
