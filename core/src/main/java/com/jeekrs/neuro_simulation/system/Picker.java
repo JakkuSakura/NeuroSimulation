@@ -3,7 +3,7 @@ package com.jeekrs.neuro_simulation.system;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.collision.Ray;
 import com.jeekrs.neuro_simulation.entities.Entity;
-import com.jeekrs.neuro_simulation.entities.Living;
+import com.jeekrs.neuro_simulation.entities.livings.Living;
 
 import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
 

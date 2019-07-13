@@ -1,6 +1,7 @@
-package com.jeekrs.neuro_simulation.entities;
+package com.jeekrs.neuro_simulation;
 
 public class Agenda {
+    private int number;
     private boolean isAI;
     private boolean isPlayer;
 
@@ -50,15 +51,27 @@ public class Agenda {
         setPlayer(false);
         setHarmfulToAll(true);
         setFriendlyToAll(false);
+        setNumber(0);
     }};
+
+
     final static public Agenda NEUTRAL_FRIENDLY = new Agenda() {{
         setAI(false);
         setPlayer(false);
         setHarmfulToAll(false);
         setFriendlyToAll(true);
+        setNumber(0);
     }};
+
+    public void setNumber(int num) {
+        number = num;
+    }
 
     public void setHarmfulToAll(boolean harmfulToAll) {
         isHarmfulToAll = harmfulToAll;
+    }
+
+    public int getNumber() {
+        return number;
     }
 }

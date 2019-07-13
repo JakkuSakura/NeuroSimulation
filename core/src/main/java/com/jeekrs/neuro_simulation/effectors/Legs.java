@@ -1,7 +1,7 @@
 package com.jeekrs.neuro_simulation.effectors;
 
 import com.badlogic.gdx.math.Vector2;
-import com.jeekrs.neuro_simulation.entities.Living;
+import com.jeekrs.neuro_simulation.entities.livings.Living;
 import com.jeekrs.neuro_simulation.utils.Package;
 
 public class Legs implements Effector {

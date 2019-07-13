@@ -2,7 +2,7 @@ package com.jeekrs.neuro_simulation.sensories;
 
 import com.jeekrs.neuro_simulation.GameScreen;
 import com.jeekrs.neuro_simulation.entities.Entity;
-import com.jeekrs.neuro_simulation.entities.Living;
+import com.jeekrs.neuro_simulation.entities.livings.Living;
 import com.jeekrs.neuro_simulation.utils.Package;
 
 

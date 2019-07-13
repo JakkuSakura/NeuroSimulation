@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.jeekrs.neuro_simulation.entities.Entity;
-import com.jeekrs.neuro_simulation.entities.Living;
+import com.jeekrs.neuro_simulation.entities.livings.Living;
 
 import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
 
@@ -37,9 +37,9 @@ public class UISystem extends SimpleSystem {
         // Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
 
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        final TextButton selectSpeciesButton = new TextButton("Select Your Species", skin, "default");
-        selectSpeciesButton.setWidth(200);
-        selectSpeciesButton.setHeight(100);
+//        final TextButton selectSpeciesButton = new TextButton("Select Your Species", skin, "default");
+//        selectSpeciesButton.setWidth(200);
+//        selectSpeciesButton.setHeight(100);
 
 //        final TextButton
 

@@ -1,8 +1,11 @@
-package com.jeekrs.neuro_simulation.entities;
+package com.jeekrs.neuro_simulation.entities.livings;
 
 
 import com.badlogic.gdx.math.Vector2;
+import com.jeekrs.neuro_simulation.Agenda;
 import com.jeekrs.neuro_simulation.effectors.Effector;
+import com.jeekrs.neuro_simulation.entities.Entity;
+import com.jeekrs.neuro_simulation.interfaces.Alive;
 import com.jeekrs.neuro_simulation.interfaces.Circle;
 import com.jeekrs.neuro_simulation.interfaces.Movable;
 import com.jeekrs.neuro_simulation.processors.NeuroProcessor;
@@ -14,19 +17,19 @@ import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
 import java.util.ArrayList;
 
-public class Living extends Entity implements Movable, Circle {
+public class Living extends Entity implements Movable, Circle, Alive {
     private String name = getClass().getSimpleName() + getClass().hashCode();
     private Processor processor;
     private ArrayList<Sensory> sensories = new ArrayList<>();
     private ArrayList<Effector> effects = new ArrayList<>();
     private Agenda agenda;
     private Vector2 vel = new Vector2();
-    private float health;
-    private float health_limit;
-    private float damage;
-    private float defence;
+    private float health = 100;
+    private float health_limit = 100;
+    private float damage = 10;
+    private float defence = 10;
     protected float radius = 30;
-    private float direction;
+    private float direction = 0;
 
     public Living() {
     }
@@ -135,19 +138,23 @@ public class Living extends Entity implements Movable, Circle {
         return vel;
     }
 
+    @Override
     public float getHealth() {
         return health;
     }
 
+    @Override
     public void setHealth(float health) {
         this.health = health;
     }
 
-    public float getHealth_limit() {
+    @Override
+    public float getHealthLimit() {
         return health_limit;
     }
 
-    public void setHealth_limit(float health_limit) {
+    @Override
+    public void setHealthLimit(float health_limit) {
         this.health_limit = health_limit;
     }
 
@@ -175,7 +182,7 @@ public class Living extends Entity implements Movable, Circle {
         this.agenda = agenda;
     }
 
-    protected Living breed() {
+    public Living breed() {
         Living living = clone();
         living.getPos().x += RandomUtil.nextFloat(-50, 50);
         living.getPos().y += RandomUtil.nextFloat(-50, 50);

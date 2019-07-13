@@ -1,4 +1,4 @@
-package com.jeekrs.neuro_simulation.entities;
+package com.jeekrs.neuro_simulation.entities.livings;
 
 import com.jeekrs.neuro_simulation.effectors.Legs;
 import com.jeekrs.neuro_simulation.interfaces.Breedable;
@@ -7,12 +7,12 @@ import com.jeekrs.neuro_simulation.sensories.NearbyLivingSensory;
 import com.jeekrs.neuro_simulation.sensories.NearbyWallSensory;
 import com.jeekrs.neuro_simulation.sensories.RandomSensory;
 
-public class Ant extends Living implements Breedable {
+public class AntFighter extends Living implements Breedable {
     static private int count = 0;
 
-    public Ant() {
+    public AntFighter() {
         super();
-        setName("Ant" + (++count));
+        setName("AntFighter" + (++count));
         addSensory(new NearbyLivingSensory());
         addSensory(new NearbyWallSensory());
         addSensory(new RandomSensory());
@@ -27,7 +27,7 @@ public class Ant extends Living implements Breedable {
 
     }
 
-    public Ant breed() {
-        return (Ant) super.breed();
+    public AntFighter breed() {
+        return (AntFighter) super.breed();
     }
 }
