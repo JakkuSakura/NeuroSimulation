@@ -11,7 +11,7 @@ public class TextHelper {
 
     static {
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 36;
+        parameter.size = 72;
         font = generator.generateFont(parameter);
 
     }

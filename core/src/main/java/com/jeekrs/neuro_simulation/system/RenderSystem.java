@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.jeekrs.neuro_simulation.renderers.*;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,12 @@ public class RenderSystem extends SimpleSystem {
 
     @Override
     public void init() {
+        addRenderer(new NestRenderer());
+        addRenderer(new BaseCampRenderer());
+        addRenderer(new WallRenderer());
+        addRenderer(new WoodRenderer());
+        addRenderer(new LivingRenderer());
+        addRenderer(new FoodRenderer());
         systemManager.inputSystem.inputStack.stack.addFirst(viewController);
     }
 

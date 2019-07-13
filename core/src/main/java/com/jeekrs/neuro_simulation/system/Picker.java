@@ -1,9 +1,9 @@
 package com.jeekrs.neuro_simulation.system;
 
+import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.collision.Ray;
 import com.jeekrs.neuro_simulation.entities.Entity;
-import com.jeekrs.neuro_simulation.entities.livings.Living;
 
 import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
 
@@ -12,8 +12,8 @@ public class Picker extends SimpleInputProcessor {
     public Entity selected;
     public Entity pickUp(Vector2 pos) {
         for (Entity e : systemManager.entitySystem.entities) {
-            if (e instanceof Living) {
-                if (((Living) e).contains(pos))
+            if (e instanceof Shape2D) {
+                if (((Shape2D) e).contains(pos))
                     return e;
             }
         }

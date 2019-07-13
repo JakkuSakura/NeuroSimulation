@@ -7,6 +7,12 @@ import com.jeekrs.neuro_simulation.interfaces.Position;
 public abstract class Entity implements Comparable<Entity>, Position, Cloneable {
     private Vector2 pos = new Vector2();
 
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName();
+    }
+
     @Override
     public Vector2 getPos() {
         return pos;

@@ -1,7 +1,5 @@
 package com.jeekrs.neuro_simulation.system;
 
-import com.jeekrs.neuro_simulation.renderers.*;
-
 import java.util.ArrayList;
 
 public class SystemManager {
@@ -15,6 +13,7 @@ public class SystemManager {
     public NestSystem nestSystem = new NestSystem();
     public ResourceSystem resourceSystem = new ResourceSystem();
     public AgendaSystem agendaSystem = new AgendaSystem();
+    public WorldSystem worldSystem = new WorldSystem();
 
     public void init() {
         addSystem(inputSystem);
@@ -25,13 +24,13 @@ public class SystemManager {
         addSystem(nestSystem);
         addSystem(resourceSystem);
         addSystem(agendaSystem);
+        addSystem(worldSystem);
 
-        renderSystem.addRenderer(new NestRenderer());
-        renderSystem.addRenderer(new WallRenderer());
-        renderSystem.addRenderer(new WoodRenderer());
-        renderSystem.addRenderer(new LivingRenderer());
-        renderSystem.addRenderer(new FoodRenderer());
         systems.forEach(SimpleSystem::init);
+
+    }
+
+    public void newGame() {
     }
 
     public void update(float delta) {

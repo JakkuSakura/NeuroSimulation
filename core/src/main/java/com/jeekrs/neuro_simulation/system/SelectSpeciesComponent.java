@@ -12,12 +12,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.jeekrs.neuro_simulation.Agenda;
+import com.jeekrs.neuro_simulation.Species.Species;
 
 import java.util.ArrayList;
 
 import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
 
 public class SelectSpeciesComponent extends UIComponent {
+
     public TextButton selected = null;
     public Stage stage = new Stage();
     private Table table = new Table();
@@ -30,6 +33,7 @@ public class SelectSpeciesComponent extends UIComponent {
             add(selectButton);
         }
     }};
+
 
     public Drawable getBackgroundColor(Color color) {
         Pixmap bgPixmap = new Pixmap(1, 1, Pixmap.Format.RGB565);
@@ -71,9 +75,19 @@ public class SelectSpeciesComponent extends UIComponent {
         stage.draw();
         for (TextButton e : selectButtons) {
             if (e.isPressed()) {
+                System.out.println(e.getText());
                 systemManager.UISystem.removeUIComponent(this);
                 selected = e;
                 systemManager.UISystem.addUIComponent(new GamePanel());
+                systemManager.agendaSystem.playerAgenda = new Agenda() {{
+                    setPlayer(true);
+                    setAI(false);
+                    setNumber(1);
+                    setRemote(false);
+                }};
+                systemManager.agendaSystem.agendas.put(systemManager.agendaSystem.playerAgenda, Species.getSpecies(e.getText().toString()));
+                systemManager.worldSystem.createWrold();
+
             }
         }
 
