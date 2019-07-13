@@ -1,4 +1,4 @@
-package com.jeekrs.neuro_simulation.effectors;
+package com.jeekrs.neuro_simulation.processors.effectors;
 
 import com.jeekrs.neuro_simulation.entities.livings.Living;
 import com.jeekrs.neuro_simulation.interfaces.MyCloneable;

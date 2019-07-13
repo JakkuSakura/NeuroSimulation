@@ -1,4 +1,4 @@
-package com.jeekrs.neuro_simulation.sensories;
+package com.jeekrs.neuro_simulation.processors.sensories;
 
 import com.jeekrs.neuro_simulation.entities.livings.Living;
 import com.jeekrs.neuro_simulation.utils.Package;

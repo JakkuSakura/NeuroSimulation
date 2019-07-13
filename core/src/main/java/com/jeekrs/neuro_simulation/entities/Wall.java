@@ -40,14 +40,11 @@ public class Wall extends Structure implements Rectangle {
 
     @Override
     public boolean contains(float x, float y) {
-        if (x > getPos().x && x < getPos().x + width)
-            if (y > getPos().y && y < getPos().y + height)
-                return true;
-        return false;
+        return getRectangle().contains(x, y);
     }
 
     @Override
     public com.badlogic.gdx.math.Rectangle getRectangle() {
-        return new com.badlogic.gdx.math.Rectangle(getPos().x, getPos().y, width, height);
+        return new com.badlogic.gdx.math.Rectangle(getPos().x - width / 2, getPos().y - height / 2, width, height);
     }
 }

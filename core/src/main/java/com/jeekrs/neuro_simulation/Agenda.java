@@ -2,16 +2,16 @@ package com.jeekrs.neuro_simulation;
 
 public class Agenda {
     private int number;
-    private boolean isAI;
-    private boolean isPlayer;
+    private boolean isAI = false;
+    private boolean isPlayer = true;
+
+    private boolean isFriendlyToAll = false;
+    private boolean isHarmfulToAll = false;
 
     public boolean isAI() {
+
         return isAI;
     }
-
-    private boolean isFriendlyToAll;
-    private boolean isHarmfulToAll;
-
     public boolean isFriendly(Agenda agenda) {
         if (isFriendlyToAll)
             return true;
@@ -20,7 +20,7 @@ public class Agenda {
         return this == agenda;
     }
 
-    private boolean isRemote;
+    private boolean isRemote = false;
 
     public boolean isRemote() {
         return isRemote;

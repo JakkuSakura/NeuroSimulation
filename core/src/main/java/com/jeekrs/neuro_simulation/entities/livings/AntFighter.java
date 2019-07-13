@@ -1,13 +1,13 @@
 package com.jeekrs.neuro_simulation.entities.livings;
 
-import com.jeekrs.neuro_simulation.effectors.Legs;
 import com.jeekrs.neuro_simulation.interfaces.Breedable;
 import com.jeekrs.neuro_simulation.processors.NeuroProcessor;
-import com.jeekrs.neuro_simulation.sensories.NearbyLivingSensory;
-import com.jeekrs.neuro_simulation.sensories.NearbyWallSensory;
-import com.jeekrs.neuro_simulation.sensories.RandomSensory;
+import com.jeekrs.neuro_simulation.processors.effectors.Legs;
+import com.jeekrs.neuro_simulation.processors.sensories.NearbyLivingSensory;
+import com.jeekrs.neuro_simulation.processors.sensories.NearbyWallSensory;
+import com.jeekrs.neuro_simulation.processors.sensories.RandomSensory;
 
-public class AntFighter extends Living implements Breedable {
+public class AntFighter extends NeuralLiving implements Breedable {
     static private int count = 0;
 
     public AntFighter() {

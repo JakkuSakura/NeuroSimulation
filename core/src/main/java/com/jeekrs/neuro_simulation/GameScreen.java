@@ -2,6 +2,7 @@ package com.jeekrs.neuro_simulation;
 
 import com.badlogic.gdx.Screen;
 import com.jeekrs.neuro_simulation.entities.Wall;
+import com.jeekrs.neuro_simulation.entities.functionals.Wood;
 import com.jeekrs.neuro_simulation.entities.nest.AntFighterNest;
 import com.jeekrs.neuro_simulation.system.SystemManager;
 
@@ -11,16 +12,36 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        Agenda player = new Agenda() {{
+            setNumber(1);
+        }};
+        Agenda NPC = new Agenda() {{
+            setAI(true);
+            setPlayer(false);
+            setNumber(2);
+            setRemote(false);
+        }};
 
-
-        systemManager.init();
+        systemManager.agendaSystem.agendas.add(player);
+        systemManager.agendaSystem.agendas.add(NPC);
 
         AntFighterNest p1 = new AntFighterNest();
-        p1.setAgenda(new Agenda() {{
-            setNumber(1);
-        }});
+        p1.getPos().set(300, 0);
+        p1.setAgenda(player);
         systemManager.entitySystem.addEntity(p1);
+
+        AntFighterNest p2 = new AntFighterNest();
+        p2.getPos().set(-300, 0);
+        p2.setAgenda(NPC);
+        systemManager.entitySystem.addEntity(p2);
+
+
+        Wood wood = new Wood();
+        wood.getPos().set(0, 666);
+        systemManager.entitySystem.addEntity(wood);
         placeWallRect(50, -1000, -1000, 40, 40);
+
+        systemManager.init();
 
     }
 
@@ -42,7 +63,7 @@ public class GameScreen implements Screen {
             systemManager.entitySystem.addEntity(w);
         }
 
-        for (int i = 1; i <= nx; ++i) {
+        for (int i = 0; i <= nx; ++i) {
             Wall w = new Wall(size, size);
             w.getPos().set(beginx + size * nx, beginy + size * i);
             systemManager.entitySystem.addEntity(w);

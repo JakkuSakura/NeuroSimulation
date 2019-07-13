@@ -1,13 +1,14 @@
 package com.jeekrs.neuro_simulation.processors;
 
-import com.jeekrs.neuro_simulation.entities.livings.Living;
+import com.jeekrs.neuro_simulation.entities.livings.NeuralLiving;
+import com.jeekrs.neuro_simulation.interfaces.MyCloneable;
 import com.jeekrs.neuro_simulation.neuron_net.NeuroNet;
 import com.jeekrs.neuro_simulation.utils.Package;
 import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
 
-public class NeuroProcessor implements Processor {
-    private Living living;
+public class NeuroProcessor implements MyCloneable {
+    private NeuralLiving living;
     private int depth;
     private int width;
     private int input_num;
@@ -18,7 +19,7 @@ public class NeuroProcessor implements Processor {
         return neuroNet;
     }
 
-    public NeuroProcessor(Living living, int depth, int width) {
+    public NeuroProcessor(NeuralLiving living, int depth, int width) {
         this.living = living;
         this.depth = depth;
         this.width = width;
@@ -43,7 +44,6 @@ public class NeuroProcessor implements Processor {
             }
         }
     }
-    @Override
     public Package process(Package p) {
 
         float[] predict = neuroNet.predict(p.getRawArray());
@@ -51,7 +51,7 @@ public class NeuroProcessor implements Processor {
     }
 
     @Override
-    public Processor clone() {
+    public NeuroProcessor clone() {
         try {
             NeuroProcessor clone = (NeuroProcessor) super.clone();
             clone.neuroNet = clone.neuroNet.clone();
@@ -62,7 +62,6 @@ public class NeuroProcessor implements Processor {
         return null;
     }
 
-    @Override
     public void init() {
         input_num = living.sensoryPackageLength();
         output_num = living.effectorPackageLength();

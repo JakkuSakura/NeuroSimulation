@@ -15,7 +15,8 @@ public class NestSystem extends SimpleSystem {
                 Nest n = (Nest) entity;
                 if (System.currentTimeMillis() - n.getLastTime() >= n.getDelayMs()) {
                     n.setLastTime(System.currentTimeMillis());
-                    Living breed = n.getPrototype().breed();
+                    Living breed = n.reproduce();
+                    n.evolve();
                     systemManager.entitySystem.addEntity(breed);
                 }
             }
