@@ -2,7 +2,9 @@ package com.jeekrs.neuro_simulation;
 
 import com.badlogic.gdx.Screen;
 import com.jeekrs.neuro_simulation.entities.Wall;
+import com.jeekrs.neuro_simulation.entities.functionals.Wood;
 import com.jeekrs.neuro_simulation.entities.nest.AntFighterNest;
+import com.jeekrs.neuro_simulation.system.Resource;
 import com.jeekrs.neuro_simulation.system.SystemManager;
 
 public class GameScreen implements Screen {
@@ -14,12 +16,17 @@ public class GameScreen implements Screen {
 
 
         systemManager.init();
+        Agenda player = new Agenda() {{
+            setNumber(1);
+        }};
+        systemManager.resourceSystem.mapping.put(player, new Resource());
 
         AntFighterNest p1 = new AntFighterNest();
-        p1.setAgenda(new Agenda() {{
-            setNumber(1);
-        }});
+        p1.setAgenda(player);
         systemManager.entitySystem.addEntity(p1);
+        Wood wood = new Wood();
+        wood.getPos().set(0, 666);
+        systemManager.entitySystem.addEntity(wood);
         placeWallRect(50, -1000, -1000, 40, 40);
 
     }
@@ -42,7 +49,7 @@ public class GameScreen implements Screen {
             systemManager.entitySystem.addEntity(w);
         }
 
-        for (int i = 1; i <= nx; ++i) {
+        for (int i = 0; i <= nx; ++i) {
             Wall w = new Wall(size, size);
             w.getPos().set(beginx + size * nx, beginy + size * i);
             systemManager.entitySystem.addEntity(w);

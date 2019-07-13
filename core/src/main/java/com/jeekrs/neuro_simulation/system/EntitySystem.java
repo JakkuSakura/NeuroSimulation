@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.entities.Wall;
 import com.jeekrs.neuro_simulation.entities.livings.Living;
+import com.jeekrs.neuro_simulation.entities.livings.NeuralLiving;
 import com.jeekrs.neuro_simulation.interfaces.Movable;
 import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
@@ -88,8 +89,8 @@ public class EntitySystem extends SimpleSystem {
 
     private void livingEffect() {
         entities.forEach(entity -> {
-            if (entity instanceof Living) {
-                Living living = (Living) entity;
+            if (entity instanceof NeuralLiving) {
+                NeuralLiving living = (NeuralLiving) entity;
                 living.effect(living.process(living.detect()));
             }
         });
