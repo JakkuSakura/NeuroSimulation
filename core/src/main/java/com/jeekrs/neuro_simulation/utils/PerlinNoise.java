@@ -1,6 +1,6 @@
 package com.jeekrs.neuro_simulation.utils;
 
-public final class ImprovedNoise {
+public final class PerlinNoise {
     static public double noise(double x, double y, double z) {
         int X = (int) Math.floor(x) & 255,                  // FIND UNIT CUBE THAT
                 Y = (int) Math.floor(y) & 255,                  // CONTAINS POINT.

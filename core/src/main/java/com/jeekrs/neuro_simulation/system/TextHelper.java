@@ -18,6 +18,6 @@ public class TextHelper {
 
     static public void printf(Batch batch, float x, float y, String fmt, Object... args) {
         String str = String.format(fmt, args);
-        font.draw(batch, str, (float) x, (float) y);
+        font.draw(batch, str, x, y);
     }
 }

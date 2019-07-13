@@ -16,7 +16,7 @@ public class GameScreen implements Screen {
 
         systemManager.init();
 
-        for (int i = 0; i < 10; ++i) {
+        for (int i = 0; i < 1; ++i) {
             Living p1 = new Ant();
             p1.getPos().set(RandomUtil.nextFloat(-400, 400), RandomUtil.nextFloat(-400, 400));
             systemManager.entitySystem.addEntity(p1);
