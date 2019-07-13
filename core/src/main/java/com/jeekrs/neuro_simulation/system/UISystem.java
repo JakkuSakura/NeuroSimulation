@@ -35,7 +35,14 @@ public class UISystem extends SimpleSystem {
         skin.add("default", new BitmapFont());
 
         // Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
+
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+        final TextButton selectSpeciesButton = new TextButton("Select Your Species", skin, "default");
+        selectSpeciesButton.setWidth(200);
+        selectSpeciesButton.setHeight(100);
+
+//        final TextButton
+
         textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
         textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
         textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);

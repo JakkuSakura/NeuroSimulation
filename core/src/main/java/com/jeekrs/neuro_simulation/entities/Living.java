@@ -2,13 +2,15 @@ package com.jeekrs.neuro_simulation.entities;
 
 
 import com.badlogic.gdx.math.Vector2;
-import com.jeekrs.neuro_simulation.component.Circle;
-import com.jeekrs.neuro_simulation.component.Movable;
 import com.jeekrs.neuro_simulation.effectors.Effector;
+import com.jeekrs.neuro_simulation.interfaces.Circle;
+import com.jeekrs.neuro_simulation.interfaces.Movable;
+import com.jeekrs.neuro_simulation.processors.NeuroProcessor;
 import com.jeekrs.neuro_simulation.processors.Processor;
 import com.jeekrs.neuro_simulation.sensories.Sensory;
 import com.jeekrs.neuro_simulation.utils.Cloner;
 import com.jeekrs.neuro_simulation.utils.Package;
+import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
 import java.util.ArrayList;
 
@@ -17,8 +19,14 @@ public class Living extends Entity implements Movable, Circle {
     private Processor processor;
     private ArrayList<Sensory> sensories = new ArrayList<>();
     private ArrayList<Effector> effects = new ArrayList<>();
-    private float direction;
+    private Agenda agenda;
+    private Vector2 vel = new Vector2();
+    private float health;
+    private float health_limit;
+    private float damage;
+    private float defence;
     protected float radius = 30;
+    private float direction;
 
     public Living() {
     }
@@ -121,11 +129,63 @@ public class Living extends Entity implements Movable, Circle {
         return living;
     }
 
-    private Vector2 vel = new Vector2();
 
     @Override
     public Vector2 getVel() {
         return vel;
     }
 
+    public float getHealth() {
+        return health;
+    }
+
+    public void setHealth(float health) {
+        this.health = health;
+    }
+
+    public float getHealth_limit() {
+        return health_limit;
+    }
+
+    public void setHealth_limit(float health_limit) {
+        this.health_limit = health_limit;
+    }
+
+    public float getDamage() {
+        return damage;
+    }
+
+    public void setDamage(float damage) {
+        this.damage = damage;
+    }
+
+    public float getDefence() {
+        return defence;
+    }
+
+    public void setDefence(float defence) {
+        this.defence = defence;
+    }
+
+    public Agenda getAgenda() {
+        return agenda;
+    }
+
+    public void setAgenda(Agenda agenda) {
+        this.agenda = agenda;
+    }
+
+    protected Living breed() {
+        Living living = clone();
+        living.getPos().x += RandomUtil.nextFloat(-50, 50);
+        living.getPos().y += RandomUtil.nextFloat(-50, 50);
+        if (living.getProcessor() instanceof NeuroProcessor) {
+            ((NeuroProcessor) living.getProcessor()).adjust(0.2f);
+        }
+        living.health *= RandomUtil.nextFloat(0.98f, 1.02f);
+        living.health_limit *= RandomUtil.nextFloat(0.98f, 1.02f);
+        living.defence *= RandomUtil.nextFloat(0.98f, 1.02f);
+        living.damage *= RandomUtil.nextFloat(0.98f, 1.02f);
+        return living;
+    }
 }

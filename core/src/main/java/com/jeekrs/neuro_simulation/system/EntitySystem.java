@@ -1,11 +1,10 @@
 package com.jeekrs.neuro_simulation.system;
 
 import com.badlogic.gdx.math.Intersector;
-import com.jeekrs.neuro_simulation.component.Movable;
 import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.entities.Living;
 import com.jeekrs.neuro_simulation.entities.Wall;
-import com.jeekrs.neuro_simulation.processors.NeuroProcessor;
+import com.jeekrs.neuro_simulation.interfaces.Movable;
 import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class EntitySystem extends SimpleSystem {
         movement(delta);
 
         collision();
-        breed();
+
         deadForCrowded(delta, dead);
 
 
@@ -51,24 +50,6 @@ public class EntitySystem extends SimpleSystem {
                 }
                 if ((count - 5) * delta * 10 > RandomUtil.nextFloat())
                     dead.add(l1);
-            }
-        }
-    }
-
-    private void breed() {
-        if (System.currentTimeMillis() - last_time > 1000 * 2) {
-            last_time = System.currentTimeMillis();
-
-            for (Entity e : entities) {
-                if (e instanceof Living && entities.size() < 800) {
-                    Living living = (Living) e.clone();
-                    living.getPos().x += RandomUtil.nextFloat(-50, 50);
-                    living.getPos().y += RandomUtil.nextFloat(-50, 50);
-                    if (living.getProcessor() instanceof NeuroProcessor) {
-                        ((NeuroProcessor) living.getProcessor()).adjust(0.2f);
-                    }
-                    newborn.add(living);
-                }
             }
         }
     }

@@ -1,6 +1,6 @@
 package com.jeekrs.neuro_simulation.utils;
 
-import com.jeekrs.neuro_simulation.component.MyCloneable;
+import com.jeekrs.neuro_simulation.interfaces.MyCloneable;
 
 import java.util.ArrayList;
 

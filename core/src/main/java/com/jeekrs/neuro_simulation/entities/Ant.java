@@ -1,12 +1,13 @@
 package com.jeekrs.neuro_simulation.entities;
 
 import com.jeekrs.neuro_simulation.effectors.Legs;
+import com.jeekrs.neuro_simulation.interfaces.Breedable;
 import com.jeekrs.neuro_simulation.processors.NeuroProcessor;
 import com.jeekrs.neuro_simulation.sensories.NearbyLivingSensory;
 import com.jeekrs.neuro_simulation.sensories.NearbyWallSensory;
 import com.jeekrs.neuro_simulation.sensories.RandomSensory;
 
-public class Ant extends Living {
+public class Ant extends Living implements Breedable {
     static private int count = 0;
 
     public Ant() {
@@ -24,7 +25,10 @@ public class Ant extends Living {
         System.out.println("Shuffling " + getName());
         processor.shuffle(10);
 
-
     }
 
+    public Ant breed() {
+
+        return (Ant) super.breed();
+    }
 }

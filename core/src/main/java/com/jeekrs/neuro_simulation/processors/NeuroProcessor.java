@@ -1,7 +1,7 @@
 package com.jeekrs.neuro_simulation.processors;
 
-import com.jeekrs.neuro_simulation.NeuronNet.NeuroNet;
 import com.jeekrs.neuro_simulation.entities.Living;
+import com.jeekrs.neuro_simulation.neuron_net.NeuroNet;
 import com.jeekrs.neuro_simulation.utils.Package;
 import com.jeekrs.neuro_simulation.utils.RandomUtil;
 

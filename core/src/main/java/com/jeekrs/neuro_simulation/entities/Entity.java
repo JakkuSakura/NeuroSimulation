@@ -1,7 +1,7 @@
 package com.jeekrs.neuro_simulation.entities;
 
 import com.badlogic.gdx.math.Vector2;
-import com.jeekrs.neuro_simulation.component.Position;
+import com.jeekrs.neuro_simulation.interfaces.Position;
 
 
 public abstract class Entity implements Comparable<Entity>, Position, Cloneable {

@@ -1,6 +1,6 @@
-package com.jeekrs.neuro_simulation.NeuronNet;
+package com.jeekrs.neuro_simulation.neuron_net;
 
-import com.jeekrs.neuro_simulation.component.MyCloneable;
+import com.jeekrs.neuro_simulation.interfaces.MyCloneable;
 
 /**
  * 神经元

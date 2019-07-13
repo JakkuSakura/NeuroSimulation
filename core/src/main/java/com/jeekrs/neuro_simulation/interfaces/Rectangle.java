@@ -1,4 +1,4 @@
-package com.jeekrs.neuro_simulation.component;
+package com.jeekrs.neuro_simulation.interfaces;
 
 
 import com.badlogic.gdx.math.Shape2D;

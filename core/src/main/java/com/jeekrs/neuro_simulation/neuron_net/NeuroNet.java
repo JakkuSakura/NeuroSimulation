@@ -1,4 +1,4 @@
-package com.jeekrs.neuro_simulation.NeuronNet;
+package com.jeekrs.neuro_simulation.neuron_net;
 
 import com.jeekrs.neuro_simulation.utils.Cloner;
 import com.jeekrs.neuro_simulation.utils.RandomUtil;
