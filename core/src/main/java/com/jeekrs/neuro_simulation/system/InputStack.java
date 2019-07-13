@@ -7,6 +7,12 @@ import java.util.LinkedList;
 public class InputStack implements InputProcessor {
     public LinkedList<InputProcessor> stack = new LinkedList<>();
 
+    public void print() {
+        for (InputProcessor inputProcessor : stack) {
+            System.out.println(inputProcessor);
+        }
+    }
+
     @Override
     public boolean keyDown(int keycode) {
         for (InputProcessor e : stack) {

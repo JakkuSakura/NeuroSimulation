@@ -4,6 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.jeekrs.neuro_simulation.entities.Wall;
 import com.jeekrs.neuro_simulation.entities.functionals.Wood;
 import com.jeekrs.neuro_simulation.entities.nest.AntFighterNest;
+import com.jeekrs.neuro_simulation.system.SelectSpeciesComponent;
 import com.jeekrs.neuro_simulation.system.SystemManager;
 
 public class GameScreen implements Screen {
@@ -12,6 +13,11 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        systemManager.init();
+        systemManager.UISystem.addUIComponent(new SelectSpeciesComponent());
+    }
+
+    public void demoGame() {
         Agenda player = new Agenda() {{
             setNumber(1);
         }};
@@ -41,7 +47,6 @@ public class GameScreen implements Screen {
         systemManager.entitySystem.addEntity(wood);
         placeWallRect(50, -1000, -1000, 40, 40);
 
-        systemManager.init();
 
     }
 

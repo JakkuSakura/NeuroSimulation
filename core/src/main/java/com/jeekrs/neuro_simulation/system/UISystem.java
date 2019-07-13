@@ -1,109 +1,51 @@
 package com.jeekrs.neuro_simulation.system;
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Timer;
-import com.jeekrs.neuro_simulation.entities.BaseCamp;
-import com.jeekrs.neuro_simulation.entities.Entity;
-import com.jeekrs.neuro_simulation.entities.livings.Living;
-import com.jeekrs.neuro_simulation.entities.nest.Nest;
-
 import java.util.ArrayList;
 
-import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
-
 public class UISystem extends SimpleSystem {
-    private Stage stage = new Stage();
-    private SpriteBatch batch = new SpriteBatch();
-    private TextureAtlas textureAtlas;
-    private int foodCnt = 0;
-    private int popCnt;
-    private int campCnt = 1;
-    private int nestCnt = 1;
-    private int enemiesKilled = 0;
+    private ArrayList<UIComponent> uiComponents = new ArrayList<>();
 
-    Dialog dialog;
+    public void addUIComponent(UIComponent uiComponent) {
+        addList.add(uiComponent);
+    }
 
-    Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-    ArrayList<TextButton> selectButtons = new ArrayList<TextButton>(){{
-        TextButton.TextButtonStyle textButtonStyle = skin.get("default", TextButton.TextButtonStyle.class);
-        String[] names = {"Ants", "Bees"};
-        for (int i = 0; i < names.length; ++i) {
-            TextButton selectButton = new TextButton(names[i], textButtonStyle);
+    private ArrayList<UIComponent> addList = new ArrayList<>();
+    private ArrayList<UIComponent> removeList = new ArrayList<>();
 
-            selectButton.getLabelCell().padLeft(10f).padRight(10f);
-
-            selectButton.sizeBy(200, 100);
-            add(selectButton);
-        }
-    }};
-
-    @Override
-    public void init() {
-
-        // Configure a LabelStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
-        Label.LabelStyle labelStyle = new Label.LabelStyle();
-        labelStyle.fontColor = Color.WHITE;
-        labelStyle.font = skin.getFont("font-button");
-
-        // create dialog window to pop up in the beginning and then disappears once the client click
-        dialog = new Dialog("Select a species", skin);
-        dialog.show(stage);
-
-        // add actors to show on stage
-        selectButtons.forEach(dialog::add);
-        dialog.align(0);
-
-        systemManager.inputSystem.inputStack.stack.addFirst(systemManager.UISystem.stage);
-        systemManager.inputSystem.inputStack.stack.addFirst(systemManager.UISystem.dialog.getStage());
-
+    public void removeUIComponent(UIComponent uiComponent) {
+        removeList.add(uiComponent);
     }
 
     @Override
     public void update(float delta) {
-
-        selectButtons.forEach(e -> {
-            if(e.isPressed()) {
-                systemManager.inputSystem.inputStack.stack.pop();
-                dialog.hide();
-            }
-        });
-
-        StringBuilder describe = new StringBuilder();
-        Entity lastSelect = systemManager.inputSystem.picker.selected;
-        describe.delete(0, describe.length());
-        if (systemManager.inputSystem.picker.selected != null) {
-            if (lastSelect instanceof Living)
-                describe.append(lastSelect);
-            // etc
-        } else {
-            describe.append("Selected nothing");
+        for (UIComponent uiComponent : uiComponents) {
+            uiComponent.update();
         }
-
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
+        removeList.forEach(e -> {
+            uiComponents.remove(e);
+            e.dispose();
+        });
+        removeList.clear();
+        addList.forEach(e -> {
+            uiComponents.add(e);
+            e.init();
+        });
+        addList.clear();
     }
 
     @Override
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
+        for (UIComponent uiComponent : uiComponents) {
+            uiComponent.resize(width, height);
+        }
     }
 
     @Override
     public void dispose() {
-        stage.dispose();
-        // skin.dispose();
+        for (UIComponent uiComponent : uiComponents) {
+            uiComponent.dispose();
+        }
     }
 
 }

@@ -17,14 +17,14 @@ public class SystemManager {
     public AgendaSystem agendaSystem = new AgendaSystem();
 
     public void init() {
-        this.addSystem(inputSystem);
-        this.addSystem(entitySystem);
-        this.addSystem(renderSystem);
-        this.addSystem(UISystem);
-        this.addSystem(fightingSystem);
-        this.addSystem(nestSystem);
-        this.addSystem(resourceSystem);
-        this.addSystem(agendaSystem);
+        addSystem(inputSystem);
+        addSystem(entitySystem);
+        addSystem(renderSystem);
+        addSystem(UISystem);
+        addSystem(fightingSystem);
+        addSystem(nestSystem);
+        addSystem(resourceSystem);
+        addSystem(agendaSystem);
 
         renderSystem.addRenderer(new NestRenderer());
         renderSystem.addRenderer(new WallRenderer());
