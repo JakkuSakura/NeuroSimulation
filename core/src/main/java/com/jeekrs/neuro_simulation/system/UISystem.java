@@ -7,72 +7,83 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
 import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.entities.livings.Living;
+import com.jeekrs.neuro_simulation.entities.nest.Nest;
+
+import java.util.ArrayList;
 
 import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
 
 public class UISystem extends SimpleSystem {
-    public Skin skin = new Skin();
-    public Stage stage = new Stage();
-    public SpriteBatch batch = new SpriteBatch();
-    private Label label;
+    private Stage stage = new Stage();
+    private SpriteBatch batch = new SpriteBatch();
+    private TextureAtlas textureAtlas;
+    private int foodCnt = 0;
+    private int popCnt;
+    private int campCnt = 1;
+    private int nestCnt = 1;
+    private int enemiesKilled = 0;
+    private ArrayList<Camp> campArrayList = new ArrayList<Camp>();
+    private ArrayList<Nest> nestArrayList = new ArrayList<Nest>();
+    Dialog dialog;
+    Dialog constructionDialog;
 
+    Skin skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
+    ArrayList<TextButton> selectButtons = new ArrayList<TextButton>(){{
+        TextButton.TextButtonStyle textButtonStyle = skin.get("default", TextButton.TextButtonStyle.class);
+        String[] names = {"Ants", "Bees"};
+        for (int i = 0; i < names.length; ++i) {
+            TextButton selectButton = new TextButton(names[i], textButtonStyle);
+
+            selectButton.getLabelCell().padLeft(10f).padRight(10f);
+
+            selectButton.sizeBy(200, 100);
+            add(selectButton);
+        }
+    }};
 
     @Override
     public void init() {
-        systemManager.inputSystem.inputStack.stack.addFirst(systemManager.UISystem.stage);
-
-        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        pixmap.setColor(Color.WHITE);
-        pixmap.fill();
-        skin.add("white", new Texture(pixmap));
-        skin.add("default", new BitmapFont());
-
-        // Configure a TextButtonStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
-
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-//        final TextButton selectSpeciesButton = new TextButton("Select Your Species", skin, "default");
-//        selectSpeciesButton.setWidth(200);
-//        selectSpeciesButton.setHeight(100);
-
-//        final TextButton
-
-        textButtonStyle.up = skin.newDrawable("white", Color.DARK_GRAY);
-        textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-        textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
-        textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
-        textButtonStyle.font = skin.getFont("default");
-        skin.add("default", textButtonStyle);
 
         // Configure a LabelStyle and name it "default". Skin resources are stored by type, so this doesn't overwrite the font.
         Label.LabelStyle labelStyle = new Label.LabelStyle();
         labelStyle.fontColor = Color.WHITE;
-        labelStyle.font = skin.getFont("default");
-        skin.add("default", labelStyle);
+        labelStyle.font = skin.getFont("font-button");
 
-        // Create a table that fills the screen. Everything else will go inside this table.
-        Table table = new Table();
-        table.setSize(Gdx.graphics.getWidth(), 128);
+        // create dialog window to pop up in the beginning and then disappears once the client click
+        dialog = new Dialog("Select a species", skin);
+        dialog.show(stage);
 
-        stage.addActor(table);
+        // add actors to show on stage
+        selectButtons.forEach(dialog::add);
+        dialog.align(0);
 
-        table.setBackground(skin.newDrawable("white", Color.DARK_GRAY));
+        // create a dialog window for choosing construction
+        constructionDialog = new Dialog("Construct", skin);
+        constructionDialog.setPosition(Gdx.graphics.getWidth()-1, Gdx.graphics.getHeight()-1);
+        constructionDialog.show(stage);
 
-
-        label = new Label("Uninitialized", labelStyle);
-        table.add(label).pad(10);
-
+        systemManager.inputSystem.inputStack.stack.addFirst(systemManager.UISystem.stage);
+        systemManager.inputSystem.inputStack.stack.addFirst(systemManager.UISystem.dialog.getStage());
 
     }
 
     @Override
     public void update(float delta) {
+
+        selectButtons.forEach(e -> {
+            if(e.isPressed())
+                dialog.hide();
+        });
+
         StringBuilder describe = new StringBuilder();
         Entity lastSelect = systemManager.inputSystem.picker.selected;
         describe.delete(0, describe.length());
@@ -84,8 +95,6 @@ public class UISystem extends SimpleSystem {
             describe.append("Selected nothing");
         }
 
-        label.setText(describe);
-
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
     }
@@ -95,11 +104,10 @@ public class UISystem extends SimpleSystem {
         stage.getViewport().update(width, height, true);
     }
 
-
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
+        // skin.dispose();
     }
 
 }
