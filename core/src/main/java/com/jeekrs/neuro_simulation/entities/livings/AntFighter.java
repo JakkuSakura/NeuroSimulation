@@ -22,6 +22,8 @@ public class AntFighter extends NeuralLiving implements Breedable {
         NeuroProcessor processor = new NeuroProcessor(this, 3, 5);
         setProcessor(processor);
         processor.init();
+        setDamage(50);
+        setDefence(50);
         System.out.println("Shuffling " + getName());
         processor.shuffle(5);
 

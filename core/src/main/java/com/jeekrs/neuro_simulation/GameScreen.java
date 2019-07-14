@@ -18,8 +18,14 @@ public class GameScreen implements Screen {
             setNumber(1);
             setRemote(false);
         }};
+        Agenda AiAgenda = new Agenda() {{
+            setPlayer(false);
+            setAI(true);
+            setNumber(2);
+            setRemote(false);
+        }};
         systemManager.agendaSystem.agendas.put(systemManager.agendaSystem.playerAgenda, Species.getSpecies("Ants"));
-        systemManager.agendaSystem.agendas.put(Agenda.NEUTRAL_HOSTILITY, Species.getSpecies("Ants"));
+        systemManager.agendaSystem.agendas.put(AiAgenda, Species.getSpecies("Ants"));
 
         systemManager.worldSystem.createWorld();
 
