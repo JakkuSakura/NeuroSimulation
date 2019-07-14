@@ -9,9 +9,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.jeekrs.neuro_simulation.Species.Species;
+import com.jeekrs.neuro_simulation.entities.BaseCamp;
 import com.jeekrs.neuro_simulation.entities.Entity;
+import com.jeekrs.neuro_simulation.entities.nest.Nest;
+import com.jeekrs.neuro_simulation.renderers.NestRenderer;
+
+import java.util.ArrayList;
 
 import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
 
@@ -22,7 +29,8 @@ public class GamePanel extends UIComponent {
     private Label left = new Label("GamePanel", skin);
     private Label middle = new Label("Information", skin);
     private Label right = new Label("Information", skin);
-//    private ImageButton
+    private Table table2 = new Table();
+
 
     public Drawable getBackgroundColor(Color color) {
         Pixmap bgPixmap = new Pixmap(1, 1, Pixmap.Format.RGB565);
@@ -33,6 +41,7 @@ public class GamePanel extends UIComponent {
     }
 
     private int height = 200;
+
     @Override
     void init() {
         stage = new Stage();
@@ -61,15 +70,16 @@ public class GamePanel extends UIComponent {
 
         table.add(left).padRight(20);
         table.add(middle).padRight(20);
-        table.add(right);
-        // Table的坐标是默认从屏幕左下角开始的， 调试中的蓝框就是Table
-        // 如果设置下面属性那么居中显示
+        table.add(right).padRight(20);
 
-
+        table.add(table2);
         systemManager.inputSystem.inputStack.stack.addFirst(stage);
 
     }
 
+    private Nest selected_nest;
+    private Species species;
+    private NestRenderer renderer = new NestRenderer();
     @Override
     void update() {
         {
@@ -85,17 +95,44 @@ public class GamePanel extends UIComponent {
             Entity selected = systemManager.inputSystem.picker.selected;
             if (selected != null) {
                 sb.append("You chose ").append(selected.toString()).append("\n");
+                if (selected_nest != null)
+                    sb.append(String.format("You are putting %s\n", selected_nest.toString()));
             }
             right.setText(sb);
+            if (selected instanceof BaseCamp && ((BaseCamp) selected).getAgenda() == systemManager.agendaSystem.playerAgenda) {
+                if (species != ((BaseCamp) selected).getSpecies()) {
+                    species = ((BaseCamp) selected).getSpecies();
+                    table2.clearChildren();
+                    ArrayList<Nest> nests = species.getNests();
+                    TextButton.TextButtonStyle textButtonStyle = skin.get("default", TextButton.TextButtonStyle.class);
+                    for (Nest nest : nests) {
+                        TextButton actor = new TextButton(nest.toString(), textButtonStyle);
+                        final boolean[] processed = {false};
+                        actor.addListener(event -> {
+                            if (actor.isPressed() && !processed[0]) {
+                                selected_nest = nest;
+                                processed[0] = true;
+                                return true;
+                            }
+                            return false;
+                        });
+                        table2.add(actor);
+                    }
+                }
+                table2.setVisible(true);
+            } else {
+                species = null;
+                table2.setVisible(false);
+            }
         }
 
-//        if (selected instanceof BaseCamp && ((BaseCamp) selected).getAgenda() == systemManager.agendaSystem.playerAgenda)
-//        {
-//
-//        }
         stage.act();
         stage.draw();
 
+        if (selected_nest != null) {
+//            Gdx.input.get
+//            selected_nest.getPos().set()
+        }
     }
 
     @Override
@@ -107,7 +144,7 @@ public class GamePanel extends UIComponent {
     void dispose() {
         skin.dispose();
         stage.dispose();
-
+        renderer.dispose();
         systemManager.inputSystem.inputStack.stack.removeFirst();
     }
 }

@@ -10,6 +10,10 @@ public class Ants extends Species {
     Ants() {
     }
 
+    public ArrayList<Nest> getNests() {
+        return nests;
+    }
+
     public ArrayList<Nest> nests = new ArrayList<Nest>() {{
         add(new AntFighterNest());
     }};

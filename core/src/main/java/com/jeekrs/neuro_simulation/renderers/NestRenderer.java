@@ -19,10 +19,14 @@ public class NestRenderer extends Renderer {
         for (Entity entity : systemManager.entitySystem.entities) {
             if (entity instanceof Nest) {
                 Nest n = (Nest) entity;
-                Rectangle rect = n.getRectangle();
-                shapeRenderer.rect(rect.x, rect.y, rect.width, rect.height);
+                renderNest(n);
             }
         }
         shapeRenderer.end();
+    }
+
+    public void renderNest(Nest n) {
+        Rectangle rect = n.getRectangle();
+        shapeRenderer.rect(rect.x, rect.y, rect.width, rect.height);
     }
 }

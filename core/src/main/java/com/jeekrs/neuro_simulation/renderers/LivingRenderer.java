@@ -78,7 +78,7 @@ public class LivingRenderer extends Renderer {
     }
 
     @Override
-    public void depose() {
+    public void dispose() {
         texture.dispose();
         batch.dispose();
     }

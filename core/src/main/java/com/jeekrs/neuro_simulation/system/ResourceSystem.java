@@ -18,7 +18,7 @@ public class ResourceSystem extends SimpleSystem {
 
     @Override
     public void init() {
-        systemManager.agendaSystem.agendas.forEach((a, s) -> mapping.put(a, new Resource()));
+        systemManager.agendaSystem.agendas.forEach((a, s) -> mapping.put(a, new Resource(100)));
     }
 
     public float getFood(Agenda a) {

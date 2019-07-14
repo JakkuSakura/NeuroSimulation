@@ -17,6 +17,7 @@ public class Nest extends Structure implements Alive, Rectangle {
     private long last_time;
     private float width = 64;
     private float height = 64;
+    private float fees = 100;
 
     public NeuralLiving getPrototype() {
         return prototype;
@@ -93,7 +94,16 @@ public class Nest extends Structure implements Alive, Rectangle {
         Living living = prototype.breed();
         return living;
     }
+
     public void evolve() {
 
+    }
+
+    public float getFees() {
+        return fees;
+    }
+
+    public void setFees(float fees) {
+        this.fees = fees;
     }
 }

@@ -56,13 +56,16 @@ public class SelectSpeciesComponent extends UIComponent {
 //        table.setBackground(getBackgroundColor(Color.OLIVE));
 
 
-        table.add(new Label("Select your speices", skin));
+        Label label = new Label("Select your species", skin);
+        label.getStyle().font = TextHelper.font;
+//        label.setFontScale(2);
+        table.add(label).padBottom(10);
         // Table的坐标是默认从屏幕左下角开始的， 调试中的蓝框就是Table
         // 如果设置下面属性那么居中显示
 
         for (TextButton selectButton : selectButtons) {
             table.row();
-            table.add(selectButton);
+            table.add(selectButton).width(150);
         }
 
         systemManager.inputSystem.inputStack.stack.addFirst(stage);

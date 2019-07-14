@@ -5,7 +5,7 @@ abstract public class Renderer {
 
     }
 
-    public void depose() {
+    public void dispose() {
 
     }
 

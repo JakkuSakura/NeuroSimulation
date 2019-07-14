@@ -67,7 +67,7 @@ public class RenderSystem extends SimpleSystem {
 
     @Override
     public void dispose() {
-        renderers.forEach(Renderer::depose);
+        renderers.forEach(Renderer::dispose);
     }
 
 }
