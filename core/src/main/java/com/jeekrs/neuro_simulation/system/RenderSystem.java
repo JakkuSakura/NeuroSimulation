@@ -32,7 +32,7 @@ public class RenderSystem extends SimpleSystem {
         addRenderer(new BaseCampRenderer());
         addRenderer(new WallRenderer());
         addRenderer(new WoodRenderer());
-        addRenderer(new LivingRenderer());
+        addRenderer(new AntRenderer());
         addRenderer(new FoodRenderer());
         systemManager.inputSystem.inputStack.stack.addFirst(viewController);
     }

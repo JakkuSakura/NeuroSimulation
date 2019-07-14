@@ -11,8 +11,8 @@ public class SystemManager {
     public UISystem UISystem = new UISystem();
     public FightingSystem fightingSystem = new FightingSystem();
     public NestSystem nestSystem = new NestSystem();
-    public ResourceSystem resourceSystem = new ResourceSystem();
     public AgendaSystem agendaSystem = new AgendaSystem();
+    public ResourceSystem resourceSystem = new ResourceSystem();
     public WorldSystem worldSystem = new WorldSystem();
 
     public void init() {
@@ -22,8 +22,8 @@ public class SystemManager {
         addSystem(UISystem);
         addSystem(fightingSystem);
         addSystem(nestSystem);
-        addSystem(resourceSystem);
         addSystem(agendaSystem);
+        addSystem(resourceSystem);
         addSystem(worldSystem);
 
         systems.forEach(SimpleSystem::init);

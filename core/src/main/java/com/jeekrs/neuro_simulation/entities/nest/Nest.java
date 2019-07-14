@@ -6,17 +6,18 @@ import com.jeekrs.neuro_simulation.entities.Structure;
 import com.jeekrs.neuro_simulation.entities.livings.Living;
 import com.jeekrs.neuro_simulation.entities.livings.NeuralLiving;
 import com.jeekrs.neuro_simulation.interfaces.Alive;
+import com.jeekrs.neuro_simulation.interfaces.Fightable;
 import com.jeekrs.neuro_simulation.interfaces.Rectangle;
 
-public class Nest extends Structure implements Alive, Rectangle {
+public class Nest extends Structure implements Alive, Rectangle, Fightable {
     private long delay_ms = 1000;
     private NeuralLiving prototype;
-    private float health_limit = 300;
-    private float health = 300;
+    private float health_limit = 3000;
+    private float health = 3000;
     private Agenda agenda;
     private long last_time;
-    private float width = 64;
-    private float height = 64;
+    private float width = 128;
+    private float height = 128;
     private float fees = 100;
 
     public NeuralLiving getPrototype() {
@@ -46,6 +47,16 @@ public class Nest extends Structure implements Alive, Rectangle {
     @Override
     public void setHealthLimit(float health_limit) {
         this.health_limit = health_limit;
+    }
+
+    @Override
+    public float getDamage() {
+        return 0;
+    }
+
+    @Override
+    public float getDefence() {
+        return 30;
     }
 
     public Agenda getAgenda() {

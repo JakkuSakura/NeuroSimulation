@@ -4,18 +4,19 @@ import com.badlogic.gdx.math.Vector2;
 import com.jeekrs.neuro_simulation.Agenda;
 import com.jeekrs.neuro_simulation.Species.Species;
 import com.jeekrs.neuro_simulation.interfaces.Alive;
+import com.jeekrs.neuro_simulation.interfaces.Fightable;
 import com.jeekrs.neuro_simulation.interfaces.Rectangle;
 
-public class BaseCamp extends Structure implements Alive, Rectangle {
+public class BaseCamp extends Structure implements Alive, Rectangle, Fightable {
     private long delay_ms = 1000;
-    private float health_limit = 300;
-    private float health = 300;
+    private float health_limit = 3000;
+    private float health = 3000;
 
     private Agenda agenda;
     private Species species;
     private long last_time;
-    private float width = 64;
-    private float height = 64;
+    private float width = 256;
+    private float height = 256;
 
     @Override
     public float getHealth() {
@@ -35,6 +36,16 @@ public class BaseCamp extends Structure implements Alive, Rectangle {
     @Override
     public void setHealthLimit(float health_limit) {
         this.health_limit = health_limit;
+    }
+
+    @Override
+    public float getDamage() {
+        return 0;
+    }
+
+    @Override
+    public float getDefence() {
+        return 50;
     }
 
     public Agenda getAgenda() {

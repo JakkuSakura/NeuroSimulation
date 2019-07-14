@@ -2,6 +2,9 @@ package com.jeekrs.neuro_simulation.system;
 
 import com.jeekrs.neuro_simulation.entities.BaseCamp;
 import com.jeekrs.neuro_simulation.entities.Wall;
+import com.jeekrs.neuro_simulation.entities.nest.AntFighterNest;
+import com.jeekrs.neuro_simulation.entities.nest.AntWorkerNest;
+import com.jeekrs.neuro_simulation.entities.nest.Nest;
 import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
 import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
@@ -13,14 +16,31 @@ public class WorldSystem extends SimpleSystem {
 
     }
 
-    public void createWrold() {
+    public void createWorld() {
 
         systemManager.agendaSystem.agendas.forEach((a, s) -> {
-            BaseCamp baseCamp = new BaseCamp();
-            baseCamp.getPos().set(RandomUtil.nextFloat(-800, 800), RandomUtil.nextFloat(-800, 800));
-            baseCamp.setAgenda(a);
-            baseCamp.setSpecies(s);
-            systemManager.entitySystem.addEntity(baseCamp);
+            if (a.isPlayer())
+            {
+                BaseCamp baseCamp = new BaseCamp();
+                baseCamp.getPos().set(RandomUtil.nextFloat(-800, 800), RandomUtil.nextFloat(-800, 800));
+                baseCamp.setAgenda(a);
+                baseCamp.setSpecies(s);
+                systemManager.entitySystem.addEntity(baseCamp);
+            }
+            else
+            {
+                for (int i = 0; i < 2; ++i)
+                {
+                    Nest nest = new AntFighterNest();
+                    nest.getPos().set(RandomUtil.nextFloat(-800, 800), RandomUtil.nextFloat(-800, 800));
+                    nest.setAgenda(a);
+                    systemManager.entitySystem.addEntity(nest);
+                    Nest nest2 = new AntWorkerNest();
+                    nest2.getPos().set(RandomUtil.nextFloat(-800, 800), RandomUtil.nextFloat(-800, 800));
+                    nest2.setAgenda(a);
+                    systemManager.entitySystem.addEntity(nest2);
+                }
+            }
         });
 
         placeWallRect(50, -1000, -1000, 40, 40);

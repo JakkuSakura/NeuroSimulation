@@ -16,7 +16,7 @@ public class FightingSystem extends SimpleSystem {
                     if (e2 instanceof Fightable) {
                         Fightable living2 = (Fightable) e2;
                         if (living.getPos().dst2(living2.getPos()) < 2500)
-                            if (!living.getAgenda().isFriendly(living2.getAgenda())) {
+                            if (!living.getAgenda().isFriendly(living2.getAgenda()) && living != living2) {
                                 float damage = calcDamage(living, living2);
                                 living2.setHealth(living2.getHealth() - damage);
                                 break;
@@ -30,6 +30,6 @@ public class FightingSystem extends SimpleSystem {
     public float calcDamage(Fightable a, Fightable b) {
         float random = RandomUtil.nextFloat();
         float random2 = RandomUtil.nextFloat();
-        return a.getDamage() + Math.max(a.getDamage() - b.getDefence(), 0) * random - Math.max(b.getDefence() - a.getDamage(), 0) * random2;
+        return Math.max(0, a.getDamage() + Math.max(a.getDamage() - b.getDefence(), 0) * random - Math.max(b.getDefence() - a.getDamage(), 0) * random2);
     }
 }

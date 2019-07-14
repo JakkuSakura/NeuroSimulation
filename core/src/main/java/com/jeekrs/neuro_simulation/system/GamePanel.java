@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.collision.Ray;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -80,13 +81,14 @@ public class GamePanel extends UIComponent {
     private Nest selected_nest;
     private Species species;
     private NestRenderer renderer = new NestRenderer();
+
     @Override
     void update() {
         {
             StringBuilder sb = new StringBuilder();
             sb.append(String.format("You are %s\n", systemManager.agendaSystem.agendas.get(systemManager.agendaSystem.playerAgenda)));
 
-            sb.append(String.format("You have %.2f units of food\n", systemManager.resourceSystem.getFood(systemManager.agendaSystem.playerAgenda)));
+//            sb.append(String.format("You have %.2f units of food\n", systemManager.resourceSystem.getFood(systemManager.agendaSystem.playerAgenda)));
             middle.setText(sb);
         }
 
@@ -110,13 +112,44 @@ public class GamePanel extends UIComponent {
                         final boolean[] processed = {false};
                         actor.addListener(event -> {
                             if (actor.isPressed() && !processed[0]) {
-                                selected_nest = nest;
+                                selected_nest = (Nest) nest.clone();
+                                selected_nest.setAgenda(((BaseCamp) selected).getAgenda());
                                 processed[0] = true;
+                                systemManager.inputSystem.inputStack.stack.addFirst(new SimpleInputProcessor() {
+                                    @Override
+                                    public boolean mouseMoved(int screenX, int screenY) {
+
+                                        if (selected_nest != null) {
+                                            Ray ray = systemManager.renderSystem.camera.getPickRay(screenX, screenY);
+                                            selected_nest.getPos().set(ray.origin.x, ray.origin.y);
+                                            systemManager.inputSystem.picker.selected = selected_nest;
+                                            return true;
+                                        } else {
+                                            systemManager.inputSystem.inputStack.toDel.add(this);
+                                        }
+                                        return false;
+                                    }
+
+                                    @Override
+                                    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+
+                                        if (selected_nest != null) {
+                                            systemManager.entitySystem.addEntity(selected_nest);
+//                                            systemManager.resourceSystem.addFood();
+                                            selected_nest = null;
+                                            return true;
+                                        }
+                                        return false;
+                                    }
+
+
+                                });
                                 return true;
                             }
                             return false;
                         });
                         table2.add(actor);
+                        table2.row();
                     }
                 }
                 table2.setVisible(true);
@@ -128,10 +161,13 @@ public class GamePanel extends UIComponent {
 
         stage.act();
         stage.draw();
-
-        if (selected_nest != null) {
-//            Gdx.input.get
-//            selected_nest.getPos().set()
+        if (selected_nest != null)
+        {
+            renderer.batch.setProjectionMatrix(systemManager.renderSystem.camera.combined);
+            renderer.batch.begin();
+            renderer.renderNest(selected_nest);
+//            System.out.println(selected_nest.getRectangle());
+            renderer.batch.end();
         }
     }
 

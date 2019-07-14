@@ -1,7 +1,8 @@
 package com.jeekrs.neuro_simulation;
 
 import com.badlogic.gdx.Screen;
-import com.jeekrs.neuro_simulation.system.SelectSpeciesComponent;
+import com.jeekrs.neuro_simulation.Species.Species;
+import com.jeekrs.neuro_simulation.system.GamePanel;
 import com.jeekrs.neuro_simulation.system.SystemManager;
 
 public class GameScreen implements Screen {
@@ -10,8 +11,19 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        systemManager.UISystem.addUIComponent(new GamePanel());
+        systemManager.agendaSystem.playerAgenda = new Agenda() {{
+            setPlayer(true);
+            setAI(false);
+            setNumber(1);
+            setRemote(false);
+        }};
+        systemManager.agendaSystem.agendas.put(systemManager.agendaSystem.playerAgenda, Species.getSpecies("Ants"));
+        systemManager.agendaSystem.agendas.put(Agenda.NEUTRAL_HOSTILITY, Species.getSpecies("Ants"));
+
+        systemManager.worldSystem.createWorld();
+
         systemManager.init();
-        systemManager.UISystem.addUIComponent(new SelectSpeciesComponent());
     }
 
     @Override

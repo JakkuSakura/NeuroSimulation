@@ -5,6 +5,7 @@ import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.entities.Wall;
 import com.jeekrs.neuro_simulation.entities.livings.Living;
 import com.jeekrs.neuro_simulation.entities.livings.NeuralLiving;
+import com.jeekrs.neuro_simulation.interfaces.Alive;
 import com.jeekrs.neuro_simulation.interfaces.Movable;
 import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
@@ -35,8 +36,8 @@ public class EntitySystem extends SimpleSystem {
 
     private void health() {
         entities.forEach(e -> {
-            if (e instanceof Living) {
-                if (((Living) e).getHealth() <= 0)
+            if (e instanceof Alive) {
+                if (((Alive) e).getHealth() <= 0)
                     dead.add(e);
             }
         });

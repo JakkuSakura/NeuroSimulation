@@ -89,7 +89,7 @@ public class SelectSpeciesComponent extends UIComponent {
                     setRemote(false);
                 }};
                 systemManager.agendaSystem.agendas.put(systemManager.agendaSystem.playerAgenda, Species.getSpecies(e.getText().toString()));
-                systemManager.worldSystem.createWrold();
+                systemManager.worldSystem.createWorld();
 
             }
         }

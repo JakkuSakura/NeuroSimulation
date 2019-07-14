@@ -6,7 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.jeekrs.neuro_simulation.entities.Entity;
-import com.jeekrs.neuro_simulation.entities.livings.Living;
+import com.jeekrs.neuro_simulation.entities.livings.AntFighter;
+import com.jeekrs.neuro_simulation.entities.livings.AntWorker;
 import com.jeekrs.neuro_simulation.interfaces.Alive;
 import com.jeekrs.neuro_simulation.system.Renderer;
 
@@ -14,9 +15,11 @@ import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line;
 import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
 
-public class LivingRenderer extends Renderer {
-    private Texture texture = new Texture(Gdx.files.internal("ant64.png"));
-    private Sprite sprite = new Sprite(texture);
+public class AntRenderer extends Renderer {
+    private Texture antFighterTexture = new Texture(Gdx.files.internal("ant64.png"));
+    private Sprite antFighterSprite = new Sprite(antFighterTexture);
+    private Texture antWorkerTexture = new Texture(Gdx.files.internal("ant2.png"));
+    private Sprite antWorkerSprite = new Sprite(antWorkerTexture);
     private SpriteBatch batch = new SpriteBatch();
     private ShapeRenderer lineRenderer = new ShapeRenderer();
     private ShapeRenderer solidRenderer = new ShapeRenderer();
@@ -26,18 +29,23 @@ public class LivingRenderer extends Renderer {
         batch.begin();
         int count = 0;
         for (Entity e : systemManager.entitySystem.entities) {
-            if (e instanceof Living) {
-                Living lv = (Living) e;
-                sprite.setRotation(lv.getDirection());
-                sprite.setPosition(lv.getPos().x - lv.getRadius(), lv.getPos().y - lv.getRadius());
-                sprite.draw(batch);
-
+            if (e instanceof AntFighter) {
+                AntFighter lv = (AntFighter) e;
+                antFighterSprite.setRotation(lv.getDirection());
+                antFighterSprite.setPosition(lv.getPos().x - lv.getRadius(), lv.getPos().y - lv.getRadius());
+                antFighterSprite.draw(batch);
                 count += 1;
-                if (count > 20) {
-                    batch.end();
-                    batch.begin();
-                    count = 0;
-                }
+            } else if (e instanceof AntWorker) {
+                AntWorker lv = (AntWorker) e;
+                antWorkerSprite.setRotation(lv.getDirection());
+                antWorkerSprite.setPosition(lv.getPos().x - lv.getRadius(), lv.getPos().y - lv.getRadius());
+                antWorkerSprite.draw(batch);
+                count += 1;
+            }
+            if (count > 20) {
+                batch.end();
+                batch.begin();
+                count = 0;
             }
         }
         batch.end();
@@ -56,12 +64,15 @@ public class LivingRenderer extends Renderer {
         lineRenderer.begin(Line);
 
         solidRenderer.setProjectionMatrix(systemManager.renderSystem.camera.combined);
-        solidRenderer.setColor(0, 0.8f, 0, 1);
         solidRenderer.begin(Filled);
         int count = 0;
         for (Entity e : systemManager.entitySystem.entities) {
             if (e instanceof Alive) {
                 Alive lv = (Alive) e;
+                if (lv.getAgenda() == systemManager.agendaSystem.playerAgenda)
+                    solidRenderer.setColor(0, 0.8f, 0, 1);
+                else
+                    solidRenderer.setColor(0.8f, 0, 0, 1);
                 solidRenderer.rect(e.getPos().x - 30, e.getPos().y + 50, 60 * lv.getHealth() / lv.getHealthLimit(), 15);
                 lineRenderer.rect(e.getPos().x - 30, e.getPos().y + 50, 60, 15);
 
@@ -79,7 +90,7 @@ public class LivingRenderer extends Renderer {
 
     @Override
     public void dispose() {
-        texture.dispose();
+        antFighterTexture.dispose();
         batch.dispose();
     }
 }

@@ -7,17 +7,17 @@ import com.jeekrs.neuro_simulation.processors.sensories.NearbyLivingSensory;
 import com.jeekrs.neuro_simulation.processors.sensories.NearbyWallSensory;
 import com.jeekrs.neuro_simulation.processors.sensories.RandomSensory;
 
-public class AntFighter extends NeuralLiving implements Breedable {
+public class AntWorker extends NeuralLiving implements Breedable {
     static private int count = 0;
 
-    public AntFighter() {
+    public AntWorker() {
         super();
         setName("AntFighter" + (++count));
         addSensory(new NearbyLivingSensory());
         addSensory(new NearbyWallSensory());
         addSensory(new RandomSensory());
         Legs legs = new Legs();
-        legs.setSpeedLimit(300);
+        legs.setSpeedLimit(200);
         addEffector(legs);
         NeuroProcessor processor = new NeuroProcessor(this, 3, 5);
         setProcessor(processor);
@@ -27,7 +27,7 @@ public class AntFighter extends NeuralLiving implements Breedable {
 
     }
 
-    public AntFighter breed() {
-        return (AntFighter) super.breed();
+    public AntWorker breed() {
+        return (AntWorker) super.breed();
     }
 }
