@@ -10,10 +10,8 @@ public class SystemManager {
     public EntitySystem entitySystem = new EntitySystem();
     public UISystem UISystem = new UISystem();
     public FightingSystem fightingSystem = new FightingSystem();
-    public NestSystem nestSystem = new NestSystem();
-    public AgendaSystem agendaSystem = new AgendaSystem();
-    public ResourceSystem resourceSystem = new ResourceSystem();
-    public WorldSystem worldSystem = new WorldSystem();
+
+    public FoodSystem foodSystem = new FoodSystem();
 
     public void init() {
         addSystem(inputSystem);
@@ -21,10 +19,8 @@ public class SystemManager {
         addSystem(renderSystem);
         addSystem(UISystem);
         addSystem(fightingSystem);
-        addSystem(nestSystem);
-        addSystem(agendaSystem);
-        addSystem(resourceSystem);
-        addSystem(worldSystem);
+        addSystem(foodSystem);
+
 
         systems.forEach(SimpleSystem::init);
 

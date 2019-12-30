@@ -1,11 +1,14 @@
 package com.jeekrs.neuro_simulation.entities;
 
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 import com.jeekrs.neuro_simulation.interfaces.Position;
 
 
 public abstract class Entity implements Comparable<Entity>, Position, Cloneable {
     private Vector2 pos = new Vector2();
+    private float health_limit;
+    private float health;
 
 
     @Override
@@ -36,6 +39,25 @@ public abstract class Entity implements Comparable<Entity>, Position, Cloneable 
         return null;
     }
 
+    public float getHealth() {
+        return health;
+    }
+
+    public void setHealth(float health) {
+        this.health = health;
+    }
+
+    public float getHealthLimit() {
+        return health_limit;
+    }
+
+    public void setHealthLimit(float health_limit) {
+        this.health_limit = health_limit;
+    }
+
+    public abstract boolean canEat();
+
+    public abstract boolean overlaps(Circle circle);
 }
 
 

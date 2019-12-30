@@ -6,9 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.jeekrs.neuro_simulation.entities.Entity;
-import com.jeekrs.neuro_simulation.entities.livings.AntFighter;
-import com.jeekrs.neuro_simulation.entities.livings.AntWorker;
-import com.jeekrs.neuro_simulation.interfaces.Alive;
 import com.jeekrs.neuro_simulation.system.Renderer;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
@@ -29,19 +26,6 @@ public class AntRenderer extends Renderer {
         batch.begin();
         int count = 0;
         for (Entity e : systemManager.entitySystem.entities) {
-            if (e instanceof AntFighter) {
-                AntFighter lv = (AntFighter) e;
-                antFighterSprite.setRotation(lv.getDirection());
-                antFighterSprite.setPosition(lv.getPos().x - lv.getRadius(), lv.getPos().y - lv.getRadius());
-                antFighterSprite.draw(batch);
-                count += 1;
-            } else if (e instanceof AntWorker) {
-                AntWorker lv = (AntWorker) e;
-                antWorkerSprite.setRotation(lv.getDirection());
-                antWorkerSprite.setPosition(lv.getPos().x - lv.getRadius(), lv.getPos().y - lv.getRadius());
-                antWorkerSprite.draw(batch);
-                count += 1;
-            }
             if (count > 20) {
                 batch.end();
                 batch.begin();
@@ -67,22 +51,17 @@ public class AntRenderer extends Renderer {
         solidRenderer.begin(Filled);
         int count = 0;
         for (Entity e : systemManager.entitySystem.entities) {
-            if (e instanceof Alive) {
-                Alive lv = (Alive) e;
-                if (lv.getAgenda() == systemManager.agendaSystem.playerAgenda)
-                    solidRenderer.setColor(0, 0.8f, 0, 1);
-                else
-                    solidRenderer.setColor(0.8f, 0, 0, 1);
-                solidRenderer.rect(e.getPos().x - 30, e.getPos().y + 50, 60 * lv.getHealth() / lv.getHealthLimit(), 15);
-                lineRenderer.rect(e.getPos().x - 30, e.getPos().y + 50, 60, 15);
-
-                count += 1;
-                if (count > 20) {
-                    lineRenderer.end();
-                    lineRenderer.begin(Line);
-                    count = 0;
-                }
-            }
+            // todo
+//            if (e instanceof Entity) {
+//                lineRenderer.rect(e.getPos().x - 30, e.getPos().y + 50, 60, 15);
+//
+//                count += 1;
+//                if (count > 20) {
+//                    lineRenderer.end();
+//                    lineRenderer.begin(Line);
+//                    count = 0;
+//                }
+//            }
         }
         lineRenderer.end();
         solidRenderer.end();

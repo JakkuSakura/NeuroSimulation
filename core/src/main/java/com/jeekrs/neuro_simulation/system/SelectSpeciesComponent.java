@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.jeekrs.neuro_simulation.Agenda;
-import com.jeekrs.neuro_simulation.Species.Species;
 
 import java.util.ArrayList;
 
@@ -82,13 +81,7 @@ public class SelectSpeciesComponent extends UIComponent {
                 systemManager.UISystem.removeUIComponent(this);
                 selected = e;
                 systemManager.UISystem.addUIComponent(new GamePanel());
-                systemManager.agendaSystem.playerAgenda = new Agenda() {{
-                    setPlayer(true);
-                    setAI(false);
-                    setNumber(1);
-                    setRemote(false);
-                }};
-                systemManager.agendaSystem.agendas.put(systemManager.agendaSystem.playerAgenda, Species.getSpecies(e.getText().toString()));
+
                 systemManager.worldSystem.createWorld();
 
             }

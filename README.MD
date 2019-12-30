@@ -62,6 +62,8 @@ FightingSystem - 随机战斗结果
 
 ## Features
 
+## Todo List
+
 - [ ] 势力
 - [ ] 天灾
 - [ ] 进化
@@ -70,3 +72,10 @@ FightingSystem - 随机战斗结果
 - [ ] 食物
 - [ ] 实时
 - [ ] 战斗
+
+
+- [ ] Remake the neurosystem
+- [ ] Disable the UI and the control system temporarily
+- [ ] Add parameters like : mutation rate, maximum speed, view distance
+- [ ] Eggs
+- [ ] Better display

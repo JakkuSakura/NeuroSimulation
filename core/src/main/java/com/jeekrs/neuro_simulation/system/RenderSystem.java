@@ -28,12 +28,7 @@ public class RenderSystem extends SimpleSystem {
 
     @Override
     public void init() {
-        addRenderer(new NestRenderer());
-        addRenderer(new BaseCampRenderer());
-        addRenderer(new WallRenderer());
-        addRenderer(new WoodRenderer());
-        addRenderer(new AntRenderer());
-        addRenderer(new FoodRenderer());
+
         systemManager.inputSystem.inputStack.stack.addFirst(viewController);
     }
 
