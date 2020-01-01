@@ -1,8 +1,8 @@
 package com.jeekrs.neuro_simulation.system;
 
-import com.badlogic.gdx.math.Shape2D;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.collision.Ray;
+import com.jeekrs.neuro_simulation.components.Hittable;
 import com.jeekrs.neuro_simulation.entities.Entity;
 
 import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
@@ -10,10 +10,13 @@ import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
 public class Picker extends SimpleInputProcessor {
 
     public Entity selected;
+
     public Entity pickUp(Vector2 pos) {
         for (Entity e : systemManager.entitySystem.entities) {
-            if (e instanceof Shape2D) {
-                if (((Shape2D) e).contains(pos))
+            // not "pickable" until now
+            Hittable c = e.getComponentByClass(Hittable.class);
+            if (c != null) {
+                if (c.contains(pos.x, pos.y))
                     return e;
             }
         }

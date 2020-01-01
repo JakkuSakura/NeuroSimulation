@@ -20,7 +20,8 @@ public class RenderSystem extends SimpleSystem {
     public Viewport viewport = new ExtendViewport(worldWidth, worldHeight, camera);
 
     public RenderSystem() {
-
+        addRenderer(new FoodRenderer());
+        addRenderer(new LivingRenderer());
     }
 
     public ViewController viewController = new ViewController(this);

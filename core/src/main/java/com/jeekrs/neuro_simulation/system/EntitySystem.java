@@ -1,7 +1,6 @@
 package com.jeekrs.neuro_simulation.system;
 
 import com.jeekrs.neuro_simulation.entities.Entity;
-import com.jeekrs.neuro_simulation.interfaces.Movable;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
@@ -37,14 +36,7 @@ public class EntitySystem extends SimpleSystem {
 //    }
 
     private void movement(float delta) {
-        for (Entity e1 : entities) {
-            if (e1 instanceof Movable) {
-                Movable m = (Movable) e1;
-                m.getVel().x *= 1 - 0.5f * delta;
-                m.getVel().y *= 1 - 0.5f * delta;
-                m.getPos().mulAdd(m.getVel(), delta);
-            }
-        }
+        
     }
 
     private void livingUpdate() {

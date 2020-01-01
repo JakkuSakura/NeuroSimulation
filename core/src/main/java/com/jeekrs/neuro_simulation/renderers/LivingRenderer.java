@@ -5,18 +5,18 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.jeekrs.neuro_simulation.components.Position;
 import com.jeekrs.neuro_simulation.entities.Entity;
-import com.jeekrs.neuro_simulation.system.Renderer;
+import com.jeekrs.neuro_simulation.entities.Swarm;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line;
 import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
 
-public class AntRenderer extends Renderer {
-    private Texture antFighterTexture = new Texture(Gdx.files.internal("ant64.png"));
-    private Sprite antFighterSprite = new Sprite(antFighterTexture);
-    private Texture antWorkerTexture = new Texture(Gdx.files.internal("ant2.png"));
-    private Sprite antWorkerSprite = new Sprite(antWorkerTexture);
+public class LivingRenderer extends Renderer {
+    private Texture AntTexture = new Texture(Gdx.files.internal("ant64.png"));
+    private Sprite AntSprite = new Sprite(AntTexture);
+
     private SpriteBatch batch = new SpriteBatch();
     private ShapeRenderer lineRenderer = new ShapeRenderer();
     private ShapeRenderer solidRenderer = new ShapeRenderer();
@@ -26,10 +26,17 @@ public class AntRenderer extends Renderer {
         batch.begin();
         int count = 0;
         for (Entity e : systemManager.entitySystem.entities) {
-            if (count > 20) {
-                batch.end();
-                batch.begin();
-                count = 0;
+            if (e instanceof Swarm) {
+                Swarm s = (Swarm)e;
+                ++count;
+                Position pos = s.getPos();
+                batch.draw(AntSprite, pos.x - s.radius, pos.y - s.radius);
+
+                if (count > 20) {
+                    batch.end();
+                    batch.begin();
+                    count = 0;
+                }
             }
         }
         batch.end();
@@ -69,7 +76,7 @@ public class AntRenderer extends Renderer {
 
     @Override
     public void dispose() {
-        antFighterTexture.dispose();
+        AntTexture.dispose();
         batch.dispose();
     }
 }

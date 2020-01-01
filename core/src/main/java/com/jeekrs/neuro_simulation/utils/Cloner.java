@@ -5,6 +5,7 @@ import com.jeekrs.neuro_simulation.interfaces.MyCloneable;
 import java.util.ArrayList;
 
 public class Cloner {
+
     static public float[] copyArray(float[] array) {
         return array.clone();
     }

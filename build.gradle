@@ -21,6 +21,9 @@ configure(subprojects) {
   sourceCompatibility = 1.8
 }
 
+dependencies {
+}
+
 subprojects {
   version = '0.0.1-SNAPSHOT'
   ext.appName = 'NeuroSimulation'

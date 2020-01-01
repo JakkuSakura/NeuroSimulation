@@ -1,4 +1,4 @@
-package com.jeekrs.neuro_simulation.system;
+package com.jeekrs.neuro_simulation.renderers;
 
 abstract public class Renderer {
     public void render() {

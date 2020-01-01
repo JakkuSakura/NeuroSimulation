@@ -82,8 +82,6 @@ public class SelectSpeciesComponent extends UIComponent {
                 selected = e;
                 systemManager.UISystem.addUIComponent(new GamePanel());
 
-                systemManager.worldSystem.createWorld();
-
             }
         }
 

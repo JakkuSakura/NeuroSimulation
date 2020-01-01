@@ -1,6 +1,8 @@
 package com.jeekrs.neuro_simulation;
 
 import com.badlogic.gdx.Screen;
+import com.jeekrs.neuro_simulation.entities.Food;
+import com.jeekrs.neuro_simulation.entities.Swarm;
 import com.jeekrs.neuro_simulation.system.GamePanel;
 import com.jeekrs.neuro_simulation.system.SystemManager;
 
@@ -10,10 +12,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        systemManager.UISystem.addUIComponent(new GamePanel());
-
-        systemManager.worldSystem.createWorld();
-
+//        systemManager.UISystem.addUIComponent(new GamePanel());
+        systemManager.entitySystem.entities.add(new Food(0, 0));
+        systemManager.entitySystem.entities.add(new Swarm(30, 0));
         systemManager.init();
     }
 
