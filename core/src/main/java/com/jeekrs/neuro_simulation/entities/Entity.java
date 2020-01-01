@@ -1,6 +1,7 @@
 package com.jeekrs.neuro_simulation.entities;
 
 import com.jeekrs.neuro_simulation.components.Component;
+import com.jeekrs.neuro_simulation.utils.Cloner;
 import com.sun.istack.internal.NotNull;
 
 import java.util.ArrayList;
@@ -83,7 +84,7 @@ public class Entity implements Comparable<Entity>, Cloneable {
     public Entity clone() {
         try {
             Entity clone = (Entity) super.clone();
-            clone.components = (HashMap<String, Component>) components.clone();
+            clone.components = Cloner.deepCopy(components);
             return clone;
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
@@ -99,6 +100,10 @@ public class Entity implements Comparable<Entity>, Cloneable {
     public <T extends Component> boolean hasComponentByName(String name) {
         return getComponentByName(name) != null;
     }
+    public <T extends Component> boolean hasComponentByNameAndClass(String name, Class<T> clazz) {
+        return clazz.isAssignableFrom(getComponentByName(name).getClass());
+    }
+
 }
 
 

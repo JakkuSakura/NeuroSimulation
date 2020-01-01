@@ -1,10 +1,13 @@
 package com.jeekrs.neuro_simulation.neural_network;
 
+import com.jeekrs.neuro_simulation.interfaces.PublicClonable;
+import com.jeekrs.neuro_simulation.utils.Cloner;
+
 import java.util.*;
 
-public class NeuralNetwork {
+public class NeuralNetwork implements PublicClonable<NeuralNetwork> {
     public Neuron[][] nodes;
-
+    public ArrayList<Link> links = new ArrayList<>();
     public NeuralNetwork(SensorNeuron[] sensorNeurons, EffectorNeuron[] effectorNeurons, int[] middle_shape) {
         int layer_num = middle_shape.length;
         nodes =  new Neuron[layer_num + 2][];
@@ -18,6 +21,21 @@ public class NeuralNetwork {
         }
     }
 
+    public NeuralNetwork() {
+
+    }
+
+    public Link makeLink(int i1, int j1, int i2, int j2, float weight) {
+        Link link = new Link();
+        link.form = i1 << 16 | j1;
+        link.to = i2 << 16 | j2;
+        link.weight = weight;
+        links.add(link);
+        int index = links.size() - 1;
+        nodes[i1][j1].output.add(index);
+        nodes[i2][j2].input.add(index);
+        return link;
+    }
     public void activate() {
         ArrayDeque<Neuron> queue = new ArrayDeque<>();
         HashMap<Neuron, Integer> ranks = new HashMap<>();
@@ -31,12 +49,21 @@ public class NeuralNetwork {
             }
 
             float v = n.calculate();
-            for (Link i : n.output) {
-                i.to.update(v * i.weight);
-                ranks.put(i.to, ranks.get(i.to) - 1);
+            for (int i : n.output) {
+                Link link = links.get(i);
+                Neuron node = locateNode(link.to);
+
+                node.update(v * link.weight);
+                ranks.put(node, ranks.get(node) - 1);
             }
         }
 
+    }
+
+    private Neuron locateNode(int index) {
+        int i = index >> 16;
+        int j = index ^ (i << 16);
+        return nodes[i][j];
     }
 
     private void preprocess(ArrayDeque<Neuron> queue2, HashMap<Neuron, Integer> ranks) {
@@ -50,6 +77,15 @@ public class NeuralNetwork {
             ranks.put(n, n.input.size());
         }
     }
+    public void printValues() {
+        for (Neuron[] layer : nodes) {
+            for (Neuron neuron : layer) {
+                System.out.print(neuron);
+                System.out.print(" ");
+            }
+            System.out.println();
+        }
+    }
 
     public static void main(String[] args) {
         ConstantSensor sensor = new ConstantSensor(1);
@@ -60,12 +96,27 @@ public class NeuralNetwork {
         int[] shape = new int[1];
         shape[0] = 5;
         NeuralNetwork neuralNetwork = new NeuralNetwork(sensorNeurons, effectorNeuron, shape);
-        Link.makeLink(neuralNetwork.nodes[0][0], neuralNetwork.nodes[1][1], 1);
-        Link.makeLink(neuralNetwork.nodes[1][1], neuralNetwork.nodes[2][0], 1);
+        neuralNetwork.makeLink(0,0,1,1,1);
+        neuralNetwork.makeLink(1,1,2,0, 1);
+
 
         neuralNetwork.activate();
         for (Neuron l : neuralNetwork.nodes[2]) {
             System.out.println(l.calculate());
         }
+    }
+
+    @Override
+    public NeuralNetwork clone() {
+        NeuralNetwork clone = null;
+        try {
+            clone = (NeuralNetwork) super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        clone.nodes = Cloner.copyArray(nodes);
+        clone.links = Cloner.deepCopy(links);
+        return clone;
     }
 }

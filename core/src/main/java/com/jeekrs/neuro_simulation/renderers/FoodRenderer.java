@@ -13,13 +13,14 @@ public class FoodRenderer extends Renderer {
     @Override
     public void render() {
         shapeRenderer.setProjectionMatrix(systemManager.renderSystem.camera.combined);
-        shapeRenderer.setColor(1, 1, 0, 1);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         for (Entity entity : systemManager.entitySystem.entities) {
             if (entity instanceof Food) {
                 Food n = (Food) entity;
-                Position pos = n.getComponentByNameAndClass("pos", Position.class);
-                shapeRenderer.circle(pos.x, pos.y, n.getFood().energy);
+                Position pos = Position.getPosition(n);
+
+                shapeRenderer.setColor(n.getFood().energy * 10 / 255, n.getFood().health * 10 / 255, n.getFood().type, 1);
+                shapeRenderer.circle(pos.x, pos.y, 5);
             }
         }
 

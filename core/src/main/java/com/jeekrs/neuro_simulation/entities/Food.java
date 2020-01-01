@@ -5,8 +5,8 @@ import com.jeekrs.neuro_simulation.components.abilities.Hittable;
 import com.jeekrs.neuro_simulation.components.data.Position;
 
 public class Food extends Entity {
-    public Food(float x, float y) {
-        Edible c1 = new Edible(10, 2, 0);
+    public Food(float x, float y, float energy, float health, float type) {
+        Edible c1 = new Edible(energy, health, type);
         Position c = new Position(x, y);
 
         putComponent("food", c1);

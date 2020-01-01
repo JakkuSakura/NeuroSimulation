@@ -10,8 +10,8 @@ public class SystemManager {
     public EntitySystem entitySystem = new EntitySystem();
     public UISystem UISystem = new UISystem();
     public FightingSystem fightingSystem = new FightingSystem();
-
     public FoodSystem foodSystem = new FoodSystem();
+    public SwarmSystem swarmSystem = new SwarmSystem();
 
     public void init() {
         addSystem(inputSystem);
@@ -20,7 +20,7 @@ public class SystemManager {
         addSystem(UISystem);
         addSystem(fightingSystem);
         addSystem(foodSystem);
-
+        addSystem(swarmSystem);
 
         systems.forEach(SimpleSystem::init);
 

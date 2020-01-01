@@ -5,10 +5,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.jeekrs.neuro_simulation.components.abilities.Fighting;
 import com.jeekrs.neuro_simulation.components.data.Position;
+import com.jeekrs.neuro_simulation.components.data.Rotation;
 import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.entities.Swarm;
 
+import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
+import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line;
 import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
 
 public class LivingRenderer extends Renderer {
@@ -27,8 +31,10 @@ public class LivingRenderer extends Renderer {
             if (e instanceof Swarm) {
                 ++count;
                 Swarm s = (Swarm)e;
-                Position pos = s.getComponentByClass(Position.class);
-                batch.draw(AntSprite, pos.x - s.radius, pos.y - s.radius);
+                Position pos = Position.getPosition(s);
+                AntSprite.setRotation(e.getComponentByClass(Rotation.class).rotation - 90);
+                AntSprite.setPosition(pos.x - s.radius, pos.y - s.radius);
+                AntSprite.draw(batch);
 
                 if (count > 20) {
                     batch.end();
@@ -44,6 +50,35 @@ public class LivingRenderer extends Renderer {
     @Override
     public void render() {
         drawLivings();
+        drawLives();
+    }
+
+    private void drawLives() {
+        lineRenderer.setProjectionMatrix(systemManager.renderSystem.camera.combined);
+        lineRenderer.setColor(0, 0, 0, 1);
+        lineRenderer.begin(Line);
+
+        solidRenderer.setProjectionMatrix(systemManager.renderSystem.camera.combined);
+        solidRenderer.begin(Filled);
+        int count = 0;
+        for (Entity e : systemManager.entitySystem.entities) {
+            if (e.hasComponentByClass(Fighting.class)) {
+                Position pos = Position.getPosition(e);
+                Fighting fighting = e.getComponentByClass(Fighting.class);
+                solidRenderer.setColor(0, 0.8f, 0, 1);
+                solidRenderer.rect(pos.x - 30, pos.y + 50, 60 * fighting.health / fighting.health_limit, 15);
+                lineRenderer.rect(pos.x - 30, pos.y + 50, 60, 15);
+
+                count += 1;
+                if (count > 20) {
+                    lineRenderer.end();
+                    lineRenderer.begin(Line);
+                    count = 0;
+                }
+            }
+        }
+        lineRenderer.end();
+        solidRenderer.end();
     }
 
     @Override

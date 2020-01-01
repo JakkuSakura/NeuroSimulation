@@ -1,34 +1,23 @@
 package com.jeekrs.neuro_simulation.system;
 
-import com.jeekrs.neuro_simulation.Agenda;
-import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.entities.Food;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
 import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
 
 public class FoodSystem extends SimpleSystem {
-    public Map<Agenda, Resource> mapping = new HashMap<>();
-
-    @Override
-    public void init() {
-
-    }
-
-    public float getFood(Agenda a) {
-        return Optional.ofNullable(mapping.get(a)).map(e -> e.food).orElse(0f);
-    }
-
-    public void addFood(Agenda e, float val) {
-        Optional.ofNullable(mapping.get(e)).map(b -> b.food += val);
-    }
+    private long last = System.currentTimeMillis();
 
     @Override
     public void update(float delta) {
-
-
+        long current = System.currentTimeMillis();
+        if (current - last >= 5) {
+            last = current;
+            systemManager.entitySystem.entities.add(
+                    new Food(RandomUtil.nextFloat(-1000, 1000), RandomUtil.nextFloat(-1000, 1000),
+                            RandomUtil.nextFloat(10, 20), RandomUtil.nextFloat(10, 20),
+                            RandomUtil.nextFloat()));
+        }
     }
 }
