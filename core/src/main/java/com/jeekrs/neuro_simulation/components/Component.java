@@ -12,16 +12,5 @@ public abstract class Component implements MyCloneable {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> T as() {
-        if (this != NONE) {
-            // this forced cast should not be checked
-            return (T) this;
-        }
-        return null;
-    }
-
-    static public final Component NONE = new Component() {
-    };
 }
 

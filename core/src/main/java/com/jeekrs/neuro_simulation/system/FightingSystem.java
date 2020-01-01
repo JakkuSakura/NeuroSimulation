@@ -1,6 +1,6 @@
 package com.jeekrs.neuro_simulation.system;
 
-import com.jeekrs.neuro_simulation.components.Fighting;
+import com.jeekrs.neuro_simulation.components.abilities.Fighting;
 
 public class FightingSystem extends SimpleSystem {
     @Override

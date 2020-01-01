@@ -1,7 +1,6 @@
 package com.jeekrs.neuro_simulation.entities;
 
 import com.jeekrs.neuro_simulation.components.Component;
-import com.jeekrs.neuro_simulation.components.Position;
 import com.sun.istack.internal.NotNull;
 
 import java.util.ArrayList;
@@ -12,10 +11,18 @@ import java.util.Map;
 public class Entity implements Comparable<Entity>, Cloneable {
     private HashMap<String, Component> components = new HashMap<>();
 
-    @NotNull
     public Component getComponentByName(String string) {
-        return components.getOrDefault(string, Component.NONE);
+        return components.get(string);
     }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Component> T getComponentByNameAndCast(String string) {
+        return (T)components.get(string);
+    }
+    public <T extends Component> T getComponentByNameAndClass(String string, Class<T> clazz) {
+        return clazz.cast(components.get(string));
+    }
+
 
     public <T extends Component> T getComponentByClass(Class<T> clazz) {
         for (Map.Entry<String, Component> entry : components.entrySet()) {
@@ -32,7 +39,7 @@ public class Entity implements Comparable<Entity>, Cloneable {
         components.put(s, c);
     }
 
-    public void removeComponent(String s) {
+    public void removeComponentByName(String s) {
         components.remove(s);
     }
 
@@ -44,7 +51,7 @@ public class Entity implements Comparable<Entity>, Cloneable {
                 name = pr.getKey();
         }
         if (name == null)
-            throw new RuntimeException("No such component");
+            throw new RuntimeException("No such component of " + c);
         components.remove(name);
     }
 
@@ -84,8 +91,13 @@ public class Entity implements Comparable<Entity>, Cloneable {
         return null;
     }
 
-    public Position getPos() {
-        return getComponentByName("pos").as();
+
+
+    public <T extends Component> boolean hasComponentByClass(Class<T> clazz) {
+        return getComponentByClass(clazz) != null;
+    }
+    public <T extends Component> boolean hasComponentByName(String name) {
+        return getComponentByName(name) != null;
     }
 }
 

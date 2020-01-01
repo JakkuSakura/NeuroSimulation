@@ -14,7 +14,10 @@ public class GameScreen implements Screen {
     public void show() {
 //        systemManager.UISystem.addUIComponent(new GamePanel());
         systemManager.entitySystem.entities.add(new Food(0, 0));
-        systemManager.entitySystem.entities.add(new Swarm(30, 0));
+        Swarm e = new Swarm(30, 0);
+        // make it move
+        e.randomLink(5);
+        systemManager.entitySystem.entities.add(e);
         systemManager.init();
     }
 

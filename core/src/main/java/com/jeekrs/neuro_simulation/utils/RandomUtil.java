@@ -6,6 +6,14 @@ public class RandomUtil {
     public static final int RAND_SEED = (int) System.currentTimeMillis();
 	public static Random rand = new Random (RAND_SEED);
 
+    public static int nextInt() {
+        return rand.nextInt();
+    }
+
+    public static int nextInt(int a, int b) {
+        return (int) nextFloat(a, b - 0.1f);
+    }
+
     public static float nextFloat() {
         return rand.nextFloat();
     }

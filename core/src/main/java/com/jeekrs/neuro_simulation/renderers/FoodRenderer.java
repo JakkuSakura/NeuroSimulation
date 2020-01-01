@@ -1,7 +1,7 @@
 package com.jeekrs.neuro_simulation.renderers;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.jeekrs.neuro_simulation.components.Position;
+import com.jeekrs.neuro_simulation.components.data.Position;
 import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.entities.Food;
 
@@ -18,7 +18,7 @@ public class FoodRenderer extends Renderer {
         for (Entity entity : systemManager.entitySystem.entities) {
             if (entity instanceof Food) {
                 Food n = (Food) entity;
-                Position pos = n.getPosition();
+                Position pos = n.getComponentByNameAndClass("pos", Position.class);
                 shapeRenderer.circle(pos.x, pos.y, n.getFood().energy);
             }
         }

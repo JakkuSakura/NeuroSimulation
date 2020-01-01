@@ -1,4 +1,4 @@
-package com.jeekrs.neuro_simulation.neuron_net;
+package com.jeekrs.neuro_simulation.neural_network;
 
 import java.util.ArrayList;
 

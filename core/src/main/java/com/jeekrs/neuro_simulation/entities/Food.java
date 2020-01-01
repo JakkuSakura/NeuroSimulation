@@ -1,8 +1,8 @@
 package com.jeekrs.neuro_simulation.entities;
 
-import com.jeekrs.neuro_simulation.components.Edible;
-import com.jeekrs.neuro_simulation.components.Hittable;
-import com.jeekrs.neuro_simulation.components.Position;
+import com.jeekrs.neuro_simulation.components.abilities.Edible;
+import com.jeekrs.neuro_simulation.components.abilities.Hittable;
+import com.jeekrs.neuro_simulation.components.data.Position;
 
 public class Food extends Entity {
     public Food(float x, float y) {
@@ -19,11 +19,8 @@ public class Food extends Entity {
         });
     }
 
-    public Position getPosition() {
-        return getComponentByName("pos").as();
-    }
 
     public Edible getFood() {
-        return getComponentByName("food").as();
+        return getComponentByNameAndClass("food", Edible.class);
     }
 }

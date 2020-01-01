@@ -1,4 +1,6 @@
-package com.jeekrs.neuro_simulation.components;
+package com.jeekrs.neuro_simulation.components.abilities;
+
+import com.jeekrs.neuro_simulation.components.Component;
 
 public class Edible extends Component {
     public float energy;

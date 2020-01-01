@@ -1,4 +1,4 @@
-package com.jeekrs.neuro_simulation.neuron_net;
+package com.jeekrs.neuro_simulation.neural_network;
 
 public class EffectorNeuron extends HiddenNeuron {
 

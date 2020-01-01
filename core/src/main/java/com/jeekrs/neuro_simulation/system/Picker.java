@@ -2,7 +2,7 @@ package com.jeekrs.neuro_simulation.system;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.collision.Ray;
-import com.jeekrs.neuro_simulation.components.Hittable;
+import com.jeekrs.neuro_simulation.components.abilities.Hittable;
 import com.jeekrs.neuro_simulation.entities.Entity;
 
 import static com.jeekrs.neuro_simulation.GameScreen.systemManager;

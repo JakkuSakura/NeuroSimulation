@@ -1,8 +1,9 @@
-package com.jeekrs.neuro_simulation.components;
+package com.jeekrs.neuro_simulation.components.data;
 
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.NumberUtils;
+import com.jeekrs.neuro_simulation.components.Component;
 
 public class Vec2f extends Component implements Vector<Vec2f> {
 
