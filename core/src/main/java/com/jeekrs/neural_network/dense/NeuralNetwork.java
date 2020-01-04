@@ -1,10 +1,10 @@
-package com.jeekrs.neuro_simulation.neural_network;
+package com.jeekrs.neural_network.dense;
 
 import com.jeekrs.neuro_simulation.interfaces.PublicClonable;
 import com.jeekrs.neuro_simulation.utils.Cloner;
 
 import java.util.*;
-
+// todo make this an interface
 public class NeuralNetwork implements PublicClonable<NeuralNetwork> {
     public Neuron[][] nodes;
     public ArrayList<Link> links = new ArrayList<>();

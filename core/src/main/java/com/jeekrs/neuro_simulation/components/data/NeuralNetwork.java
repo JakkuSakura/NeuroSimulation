@@ -2,12 +2,12 @@ package com.jeekrs.neuro_simulation.components.data;
 
 import com.jeekrs.neuro_simulation.components.Component;
 import com.jeekrs.neuro_simulation.components.effectors.Effector;
-import com.jeekrs.neuro_simulation.neural_network.EffectorNeuron;
-import com.jeekrs.neuro_simulation.neural_network.SensorNeuron;
+import com.jeekrs.neural_network.dense.EffectorNeuron;
+import com.jeekrs.neural_network.dense.SensorNeuron;
 import com.jeekrs.neuro_simulation.components.sensors.Sensor;
 
 public class NeuralNetwork extends Component {
-    public com.jeekrs.neuro_simulation.neural_network.NeuralNetwork network;
+    public com.jeekrs.neural_network.dense.NeuralNetwork network;
 
     public NeuralNetwork(Sensor[] sn, Effector[] ef, int[] shape) {
 
@@ -30,7 +30,7 @@ public class NeuralNetwork extends Component {
                 System.arraycopy(e.getEffectorNeurons(), 0, effector_neurons, index, e.getNeuronNumber());
                 index += e.getNeuronNumber();
             }
-            network = new com.jeekrs.neuro_simulation.neural_network.NeuralNetwork(sensor_neurons, effector_neurons, shape);
+            network = new com.jeekrs.neural_network.dense.NeuralNetwork(sensor_neurons, effector_neurons, shape);
         } else {
             throw new IllegalStateException("You have to set up sensors, effectors, and shape before constructing the neural network");
         }

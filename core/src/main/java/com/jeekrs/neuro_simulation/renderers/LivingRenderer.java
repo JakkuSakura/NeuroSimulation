@@ -9,7 +9,7 @@ import com.jeekrs.neuro_simulation.components.abilities.Fighting;
 import com.jeekrs.neuro_simulation.components.data.Position;
 import com.jeekrs.neuro_simulation.components.data.Rotation;
 import com.jeekrs.neuro_simulation.entities.Entity;
-import com.jeekrs.neuro_simulation.entities.Swarm;
+import com.jeekrs.neuro_simulation.entities.Ant;
 
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled;
 import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line;
@@ -28,9 +28,9 @@ public class LivingRenderer extends Renderer {
         batch.begin();
         int count = 0;
         for (Entity e : systemManager.entitySystem.entities) {
-            if (e instanceof Swarm) {
+            if (e instanceof Ant) {
                 ++count;
-                Swarm s = (Swarm)e;
+                Ant s = (Ant)e;
                 Position pos = Position.getPosition(s);
                 AntSprite.setRotation(e.getComponentByClass(Rotation.class).rotation - 90);
                 AntSprite.setPosition(pos.x - s.radius, pos.y - s.radius);

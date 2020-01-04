@@ -1,7 +1,7 @@
 package com.jeekrs.neuro_simulation.components.sensors;
 
 import com.jeekrs.neuro_simulation.components.Component;
-import com.jeekrs.neuro_simulation.neural_network.SensorNeuron;
+import com.jeekrs.neural_network.dense.SensorNeuron;
 import com.jeekrs.neuro_simulation.utils.Cloner;
 
 public class Eyes extends Sensor{

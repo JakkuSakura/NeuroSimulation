@@ -9,14 +9,13 @@ import com.jeekrs.neuro_simulation.components.effectors.Legs;
 import com.jeekrs.neuro_simulation.components.effectors.Reproduction;
 import com.jeekrs.neuro_simulation.components.sensors.Eyes;
 import com.jeekrs.neuro_simulation.components.sensors.Sensor;
-import com.jeekrs.neuro_simulation.neural_network.Link;
-import com.jeekrs.neuro_simulation.neural_network.Neuron;
+import com.jeekrs.neural_network.dense.Neuron;
 import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
-public class Swarm extends Entity {
+public class Ant extends Entity {
     public float radius = 32;
 
-    public Swarm(float x, float y) {
+    public Ant(float x, float y) {
         Fighting fighting;
         CanEat c1 = new CanEat();
         Position pos = new Position(x, y);

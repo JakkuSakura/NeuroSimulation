@@ -1,4 +1,4 @@
-package com.jeekrs.neuro_simulation.neural_network;
+package com.jeekrs.neural_network.dense;
 
 import com.jeekrs.neuro_simulation.interfaces.PublicClonable;
 

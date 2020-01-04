@@ -1,7 +1,7 @@
 package com.jeekrs.neuro_simulation.components.effectors;
 
 import com.jeekrs.neuro_simulation.components.Component;
-import com.jeekrs.neuro_simulation.neural_network.EffectorNeuron;
+import com.jeekrs.neural_network.dense.EffectorNeuron;
 import com.jeekrs.neuro_simulation.utils.Cloner;
 
 public class Reproduction extends Effector {

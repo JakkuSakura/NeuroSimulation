@@ -1,8 +1,6 @@
 package com.jeekrs.neuro_simulation;
 
 import com.badlogic.gdx.Screen;
-import com.jeekrs.neuro_simulation.entities.Food;
-import com.jeekrs.neuro_simulation.entities.Swarm;
 import com.jeekrs.neuro_simulation.system.GamePanel;
 import com.jeekrs.neuro_simulation.system.SystemManager;
 

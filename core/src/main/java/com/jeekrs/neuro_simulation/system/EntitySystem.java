@@ -6,8 +6,8 @@ import com.jeekrs.neuro_simulation.components.effectors.Legs;
 import com.jeekrs.neuro_simulation.components.effectors.Reproduction;
 import com.jeekrs.neuro_simulation.components.sensors.Eyes;
 import com.jeekrs.neuro_simulation.entities.Entity;
-import com.jeekrs.neuro_simulation.entities.Swarm;
-import com.jeekrs.neuro_simulation.neural_network.Link;
+import com.jeekrs.neuro_simulation.entities.Ant;
+import com.jeekrs.neural_network.dense.Link;
 import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
 import java.util.ArrayList;
@@ -126,12 +126,12 @@ public class EntitySystem extends SimpleSystem {
                 .forEach(e -> {
                             Reproduction reproduction = e.getComponentByClass(Reproduction.class);
                             if (reproduction.effector_neurons[0].v >= reproduction.threshold) {
-                                if (e instanceof Swarm) {
-                                    Swarm s = (Swarm) e;
+                                if (e instanceof Ant) {
+                                    Ant s = (Ant) e;
                                     if (s.fighting().energy >= reproduction.energy_consumption) {
                                         s.fighting().energy -= reproduction.energy_consumption;
 
-                                        Swarm clone = (Swarm) s.clone();
+                                        Ant clone = (Ant) s.clone();
                                         clone.putComponent("parent", new Parent(s));
                                         clone.pos().x += 20;
                                         clone.pos().y += 20;
@@ -166,19 +166,19 @@ public class EntitySystem extends SimpleSystem {
     }
 
     public static void main(String[] args) {
-        Swarm s = new Swarm(0, 0);
+        Ant s = new Ant(0, 0);
         s.randomLink(RandomUtil.nextInt(15, 30));
-        Swarm swarm = (Swarm) s.clone();
-        swarm.pos().x += 10;
-        swarm.pos().y += 10;
-        swarm.fighting().health = 50;
-        for (Link link : swarm.network().network.links) {
+        Ant ant = (Ant) s.clone();
+        ant.pos().x += 10;
+        ant.pos().y += 10;
+        ant.fighting().health = 50;
+        for (Link link : ant.network().network.links) {
             link.weight *= RandomUtil.nextFloat(0.8f, 1.2f);
         }
         s.network().network.activate();
         s.network().network.printValues();
-        swarm.network().network.activate();
-        swarm.network().network.printValues();
+        ant.network().network.activate();
+        ant.network().network.printValues();
         System.out.println("done");
     }
 }

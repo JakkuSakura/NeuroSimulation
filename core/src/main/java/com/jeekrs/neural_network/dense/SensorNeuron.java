@@ -1,4 +1,4 @@
-package com.jeekrs.neuro_simulation.neural_network;
+package com.jeekrs.neural_network.dense;
 
 public class SensorNeuron extends Neuron {
     float value = 0;
