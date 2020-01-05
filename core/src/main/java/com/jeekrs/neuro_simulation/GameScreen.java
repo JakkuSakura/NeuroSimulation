@@ -1,8 +1,8 @@
 package com.jeekrs.neuro_simulation;
 
 import com.badlogic.gdx.Screen;
-import com.jeekrs.neuro_simulation.system.GamePanel;
-import com.jeekrs.neuro_simulation.system.SystemManager;
+import com.jeekrs.neuro_simulation.systems.GamePanel;
+import com.jeekrs.neuro_simulation.systems.SystemManager;
 
 public class GameScreen implements Screen {
 

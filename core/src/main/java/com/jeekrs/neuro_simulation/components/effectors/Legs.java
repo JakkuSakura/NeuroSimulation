@@ -21,7 +21,7 @@ public class Legs extends Effector {
     }
 
     public Vec2f velocity() {
-        return new Vec2f(effector_neurons[0].v, effector_neurons[1].v).scl(speed).limit(speed_limit);
+        return new Vec2f(effector_neurons[0].value(), effector_neurons[1].value()).scl(speed).limit(speed_limit);
 //        return new Vec2f(effector_neurons[0].v, effector_neurons[1].v).limit(speed_limit);
 
     }

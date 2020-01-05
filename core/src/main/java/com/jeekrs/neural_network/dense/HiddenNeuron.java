@@ -1,12 +1,17 @@
 package com.jeekrs.neural_network.dense;
 
 public class HiddenNeuron extends Neuron {
-    public Function func = new Sigmoid();
-    public float v;
+    protected Function func = new Sigmoid();
+    protected float v;
 
     @Override
     public float calculate() {
         return func.run(v);
+    }
+
+    @Override
+    public float value() {
+        return v;
     }
 
     @Override

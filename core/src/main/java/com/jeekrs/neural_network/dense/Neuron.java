@@ -8,9 +8,8 @@ public abstract class Neuron implements PublicClonable<Neuron> {
     public ArrayList<Integer> input = new ArrayList<>(), output = new ArrayList<>();
 
     public abstract float calculate();
-
+    public abstract float value();
     public abstract void update(float v);
-
     public abstract void initiate();
 
     @Override

@@ -1,7 +1,9 @@
 package com.jeekrs.neuro_simulation.entities;
 
+import com.jeekrs.neural_network.dense.DenseLayers;
 import com.jeekrs.neuro_simulation.components.abilities.*;
-import com.jeekrs.neuro_simulation.components.data.NeuralNetwork;
+import com.jeekrs.neuro_simulation.components.data.DenseLayersAdapter;
+import com.jeekrs.neuro_simulation.components.data.NeuralNetworkAdapter;
 import com.jeekrs.neuro_simulation.components.data.Position;
 import com.jeekrs.neuro_simulation.components.data.Rotation;
 import com.jeekrs.neuro_simulation.components.effectors.Effector;
@@ -31,7 +33,7 @@ public class Ant extends Entity {
         Eyes eyes = new Eyes(200);
         Legs legs = new Legs();
         Reproduction reproduction = new Reproduction(50);
-        NeuralNetwork network = new NeuralNetwork(new Sensor[]{eyes}, new Effector[]{legs, reproduction}, new int[]{6, 6, 6});
+        NeuralNetworkAdapter network = new DenseLayersAdapter(new Sensor[]{eyes}, new Effector[]{legs, reproduction}, new int[]{6, 6, 6});
 
         putComponent("can_eat", c1);
         putComponent("pos", pos);
@@ -58,28 +60,13 @@ public class Ant extends Entity {
     }
 
 
-    public NeuralNetwork network() {
-        return getComponentByNameAndClass("network", NeuralNetwork.class);
+    public NeuralNetworkAdapter network() {
+        return getComponentByNameAndClass("network", NeuralNetworkAdapter.class);
 
     }
 
     public void randomLink(int n) {
-        while (n-- > 0) {
-            Neuron[][] nodes = network().network.nodes;
-            int i = RandomUtil.nextInt(0, nodes.length);
-            int j = RandomUtil.nextInt(0, nodes.length);
-            if (i > j)
-                i = i ^ j ^ (j = i);
-            else if (i == j) {
-                ++n;
-                continue;
-            }
-            int a = RandomUtil.nextInt(0, nodes[i].length);
-            int b = RandomUtil.nextInt(0, nodes[j].length);
-//            System.out.format("(%d, %d) -> (%d, %d)\n", i, a, j ,b);
-            network().network.makeLink(i, a, j, b, 2 * RandomUtil.nextFloat() - 1);
 
-        }
     }
 
     public Position pos() {

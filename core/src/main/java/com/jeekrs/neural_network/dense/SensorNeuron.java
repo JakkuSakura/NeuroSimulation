@@ -8,6 +8,11 @@ public class SensorNeuron extends Neuron {
     }
 
     @Override
+    public float value() {
+        return value;
+    }
+
+    @Override
     public void update(float v) {
         value = v;
     }
