@@ -4,5 +4,5 @@ eclipse.project.name = appName + '-core'
 dependencies {
   compile "com.badlogicgames.gdx:gdx:$gdxVersion"
   compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+  compile group: 'net.sf.jgap', name: 'jgap', version: '3.4.4'
 }
-        

@@ -1,5 +1,7 @@
 package com.jeekrs.neuro_simulation.utils;
 
+import java.util.Collection;
+import java.util.Optional;
 import java.util.Random;
 
 public class RandomUtil {
@@ -26,4 +28,8 @@ public class RandomUtil {
 		}
         return rand.nextFloat() * (b - a) + a;
 	}
+	public static boolean success(float p)
+    {
+        return nextFloat() < p;
+    }
 }

@@ -1,25 +1,34 @@
 package com.jeekrs.neural_network.neat;
 
 import com.jeekrs.neural_network.utils.Sets;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 public class Genome {
-    public TreeMap<Integer, NodeGene> node_genes;
-    public TreeMap<Integer, ConnectionGene> connection_genes;
+    public NeatCore core;
+    public TreeMap<Integer, NodeGene> nodes;
+    public TreeMap<Integer, Gene> connection_genes;
 
-    public Genome() {
-        node_genes = new TreeMap<>();
+    public Genome(NeatCore core) {
+        nodes = new TreeMap<>();
         connection_genes = new TreeMap<>();
+        this.core = core;
     }
 
     public Genome(boolean empty_true) {
         // do nothing
+    }
+
+    public void addNode(int id, NodeGene.Type type) {
+        nodes.put(id, new NodeGene() {{
+            node_type = type;
+            node_id = id;
+        }});
+    }
+    public void addGene(Gene gene)
+    {
+        connection_genes.put(gene.innovation_number, gene);
     }
 
     /**
@@ -47,7 +56,8 @@ public class Genome {
         Genome genome = new Genome(true);
         genome.crossoverConnections(lhs, rhs, preference);
         genome.generateNodeGenes(lhs, rhs);
-
+        assert lhs.core == rhs.core;
+        genome.core = lhs.core;
         return genome;
     }
 
@@ -61,18 +71,18 @@ public class Genome {
      */
     private TreeMap<Integer, NodeGene> generateNodeGenes(Genome lhs, Genome rhs) {
         TreeMap<Integer, NodeGene> all_nodes = new TreeMap<>();
-        all_nodes.putAll(lhs.node_genes);
-        all_nodes.putAll(rhs.node_genes);
-        Set<Integer> intersection = lhs.node_genes.keySet();
-        intersection.retainAll(rhs.node_genes.keySet());
+        all_nodes.putAll(lhs.nodes);
+        all_nodes.putAll(rhs.nodes);
+        Set<Integer> intersection = lhs.nodes.keySet();
+        intersection.retainAll(rhs.nodes.keySet());
 
-        intersection.forEach(e -> node_genes.put(e, all_nodes.get(e)));
+        intersection.forEach(e -> nodes.put(e, all_nodes.get(e)));
 
         connection_genes.forEach((k, v) -> {
-            node_genes.put(v.in, all_nodes.get(v.in));
-            node_genes.put(v.out, all_nodes.get(v.out));
+            nodes.put(v.from, all_nodes.get(v.from));
+            nodes.put(v.to, all_nodes.get(v.to));
         });
-        return node_genes;
+        return nodes;
 
     }
 
@@ -84,8 +94,8 @@ public class Genome {
      * @param preference
      * @return
      */
-    private TreeMap<Integer, ConnectionGene> crossoverConnections(Genome lhs, Genome rhs, float preference) {
-        TreeMap<Integer, ConnectionGene> genes = new TreeMap<>();
+    private TreeMap<Integer, Gene> crossoverConnections(Genome lhs, Genome rhs, float preference) {
+        TreeMap<Integer, Gene> genes = new TreeMap<>();
         Set<Integer> all_cg = Sets.union(lhs.connection_genes.keySet(), rhs.connection_genes.keySet());
         all_cg.forEach(e -> {
             if (lhs.connection_genes.containsKey(e) && rhs.connection_genes.containsKey(e)) {
@@ -119,5 +129,12 @@ public class Genome {
         Set<Integer> all_cg = Sets.union(lhs.connection_genes.keySet(), rhs.connection_genes.keySet());
 
         return (int) all_cg.stream().filter(e -> e > least_inno).count();
+    }
+    public void mutate() {
+
+    }
+
+    public int getHighestNode() {
+        return nodes.ceilingKey(Integer.MAX_VALUE);
     }
 }
