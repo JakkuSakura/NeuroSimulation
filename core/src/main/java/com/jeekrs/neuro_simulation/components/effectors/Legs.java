@@ -2,34 +2,32 @@ package com.jeekrs.neuro_simulation.components.effectors;
 
 import com.jeekrs.neuro_simulation.components.Component;
 import com.jeekrs.neuro_simulation.components.data.Vec2f;
-import com.jeekrs.neural_network.dense.EffectorNeuron;
-import com.jeekrs.neuro_simulation.utils.Cloner;
 
 public class Legs extends Effector {
-    public EffectorNeuron[] effector_neurons = {new EffectorNeuron(), new EffectorNeuron()};
+    public float[] outputs = new float[2];
     public float speed_limit = 40;
     public float speed = 20;
-
+    public static final int OUTPUT_NUMBER = 2;
     @Override
-    public int getNeuronNumber() {
-        return 2;
+    public int getOutputNumber() {
+        return OUTPUT_NUMBER;
     }
 
     @Override
-    public EffectorNeuron[] getEffectorNeurons() {
-        return effector_neurons;
+    public float[] getOutputs() {
+        return outputs;
     }
 
     public Vec2f velocity() {
-        return new Vec2f(effector_neurons[0].value(), effector_neurons[1].value()).scl(speed).limit(speed_limit);
-//        return new Vec2f(effector_neurons[0].v, effector_neurons[1].v).limit(speed_limit);
+        return new Vec2f(outputs[0], outputs[1]).scl(speed).limit(speed_limit);
 
     }
 
     @Override
     public Component clone() {
         Legs legs = (Legs) super.clone();
-        legs.effector_neurons = (EffectorNeuron[]) Cloner.copyArray(effector_neurons);
+        legs.outputs = new float[OUTPUT_NUMBER];
+        System.arraycopy(this.outputs, 0, legs.outputs, 0, OUTPUT_NUMBER);
         return legs;
     }
 }

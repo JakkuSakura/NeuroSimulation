@@ -25,7 +25,8 @@ public class GamePanel extends UIComponent {
     private Label middle = new Label("Information", skin);
     private Label right = new Label("Information", skin);
     private Table table2 = new Table();
-
+    private long ms = System.currentTimeMillis();
+    private int count = 0;
 
     public Drawable getBackgroundColor(Color color) {
         Pixmap bgPixmap = new Pixmap(1, 1, Pixmap.Format.RGB565);
@@ -41,7 +42,6 @@ public class GamePanel extends UIComponent {
     void init() {
         stage = new Stage();
 //        stage.setDebugAll(true);
-
 
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
         table = new Table();
@@ -75,24 +75,28 @@ public class GamePanel extends UIComponent {
     @Override
     void update() {
         {
-            StringBuilder sb = new StringBuilder();
-
-//            sb.append(String.format("You have %.2f units of food\n", systemManager.resourceSystem.getFood(systemManager.agendaSystem.playerAgenda)));
+            StringBuilder sb = new StringBuilder("You chose ");
+            Entity selected = systemManager.inputSystem.picker.selected;
+            if (selected != null) {
+                sb.append(selected).append("\n");
+            } else {
+                sb.append("nothing\n");
+            }
             middle.setText(sb);
         }
 
-        {
-            StringBuilder sb = new StringBuilder();
-            Entity selected = systemManager.inputSystem.picker.selected;
-            if (selected != null) {
-                sb.append("You chose ").append(selected.toString()).append("\n");
-            }
-            right.setText(sb);
+        if (System.currentTimeMillis() - ms > 1000) {
 
-
-            stage.act();
-            stage.draw();
+            right.setText(String.format("fps: %d\n", count));
+            count = 0;
+            ms = System.currentTimeMillis();
+        } else {
+            count += 1;
         }
+
+
+        stage.act();
+        stage.draw();
     }
 
     @Override

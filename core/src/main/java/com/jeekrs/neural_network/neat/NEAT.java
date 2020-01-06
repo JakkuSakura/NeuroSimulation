@@ -9,12 +9,13 @@ import java.util.Arrays;
 
 public class NEAT extends NeuralNetwork {
     private EvolutionCore core;
+    // todo maybe core can be shared
     private Genome genome;
     private double[] temp_inputs;
     private float[] temp_outputs;
 
     public NEAT(int input_size, int output_size) {
-        core = new EvolutionCore(input_size, output_size, new CustomizedSigmoidActivation(), null);
+        core = new EvolutionCore(input_size, output_size, Math::tanh, null);
 
         core.setSetting(Setting.GENE_DISABLE_CHANCE, 0.75);
         core.setSetting(Setting.MUTATION_WEIGHT_CHANCE, 0.7);
@@ -70,5 +71,15 @@ public class NEAT extends NeuralNetwork {
 
     public void mutate() {
         genome.mutate();
+    }
+
+    @Override
+    public NEAT clone() {
+        NEAT clone = (NEAT)super.clone();
+        // clone.core can not to be changed
+        clone.genome = this.genome.clone();
+        clone.temp_inputs = temp_inputs.clone();
+        clone.temp_outputs = temp_outputs.clone();
+        return clone;
     }
 }

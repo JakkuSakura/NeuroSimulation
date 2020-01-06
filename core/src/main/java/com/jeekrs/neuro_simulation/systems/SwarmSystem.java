@@ -11,11 +11,13 @@ public class SwarmSystem extends SimpleSystem {
     @Override
     public void update(float delta) {
         long current = System.currentTimeMillis();
-        if (current - last >= 100) {
+        if (current - last >= 500) {
             last = current;
 
-            Ant e = new Ant(RandomUtil.nextFloat(-300, 300), RandomUtil.nextFloat(-300, 300));
-            systemManager.entitySystem.addEntity(e);
+            for (int i = 0; i < 5; i++) {
+                Ant e = new Ant(RandomUtil.nextFloat(-1000, 1000), RandomUtil.nextFloat(-1000, 1000));
+                systemManager.entitySystem.addEntity(e);
+            }
 
         }
     }

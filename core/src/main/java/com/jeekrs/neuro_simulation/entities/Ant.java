@@ -2,24 +2,20 @@ package com.jeekrs.neuro_simulation.entities;
 
 import com.jeekrs.neural_network.dense.DenseLayers;
 import com.jeekrs.neuro_simulation.components.abilities.*;
-import com.jeekrs.neuro_simulation.components.data.DenseLayersAdapter;
-import com.jeekrs.neuro_simulation.components.data.NeuralNetworkAdapter;
-import com.jeekrs.neuro_simulation.components.data.Position;
-import com.jeekrs.neuro_simulation.components.data.Rotation;
+import com.jeekrs.neuro_simulation.components.data.*;
 import com.jeekrs.neuro_simulation.components.effectors.Effector;
 import com.jeekrs.neuro_simulation.components.effectors.Legs;
 import com.jeekrs.neuro_simulation.components.effectors.Reproduction;
-import com.jeekrs.neuro_simulation.components.sensors.Eyes;
-import com.jeekrs.neuro_simulation.components.sensors.Sensor;
-import com.jeekrs.neural_network.dense.Neuron;
+import com.jeekrs.neuro_simulation.components.sensors.*;
 import com.jeekrs.neuro_simulation.utils.RandomUtil;
+
 
 public class Ant extends Entity {
     public float radius = 32;
 
     public Ant(float x, float y) {
         Fighting fighting;
-        CanEat c1 = new CanEat();
+        CanEat can_eat = new CanEat();
         Position pos = new Position(x, y);
         fighting = new Fighting() {{
             damage = 10;
@@ -32,17 +28,32 @@ public class Ant extends Entity {
 
         Eyes eyes = new Eyes(200);
         Legs legs = new Legs();
-        Reproduction reproduction = new Reproduction(50);
-        NeuralNetworkAdapter network = new DenseLayersAdapter(new Sensor[]{eyes}, new Effector[]{legs, reproduction}, new int[]{6, 6, 6});
+        RandomSensor randomSensor = new RandomSensor();
+        ConstantSensor constantSensor = new ConstantSensor();
+        HealthSensor healthSensor = new HealthSensor();
+        Reproduction reproduction = new Reproduction(20);
+        NeuralNetworkAdapter network;
 
-        putComponent("can_eat", c1);
+        Sensor[] sensors = {eyes, randomSensor, constantSensor, healthSensor};
+        Effector[] effectors = {legs, reproduction};
+
+        if (RandomUtil.success(0.2f))
+            network = new DenseLayersAdapter(sensors, effectors, new int[]{6, 6, 6});
+        else {
+            network = new NeatAdapter(sensors, effectors, 30);
+        }
+
+        putComponent("can_eat", can_eat);
         putComponent("pos", pos);
         putComponent("fighting", fighting);
         putComponent("eyes", eyes);
         putComponent("legs", legs);
         putComponent("network", network);
+        putComponent("random", randomSensor);
+        putComponent("health_sensor", healthSensor);
+        putComponent("constant", constantSensor);
         putComponent("rotation", new Rotation());
-        putComponent("hungry", new Hungry(3));
+        putComponent("hungry", new Hungry(1));
         putComponent("reproduction", reproduction);
         putComponent("hittable", new Hittable() {
             @Override
@@ -62,10 +73,6 @@ public class Ant extends Entity {
 
     public NeuralNetworkAdapter network() {
         return getComponentByNameAndClass("network", NeuralNetworkAdapter.class);
-
-    }
-
-    public void randomLink(int n) {
 
     }
 

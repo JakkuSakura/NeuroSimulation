@@ -1,7 +1,7 @@
 package com.jeekrs.neural_network.dense;
 
 public class SensorNeuron extends Neuron {
-    float value = 0;
+    private float value = 0;
     @Override
     public float calculate() {
         return value;

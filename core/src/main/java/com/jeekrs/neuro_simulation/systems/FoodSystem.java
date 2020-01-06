@@ -14,10 +14,14 @@ public class FoodSystem extends SimpleSystem {
         long current = System.currentTimeMillis();
         if (current - last >= 5) {
             last = current;
-            systemManager.entitySystem.entities.add(
-                    new Food(RandomUtil.nextFloat(-1000, 1000), RandomUtil.nextFloat(-1000, 1000),
-                            RandomUtil.nextFloat(10, 20), RandomUtil.nextFloat(10, 20),
-                            RandomUtil.nextFloat()));
+            if (systemManager.entitySystem.entities.stream().filter(e -> e instanceof Food).count() < 5000)
+                for (int i = 0; i < 10; i++) {
+                    systemManager.entitySystem.entities.add(
+                            new Food(RandomUtil.nextFloat(-2000, 2000), RandomUtil.nextFloat(-2000, 2000),
+                                    RandomUtil.nextFloat(10, 20), RandomUtil.nextFloat(10, 20),
+                                    RandomUtil.nextFloat()));
+
+                }
         }
     }
 }

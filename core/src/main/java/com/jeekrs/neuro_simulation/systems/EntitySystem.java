@@ -1,15 +1,15 @@
 package com.jeekrs.neuro_simulation.systems;
 
-import com.jeekrs.neural_network.dense.DenseLayers;
 import com.jeekrs.neuro_simulation.components.abilities.*;
 import com.jeekrs.neuro_simulation.components.data.*;
+import com.jeekrs.neuro_simulation.components.effectors.Effector;
 import com.jeekrs.neuro_simulation.components.effectors.Legs;
 import com.jeekrs.neuro_simulation.components.effectors.Reproduction;
 import com.jeekrs.neuro_simulation.components.sensors.Eyes;
+import com.jeekrs.neuro_simulation.components.sensors.HealthSensor;
+import com.jeekrs.neuro_simulation.components.sensors.Sensor;
 import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.entities.Ant;
-import com.jeekrs.neural_network.dense.Link;
-import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,9 @@ public class EntitySystem extends SimpleSystem {
     public void update(float delta) {
         delta *= 20;
         sensor_update(delta);
+        network_input();
         activate_network();
+        network_output();
         effector_action(delta);
 
         consume();
@@ -37,6 +39,31 @@ public class EntitySystem extends SimpleSystem {
         entities.addAll(newborn);
         dead.clear();
         newborn.clear();
+    }
+
+    private void network_input() {
+        entities.stream().filter(e -> e.hasComponentByClass(NeuralNetworkAdapter.class))
+                .forEach(e -> {
+                    ArrayList<Sensor> sensors = e.getComponentListByClass(Sensor.class);
+                    e.getComponentByClass(NeuralNetworkAdapter.class).input(sensors.toArray(new Sensor[0]));
+                });
+
+    }
+
+
+    private void activate_network() {
+        entities.stream().map(e -> e.getComponentByClass(NeuralNetworkAdapter.class)).filter(Objects::nonNull)
+                .forEach(NeuralNetworkAdapter::activate);
+    }
+
+    private void network_output() {
+        entities.stream().filter(e -> e.hasComponentByClass(NeuralNetworkAdapter.class))
+                .forEach(e -> {
+                    ArrayList<Effector> effectors = e.getComponentListByClass(Effector.class);
+                    e.getComponentByClass(NeuralNetworkAdapter.class).output(effectors.toArray(new Effector[0]));
+
+                });
+
     }
 
     private void consume() {
@@ -82,8 +109,8 @@ public class EntitySystem extends SimpleSystem {
                                 xv[1] += (pos.y - position.y);
 
                             });
-                            eyes.neurons[0].update(xv[0]);
-                            eyes.neurons[1].update(xv[1]);
+                            eyes.inputs[0] = xv[0];
+                            eyes.inputs[1] = xv[1];
 
                             xv[0] = xv[1] = 0;
                             entities.stream()
@@ -96,17 +123,22 @@ public class EntitySystem extends SimpleSystem {
                                         xv[1] += (pos.y - position.y);
 
                                     });
-                            eyes.neurons[2].update(xv[0]);
-                            eyes.neurons[3].update(xv[1]);
+                            eyes.inputs[2] = xv[0];
+                            eyes.inputs[3] = xv[1];
 
                         }
 
                 );
-    }
+        entities.stream().filter(entity -> entity.hasComponentByClass(HealthSensor.class) && entity.hasComponentByClass(Fighting.class))
+                .forEach(e -> {
+                            HealthSensor health = e.getComponentByClass(HealthSensor.class);
+                            Fighting fighting = e.getComponentByClass(Fighting.class);
+                            health.inputs[0] = fighting.health;
+                            health.inputs[1] = fighting.health_limit;
 
-    private void activate_network() {
-        entities.stream().map(e -> e.getComponentByClass(NeuralNetworkAdapter.class)).filter(Objects::nonNull)
-                .forEach(NeuralNetworkAdapter::activate);
+                        }
+
+                );
     }
 
     private void effector_action(float delta) {
@@ -119,6 +151,9 @@ public class EntitySystem extends SimpleSystem {
                             if (!velocity.isZero() && e.hasComponentByClass(Rotation.class))
                                 e.getComponentByClass(Rotation.class).rotation = velocity.angle();
                             pos.add(velocity.scl(delta));
+                            // todo to filter out unmovable creatures
+                            if (velocity.dst2(0,0) < 1)
+                                removeEntity(e);
                         }
 
                 );
@@ -126,7 +161,7 @@ public class EntitySystem extends SimpleSystem {
         entities.stream().filter(entity -> entity.hasComponentByClass(Reproduction.class) && Position.hasPosition(entity))
                 .forEach(e -> {
                             Reproduction reproduction = e.getComponentByClass(Reproduction.class);
-                            if (reproduction.effector_neurons[0].value() >= reproduction.threshold) {
+                            if (reproduction.outputs[0] >= reproduction.threshold) {
                                 if (e instanceof Ant) {
                                     Ant s = (Ant) e;
                                     if (s.fighting().energy >= reproduction.energy_consumption) {
@@ -138,7 +173,9 @@ public class EntitySystem extends SimpleSystem {
                                         clone.pos().y += 20;
                                         clone.fighting().health = 80;
 
-                                        clone.network().mutate();
+                                        for (int i = 0; i < 2; i++) {
+                                            clone.network().mutate();
+                                        }
 
 
                                         addEntity(clone);
@@ -154,7 +191,7 @@ public class EntitySystem extends SimpleSystem {
         entities.stream()
                 .filter(x -> x.hasComponentByClass(Fighting.class))
                 .filter(x -> x.getComponentByClass(Fighting.class).health <= 0)
-                .forEach(x -> dead.add(x));
+                .forEach(this::removeEntity);
     }
 
     public boolean removeEntity(Entity p1) {

@@ -6,30 +6,15 @@ import com.jeekrs.neuro_simulation.components.effectors.Effector;
 import com.jeekrs.neuro_simulation.components.sensors.Sensor;
 import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
+import java.util.Arrays;
+
 public class DenseLayersAdapter extends NeuralNetworkAdapter {
 
-    public DenseLayersAdapter(Sensor[] sn, Effector[] ef, int[] shape) {
-
-        if (sn != null && ef != null && shape != null) {
-            int sensor_neuron_num = 0;
-            for (Sensor s : sn)
-                sensor_neuron_num += s.getNeuronNumber();
-            SensorNeuron[] sensor_neurons = new SensorNeuron[sensor_neuron_num];
-            int index = 0;
-            for (Sensor s : sn) {
-                System.arraycopy(s.getSensorNeurons(), 0, sensor_neurons, index, s.getNeuronNumber());
-                index += s.getNeuronNumber();
-            }
-            int effector_neuron_num = 0;
-            for (Effector e : ef)
-                effector_neuron_num += e.getNeuronNumber();
-            EffectorNeuron[] effector_neurons = new EffectorNeuron[effector_neuron_num];
-            index = 0;
-            for (Effector e : ef) {
-                System.arraycopy(e.getEffectorNeurons(), 0, effector_neurons, index, e.getNeuronNumber());
-                index += e.getNeuronNumber();
-            }
-            setNetwork(new DenseLayers(sensor_neurons, effector_neurons, shape));
+    public DenseLayersAdapter(Sensor[] sensors, Effector[] effectors, int[] shape) {
+        if (sensors != null && effectors != null && shape != null) {
+            sensor_input_num = Arrays.stream(sensors).mapToInt(Sensor::getInputNumber).sum();
+            effector_output_num = Arrays.stream(effectors).mapToInt(Effector::getOutputNumber).sum();
+            setNetwork(new DenseLayers(sensor_input_num, effector_output_num, shape));
             initiate();
         } else {
             throw new IllegalStateException("You have to set up sensors, effectors, and shape before constructing the neural network");
@@ -57,7 +42,12 @@ public class DenseLayersAdapter extends NeuralNetworkAdapter {
     }
 
     @Override
-    public DenseLayers getNetwork() {
+    public void activate() {
+        getNetwork().activate();
+    }
+
+    @Override
+    protected DenseLayers getNetwork() {
         return (DenseLayers) super.getNetwork();
     }
 

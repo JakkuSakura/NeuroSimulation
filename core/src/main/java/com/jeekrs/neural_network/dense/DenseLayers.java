@@ -3,17 +3,26 @@ package com.jeekrs.neural_network.dense;
 import com.jeekrs.neural_network.NeuralNetwork;
 import com.jeekrs.neuro_simulation.utils.Cloner;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 
 public class DenseLayers extends NeuralNetwork {
     private Neuron[][] nodes;
     private ArrayList<Link> links = new ArrayList<>();
-    public DenseLayers(SensorNeuron[] sensorNeurons, EffectorNeuron[] effectorNeurons, int[] middle_shape) {
+    public DenseLayers(int input_size, int output_size, int[] middle_shape) {
         int layer_num = middle_shape.length;
         nodes =  new Neuron[layer_num + 2][];
 
-        nodes[0] = sensorNeurons;
-        nodes[layer_num + 1] = effectorNeurons;
+        nodes[0] = new Neuron[input_size];
+        for (int i = 0; i < input_size; ++i)
+            nodes[0][i] = new SensorNeuron();
+
+        nodes[layer_num + 1] = new Neuron[output_size];
+        for (int i = 0; i < output_size; ++i)
+            nodes[layer_num + 1][i] = new EffectorNeuron();
+
         for (int i = 1; i <= layer_num; ++i) {
             nodes[i] = new Neuron[middle_shape[i-1]];
             for (int j = 0; j < middle_shape[i - 1]; ++j)
@@ -108,14 +117,9 @@ public class DenseLayers extends NeuralNetwork {
     }
 
     public static void main(String[] args) {
-        ConstantSensor sensor = new ConstantSensor(1);
-        SensorNeuron[] sensorNeurons = new SensorNeuron[1];
-        sensorNeurons[0] = sensor.getNeuron();
-        EffectorNeuron[] effectorNeuron = new EffectorNeuron[1];
-        effectorNeuron[0] = new EffectorNeuron();
         int[] shape = new int[1];
         shape[0] = 5;
-        DenseLayers neuralNetwork = new DenseLayers(sensorNeurons, effectorNeuron, shape);
+        DenseLayers neuralNetwork = new DenseLayers(1, 1, shape);
         neuralNetwork.makeLink(0,0,1,1,1);
         neuralNetwork.makeLink(1,1,2,0, 1);
 

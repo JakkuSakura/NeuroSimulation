@@ -1,34 +1,32 @@
 package com.jeekrs.neuro_simulation.components.sensors;
 
 import com.jeekrs.neuro_simulation.components.Component;
-import com.jeekrs.neural_network.dense.SensorNeuron;
-import com.jeekrs.neuro_simulation.utils.Cloner;
 
 public class Eyes extends Sensor{
     private static final int SENSOR_NEURON_NUM = 4;
-    public SensorNeuron[] neurons = new SensorNeuron[SENSOR_NEURON_NUM];
+    public float[] inputs = new float[SENSOR_NEURON_NUM];
 
     public float limit;
 
     public Eyes(float limit) {
         this.limit = limit;
-        for (int i = 0; i < SENSOR_NEURON_NUM; ++i)
-            neurons[i] = new SensorNeuron();
     }
+
     @Override
-    public int getNeuronNumber() {
+    public int getInputNumber() {
         return SENSOR_NEURON_NUM;
     }
 
     @Override
-    public SensorNeuron[] getSensorNeurons() {
-        return neurons;
+    public float[] getInputs() {
+        return inputs;
     }
 
     @Override
     public Component clone() {
         Eyes eyes = (Eyes) super.clone();
-        eyes.neurons = (SensorNeuron[]) Cloner.copyArray(neurons);
+        eyes.inputs = new float[SENSOR_NEURON_NUM];
+        System.arraycopy(this.inputs, 0, eyes.inputs, 0, SENSOR_NEURON_NUM);
         return eyes;
     }
 }

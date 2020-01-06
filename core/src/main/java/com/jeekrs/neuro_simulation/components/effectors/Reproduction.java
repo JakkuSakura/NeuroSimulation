@@ -5,7 +5,7 @@ import com.jeekrs.neural_network.dense.EffectorNeuron;
 import com.jeekrs.neuro_simulation.utils.Cloner;
 
 public class Reproduction extends Effector {
-    public EffectorNeuron[] effector_neurons = {new EffectorNeuron()};
+    public float[] outputs = new float[1];
     public float threshold = 0.8f;
     public float energy_consumption;
 
@@ -14,19 +14,20 @@ public class Reproduction extends Effector {
     }
 
     @Override
-    public int getNeuronNumber() {
+    public int getOutputNumber() {
         return 1;
     }
 
     @Override
-    public EffectorNeuron[] getEffectorNeurons() {
-        return effector_neurons;
+    public float[] getOutputs() {
+        return outputs;
     }
 
     @Override
     public Component clone() {
         Reproduction clone = (Reproduction) super.clone();
-        clone.effector_neurons = (EffectorNeuron[]) Cloner.copyArray(effector_neurons);
+        clone.outputs = new float[1];
+        clone.outputs[0] = this.outputs[0];
         return clone;
     }
 }

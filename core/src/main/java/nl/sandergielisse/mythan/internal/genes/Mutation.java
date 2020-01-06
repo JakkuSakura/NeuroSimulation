@@ -47,7 +47,8 @@ public class Mutation {
 		 * 1. Add a new node. The new input weight to that node will be 1.
 		 * 	  The output from the new node will be set to the old connection's weight value.
 		 */
-		if (Random.success(this.genome.getCore().getSetting(Setting.MUTATION_NEW_NODE_CHANCE))) {
+		if (this.genome.getGenes().size() >0 && Random.success(this.genome.getCore().getSetting(Setting.MUTATION_NEW_NODE_CHANCE))) {
+			// todo pull request
 			Gene randomGene = Random.random(new ArrayList<>(this.genome.getGenes()));
 			randomGene.setEnabled(false);
 
