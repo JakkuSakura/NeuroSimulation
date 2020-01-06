@@ -146,13 +146,15 @@ public class EntitySystem extends SimpleSystem {
                 .forEach(e -> {
                             Position pos = Position.getPosition(e);
                             Legs legs = e.getComponentByClass(Legs.class);
+                            legs.calculateAcceleration(delta);
                             Vec2f velocity = legs.velocity();
 //                            System.out.println(velocity);
                             if (!velocity.isZero() && e.hasComponentByClass(Rotation.class))
                                 e.getComponentByClass(Rotation.class).rotation = velocity.angle();
                             pos.add(velocity.scl(delta));
-                            // todo to filter out unmovable creatures
-                            if (velocity.dst2(0,0) < 1)
+
+                            // to filter out unmovable creatures
+                            if (velocity.dst2(0,0) < .1)
                                 removeEntity(e);
                         }
 

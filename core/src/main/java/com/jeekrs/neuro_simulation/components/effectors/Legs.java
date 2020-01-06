@@ -4,9 +4,11 @@ import com.jeekrs.neuro_simulation.components.Component;
 import com.jeekrs.neuro_simulation.components.data.Vec2f;
 
 public class Legs extends Effector {
-    public float[] outputs = new float[2];
+    private float[] outputs = new float[2];
     public float speed_limit = 40;
     public float speed = 20;
+    public float vx = 0;
+    public float vy = 0;
     public static final int OUTPUT_NUMBER = 2;
     @Override
     public int getOutputNumber() {
@@ -19,8 +21,7 @@ public class Legs extends Effector {
     }
 
     public Vec2f velocity() {
-        return new Vec2f(outputs[0], outputs[1]).scl(speed).limit(speed_limit);
-
+        return new Vec2f(vx, vy).scl(speed).limit(speed_limit);
     }
 
     @Override
@@ -29,5 +30,10 @@ public class Legs extends Effector {
         legs.outputs = new float[OUTPUT_NUMBER];
         System.arraycopy(this.outputs, 0, legs.outputs, 0, OUTPUT_NUMBER);
         return legs;
+    }
+
+    public void calculateAcceleration(float delta) {
+        this.vx += outputs[0] * delta;
+        this.vy += outputs[1] * delta;
     }
 }
