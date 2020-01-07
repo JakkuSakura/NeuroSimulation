@@ -3,8 +3,10 @@ package com.jeekrs.neuro_simulation.systems;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.jeekrs.neuro_simulation.components.data.Position;
 import com.jeekrs.neuro_simulation.renderers.*;
 
 import java.util.ArrayList;
@@ -14,12 +16,11 @@ import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
 
 public class RenderSystem extends SimpleSystem {
     public ArrayList<Renderer> renderers = new ArrayList<>();
-    public int worldWidth = 600;
-    public int worldHeight = 800;
     public OrthographicCamera camera = new OrthographicCamera();
-    public Viewport viewport = new ExtendViewport(worldWidth, worldHeight, camera);
+    public Viewport viewport = new ExtendViewport(600, 800, camera);
 
     public RenderSystem() {
+        addRenderer(new NestRenderer());
         addRenderer(new FoodRenderer());
         addRenderer(new LivingRenderer());
     }
@@ -42,6 +43,11 @@ public class RenderSystem extends SimpleSystem {
         renderers.add(renderer);
     }
 
+
+    public boolean inView(Position pos) {
+        Vector2 view = viewport.project(pos.toVector2());
+        return !(view.x < -10) && !(view.x > Gdx.graphics.getWidth() + 10) && !(view.y < -10) && !(view.y > Gdx.graphics.getHeight() + 10);
+    }
 
     @Override
     public void update(float delta) {

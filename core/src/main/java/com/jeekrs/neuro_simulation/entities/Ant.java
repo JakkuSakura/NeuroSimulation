@@ -12,6 +12,7 @@ import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
 public class Ant extends Entity {
     public float radius = 32;
+    public AntNest antNest;
 
     public Ant(float x, float y) {
         Fighting fighting;
@@ -42,7 +43,6 @@ public class Ant extends Entity {
         else {
             network = new NeatAdapter(sensors, effectors, 30);
         }
-
         putComponent("can_eat", can_eat);
         putComponent("pos", pos);
         putComponent("fighting", fighting);
@@ -58,6 +58,7 @@ public class Ant extends Entity {
         putComponent("hittable", new Hittable() {
             @Override
             public boolean contains(float x, float y) {
+                Position pos = Position.getPosition(Ant.this);
                 return (pos.x - x) * (pos.x - x) + (pos.y - y) * (pos.y - y) <= radius * radius;
             }
         });

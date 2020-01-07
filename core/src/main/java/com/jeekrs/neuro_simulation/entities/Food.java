@@ -20,7 +20,7 @@ public class Food extends Entity {
     }
 
 
-    public Edible getFood() {
+    public Edible getEdible() {
         return getComponentByNameAndClass("food", Edible.class);
     }
 }

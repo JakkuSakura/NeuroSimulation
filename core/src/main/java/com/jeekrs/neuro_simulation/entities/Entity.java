@@ -1,6 +1,7 @@
 package com.jeekrs.neuro_simulation.entities;
 
 import com.jeekrs.neuro_simulation.components.Component;
+import com.jeekrs.neuro_simulation.components.abilities.Edible;
 import com.jeekrs.neuro_simulation.utils.Cloner;
 import com.sun.istack.internal.NotNull;
 
@@ -18,8 +19,9 @@ public class Entity implements Comparable<Entity>, Cloneable {
 
     @SuppressWarnings("unchecked")
     public <T extends Component> T getComponentByNameAndCast(String string) {
-        return (T)components.get(string);
+        return (T) components.get(string);
     }
+
     public <T extends Component> T getComponentByNameAndClass(String string, Class<T> clazz) {
         return clazz.cast(components.get(string));
     }
@@ -46,9 +48,9 @@ public class Entity implements Comparable<Entity>, Cloneable {
 
     public void removeComponent(Component c) {
         String name = null;
-        for (Map.Entry<String, Component> pr: components.entrySet()) {
+        for (Map.Entry<String, Component> pr : components.entrySet()) {
             // by address
-            if(pr.getValue() == c)
+            if (pr.getValue() == c)
                 name = pr.getKey();
         }
         if (name == null)
@@ -93,17 +95,21 @@ public class Entity implements Comparable<Entity>, Cloneable {
     }
 
 
-
     public <T extends Component> boolean hasComponentByClass(Class<T> clazz) {
         return getComponentByClass(clazz) != null;
     }
+
     public <T extends Component> boolean hasComponentByName(String name) {
         return getComponentByName(name) != null;
     }
+
     public <T extends Component> boolean hasComponentByNameAndClass(String name, Class<T> clazz) {
         return clazz.isAssignableFrom(getComponentByName(name).getClass());
     }
 
+    public <T extends Component> void removeComponentByClass(Class<T> clazz) {
+        removeComponent(getComponentByClass(clazz));
+    }
 }
 
 
