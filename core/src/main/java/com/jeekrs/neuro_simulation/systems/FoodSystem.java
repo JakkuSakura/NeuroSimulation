@@ -14,7 +14,7 @@ public class FoodSystem extends SimpleSystem {
         long current = System.currentTimeMillis();
         if (current - last >= 5) {
             last = current;
-            if (systemManager.entitySystem.populations.get(Food.class).getEntities().size() < 5000)
+            if (systemManager.entitySystem.populations.get(Food.class).getEntities().size() < 1000)
                 for (int i = 0; i < 10; i++) {
                     systemManager.entitySystem.populations.get(Food.class).addNewborn(
                             new Food(RandomUtil.nextFloat(-2000, 2000), RandomUtil.nextFloat(-2000, 2000),

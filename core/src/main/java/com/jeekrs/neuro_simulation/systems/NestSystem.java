@@ -18,15 +18,20 @@ public class NestSystem extends SimpleSystem {
             last = current;
             for (Entity e : systemManager.entitySystem.populations.get(AntNest.class).getEntities()) {
                 AntNest antNest = (AntNest) e;
+                for (Entity entity : systemManager.entitySystem.populations.get(Ant.class).getEntities())
+                    if (((Ant) entity).antNest == antNest)
+                        antNest.updateBest((Ant) entity);
+
                 Position pos = Position.getPosition(antNest);
 
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < 50; i++) {
                     Ant ant;
                     if (antNest.best == null) {
                         ant = new Ant(pos.x, pos.y);
                         antNest.best = (Ant) ant.clone();
                     } else {
                         ant = (Ant) antNest.best.clone();
+                        ant.putComponent("fighting", ant.newFighting());
                         ant.pos().x = pos.x;
                         ant.pos().y = pos.y;
                         ant.network().mutate();

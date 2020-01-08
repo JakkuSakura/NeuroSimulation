@@ -10,22 +10,15 @@ import com.jeekrs.neuro_simulation.components.sensors.*;
 import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
 
-public class Ant extends Entity {
+public class Ant extends Entity implements Hittable {
+    public long born_time = System.currentTimeMillis();
     public float radius = 32;
     public AntNest antNest;
 
     public Ant(float x, float y) {
         Fighting fighting;
-        CanEat can_eat = new CanEat();
         Position pos = new Position(x, y);
-        fighting = new Fighting() {{
-            damage = 10;
-            defense = 10;
-            energy = 10;
-            energy_limit = 100;
-            health = 100;
-            health_limit = 100;
-        }};
+        fighting = newFighting();
 
         Eyes eyes = new Eyes(200);
         Legs legs = new Legs();
@@ -43,7 +36,6 @@ public class Ant extends Entity {
         else {
             network = new NeatAdapter(sensors, effectors, 30);
         }
-        putComponent("can_eat", can_eat);
         putComponent("pos", pos);
         putComponent("fighting", fighting);
         putComponent("eyes", eyes);
@@ -53,24 +45,34 @@ public class Ant extends Entity {
         putComponent("health_sensor", healthSensor);
         putComponent("constant", constantSensor);
         putComponent("rotation", new Rotation());
-        putComponent("hungry", new Hungry(1));
+        putComponent("hungry", new Hungry(2));
         putComponent("reproduction", reproduction);
-        putComponent("hittable", new Hittable() {
-            @Override
-            public boolean contains(float x, float y) {
-                Position pos = Position.getPosition(Ant.this);
-                return (pos.x - x) * (pos.x - x) + (pos.y - y) * (pos.y - y) <= radius * radius;
-            }
-        });
 
-        putComponent("movable", new Movable() {
-            @Override
-            public Position getPos() {
-                return pos;
-            }
-        });
+
+//        putComponent("movable", new Movable() {
+//            @Override
+//            public Position getPos() {
+//                return pos;
+//            }
+//        });
     }
 
+    public Fighting newFighting() {
+        return new Fighting() {{
+            damage = 10;
+            defense = 10;
+            energy = 10;
+            energy_limit = 100;
+            health = 100;
+            health_limit = 100;
+        }};
+    }
+
+    @Override
+    public boolean contains(float x, float y) {
+        Position pos = Ant.this.pos();
+        return (pos.x - x) * (pos.x - x) + (pos.y - y) * (pos.y - y) <= radius * radius;
+    }
 
     public NeuralNetworkAdapter network() {
         return getComponentByNameAndClass("network", NeuralNetworkAdapter.class);
@@ -87,6 +89,13 @@ public class Ant extends Entity {
 
     @Override
     public String toString() {
-        return String.format("Swarm{pos=%s, health=%f}", pos(), fighting().health);
+        return String.format("Ant{pos=%s, health=%f}", pos(), fighting().health);
+    }
+
+    @Override
+    public Entity clone() {
+        Ant clone = (Ant) super.clone();
+        clone.born_time = System.currentTimeMillis();
+        return clone;
     }
 }

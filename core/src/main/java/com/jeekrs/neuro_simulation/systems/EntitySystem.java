@@ -13,8 +13,11 @@ import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.entities.Ant;
 import com.jeekrs.neuro_simulation.entities.Food;
 import com.jeekrs.neuro_simulation.populations.Population;
+import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
 import java.util.*;
+
+import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
 
 public class EntitySystem extends SimpleSystem {
 
@@ -74,24 +77,32 @@ public class EntitySystem extends SimpleSystem {
     private void consume() {
         ArrayList<Entity> food = populations.get(Food.class).getEntities();
         populations.values().forEach(population ->
-                population.getEntities().stream().filter(entity -> entity.hasComponentByClass(CanEat.class) && entity.hasComponentByClass(Hittable.class) && entity.hasComponentByClass(Fighting.class))
+                population.getEntities().stream().filter(entity -> entity instanceof Hittable && entity.hasComponentByClass(Fighting.class))
                         .forEach(entity -> {
-                            Hittable hittable = entity.getComponentByClass(Hittable.class);
-                            food.stream()
-                                    .filter(e -> e.hasComponentByClass(Edible.class))
-                                    .filter(e -> hittable.contains(Position.getPosition(e)))
-                                    .findFirst()
-                                    .ifPresent(e -> {
+
+                            for (Entity e : food) {
+                                if (e.hasComponentByClass(Edible.class)) {
+                                    Position food_pos = Position.getPosition(e);
+//                                    if (Position.getPosition(entity).dst2(0, 0) > 10 && Position.getPosition(entity).dst2(food_pos) < 30 * 30) {
+//                                        System.out.println("possible");
+//                                    }
+                                    // fixme Hittable is problematic
+                                    // it does not work with clone properly
+                                    if (((Hittable) entity).contains(food_pos.x, food_pos.y)) {
+//                                        if (Position.getPosition(entity).dst2(0, 0) > 10) {
+//                                            System.out.println("Consumed");
+//                                        }
                                         Fighting fighting = entity.getComponentByClass(Fighting.class);
                                         fighting.health += e.getComponentByClass(Edible.class).health;
                                         fighting.adjustHealth();
                                         fighting.energy += e.getComponentByClass(Edible.class).energy;
                                         fighting.adjustEnergy();
 
-                                        // fixme does not disappear after being eaten
                                         e.removeComponent(e.getComponentByClass(Edible.class));
                                         populations.get(Food.class).addDead(e);
-                                    });
+                                    }
+                                }
+                            }
                         }));
     }
 

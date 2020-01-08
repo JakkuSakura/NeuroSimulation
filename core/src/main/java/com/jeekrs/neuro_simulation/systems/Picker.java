@@ -15,9 +15,7 @@ public class Picker extends SimpleInputProcessor {
     public Entity pickUp(Vector2 pos) {
         for (Population pop : systemManager.entitySystem.populations.values()) {
             for (Entity e : pop.getEntities()) {
-                // not "pickable" until now
-                Hittable c = e.getComponentByClass(Hittable.class);
-                if (c != null && c.contains(pos.x, pos.y)) return e;
+                if (e instanceof Hittable && ((Hittable) e).contains(pos.x, pos.y)) return e;
             }
         }
         return null;
