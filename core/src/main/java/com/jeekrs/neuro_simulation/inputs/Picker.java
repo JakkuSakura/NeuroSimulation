@@ -1,4 +1,4 @@
-package com.jeekrs.neuro_simulation.systems;
+package com.jeekrs.neuro_simulation.inputs;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.collision.Ray;
@@ -13,7 +13,7 @@ public class Picker extends SimpleInputProcessor {
     public Entity selected;
 
     public Entity pickUp(Vector2 pos) {
-        for (Population pop : systemManager.entitySystem.populations.values()) {
+        for (Population pop : systemManager.worldSystem.populations.values()) {
             for (Entity e : pop.getEntities()) {
                 if (e instanceof Hittable && ((Hittable) e).contains(pos.x, pos.y)) return e;
             }

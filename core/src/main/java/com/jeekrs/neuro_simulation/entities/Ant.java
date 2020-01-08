@@ -25,17 +25,17 @@ public class Ant extends Entity implements Hittable {
         RandomSensor randomSensor = new RandomSensor();
         ConstantSensor constantSensor = new ConstantSensor();
         HealthSensor healthSensor = new HealthSensor();
-        Reproduction reproduction = new Reproduction(20);
+//        Reproduction reproduction = new Reproduction(20);
         NeuralNetworkAdapter network;
 
         Sensor[] sensors = {eyes, randomSensor, constantSensor, healthSensor};
-        Effector[] effectors = {legs, reproduction};
+        Effector[] effectors = {legs};
 
-        if (RandomUtil.success(0.2f))
-            network = new DenseLayersAdapter(sensors, effectors, new int[]{6, 6, 6});
-        else {
+//        if (RandomUtil.success(0.2f))
+//            network = new DenseLayersAdapter(sensors, effectors, new int[]{6, 6, 6});
+//        else {
             network = new NeatAdapter(sensors, effectors, 30);
-        }
+//        }
         putComponent("pos", pos);
         putComponent("fighting", fighting);
         putComponent("eyes", eyes);
@@ -46,7 +46,7 @@ public class Ant extends Entity implements Hittable {
         putComponent("constant", constantSensor);
         putComponent("rotation", new Rotation());
         putComponent("hungry", new Hungry(2));
-        putComponent("reproduction", reproduction);
+//        putComponent("reproduction", reproduction);
 
 
 //        putComponent("movable", new Movable() {
@@ -62,7 +62,7 @@ public class Ant extends Entity implements Hittable {
             damage = 10;
             defense = 10;
             energy = 10;
-            energy_limit = 100;
+            energy_limit = 1000;
             health = 100;
             health_limit = 100;
         }};

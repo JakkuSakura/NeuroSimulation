@@ -1,6 +1,7 @@
-package com.jeekrs.neuro_simulation.systems;
+package com.jeekrs.neuro_simulation.displays;
 
 import com.badlogic.gdx.Input;
+import com.jeekrs.neuro_simulation.inputs.SimpleInputProcessor;
 
 public class ViewController extends SimpleInputProcessor {
     private RenderSystem renderSystem;

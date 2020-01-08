@@ -1,4 +1,4 @@
-package com.jeekrs.neuro_simulation.systems;
+package com.jeekrs.neuro_simulation.displays;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -7,7 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.jeekrs.neuro_simulation.components.data.Position;
-import com.jeekrs.neuro_simulation.renderers.*;
+import com.jeekrs.neuro_simulation.displays.renderers.*;
+import com.jeekrs.neuro_simulation.game.SimpleSystem;
 
 import java.util.ArrayList;
 

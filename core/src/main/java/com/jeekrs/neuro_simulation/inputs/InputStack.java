@@ -1,4 +1,4 @@
-package com.jeekrs.neuro_simulation.systems;
+package com.jeekrs.neuro_simulation.inputs;
 
 import com.badlogic.gdx.InputProcessor;
 

@@ -1,10 +1,9 @@
-package com.jeekrs.neuro_simulation.systems;
+package com.jeekrs.neuro_simulation.game;
 
 import com.jeekrs.neuro_simulation.components.data.Position;
 import com.jeekrs.neuro_simulation.entities.Ant;
 import com.jeekrs.neuro_simulation.entities.AntNest;
 import com.jeekrs.neuro_simulation.entities.Entity;
-import com.jeekrs.neuro_simulation.utils.RandomUtil;
 
 import static com.jeekrs.neuro_simulation.GameScreen.systemManager;
 
@@ -16,15 +15,20 @@ public class NestSystem extends SimpleSystem {
         long current = System.currentTimeMillis();
         if (current - last >= 500) {
             last = current;
-            for (Entity e : systemManager.entitySystem.populations.get(AntNest.class).getEntities()) {
+            for (Entity e : systemManager.worldSystem.populations.get(AntNest.class).getEntities()) {
                 AntNest antNest = (AntNest) e;
-                for (Entity entity : systemManager.entitySystem.populations.get(Ant.class).getEntities())
-                    if (((Ant) entity).antNest == antNest)
-                        antNest.updateBest((Ant) entity);
+
+                boolean updated = systemManager.worldSystem.populations.get(Ant.class).getEntities().stream()
+                        .filter(entity -> ((Ant) entity).antNest == antNest)
+                        .map(entity -> antNest.updateBest((Ant) entity))
+                        .reduce(false, (a, b) -> a || b);
+
+                if (updated)
+                    antNest.best = (Ant) antNest.best.clone();
 
                 Position pos = Position.getPosition(antNest);
 
-                for (int i = 0; i < 50; i++) {
+                for (int i = 0; i < 10; i++) {
                     Ant ant;
                     if (antNest.best == null) {
                         ant = new Ant(pos.x, pos.y);
@@ -34,10 +38,12 @@ public class NestSystem extends SimpleSystem {
                         ant.putComponent("fighting", ant.newFighting());
                         ant.pos().x = pos.x;
                         ant.pos().y = pos.y;
-                        ant.network().mutate();
+                        for (int j = 0; j < 5; j++) {
+                            ant.network().mutate();
+                        }
                     }
                     ant.antNest = antNest;
-                    systemManager.entitySystem.populations.get(Ant.class).addNewborn(ant);
+                    systemManager.worldSystem.populations.get(Ant.class).addNewborn(ant);
                 }
 
             }

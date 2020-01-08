@@ -1,4 +1,4 @@
-package com.jeekrs.neuro_simulation.systems;
+package com.jeekrs.neuro_simulation.UI;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import com.jeekrs.neuro_simulation.entities.Entity;
+import com.jeekrs.neuro_simulation.utils.TextHelper;
 
 
 import static com.jeekrs.neuro_simulation.GameScreen.systemManager;

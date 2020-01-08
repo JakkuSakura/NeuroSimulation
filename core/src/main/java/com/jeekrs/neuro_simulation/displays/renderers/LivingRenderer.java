@@ -1,17 +1,17 @@
-package com.jeekrs.neuro_simulation.renderers;
+package com.jeekrs.neuro_simulation.displays.renderers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector3;
 import com.jeekrs.neuro_simulation.components.abilities.Fighting;
 import com.jeekrs.neuro_simulation.components.data.Position;
 import com.jeekrs.neuro_simulation.components.data.Rotation;
 import com.jeekrs.neuro_simulation.entities.Entity;
 import com.jeekrs.neuro_simulation.entities.Ant;
 import com.jeekrs.neuro_simulation.populations.Population;
+import com.jeekrs.neuro_simulation.utils.TextHelper;
 
 import java.util.Map;
 
@@ -31,7 +31,7 @@ public class LivingRenderer extends Renderer {
         batch.setProjectionMatrix(systemManager.renderSystem.camera.combined);
         batch.begin();
         int count = 0;
-        for (Entity e : systemManager.entitySystem.populations.get(Ant.class).getEntities()) {
+        for (Entity e : systemManager.worldSystem.populations.get(Ant.class).getEntities()) {
             ++count;
             Ant s = (Ant) e;
             Position pos = Position.getPosition(s);
@@ -56,19 +56,22 @@ public class LivingRenderer extends Renderer {
     @Override
     public void render() {
         drawLivings();
-        drawLives();
+        drawStatus();
     }
 
-    private void drawLives() {
+    private void drawStatus() {
         lineRenderer.setProjectionMatrix(systemManager.renderSystem.camera.combined);
         lineRenderer.setColor(0, 0, 0, 1);
         lineRenderer.begin(Line);
 
         solidRenderer.setProjectionMatrix(systemManager.renderSystem.camera.combined);
         solidRenderer.begin(Filled);
+
+        batch.setProjectionMatrix(systemManager.renderSystem.camera.combined);
+        batch.begin();
+        TextHelper.setLineHeight(TextHelper.font, 12);
         int count = 0;
-        for (Map.Entry<Class, Population> entry : systemManager.entitySystem.populations.entrySet()) {
-            Population v = entry.getValue();
+        for (Population v : systemManager.worldSystem.populations.values()) {
             for (Entity e : v.getEntities()) {
                 if (e.hasComponentByClass(Fighting.class)) {
                     Position pos = Position.getPosition(e);
@@ -79,16 +82,26 @@ public class LivingRenderer extends Renderer {
                     solidRenderer.rect(pos.x - 30, pos.y + 50, 60 * fighting.health / fighting.health_limit, 15);
                     lineRenderer.rect(pos.x - 30, pos.y + 50, 60, 15);
 
+                    solidRenderer.setColor(0.8f, 0, 0, 1);
+                    solidRenderer.rect(pos.x - 30, pos.y + 70, 60 * fighting.energy / fighting.energy_limit, 15);
+                    lineRenderer.rect(pos.x - 30, pos.y + 70, 60, 15);
+                    if (e instanceof Ant)
+                        TextHelper.printf(batch, pos.x - 30, pos.y + 100, "Nest %d", ((Ant) e).antNest.hashCode() % 10);
                     count += 1;
                     if (count > 20) {
                         lineRenderer.end();
                         lineRenderer.begin(Line);
+                        solidRenderer.end();
+                        solidRenderer.begin(Filled);
+                        batch.end();
+                        batch.begin();
                         count = 0;
                     }
                 }
             }
 
         }
+        batch.end();
         lineRenderer.end();
         solidRenderer.end();
     }

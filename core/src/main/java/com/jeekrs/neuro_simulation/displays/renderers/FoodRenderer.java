@@ -1,4 +1,4 @@
-package com.jeekrs.neuro_simulation.renderers;
+package com.jeekrs.neuro_simulation.displays.renderers;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.jeekrs.neuro_simulation.components.data.Position;
@@ -14,7 +14,7 @@ public class FoodRenderer extends Renderer {
     public void render() {
         shapeRenderer.setProjectionMatrix(systemManager.renderSystem.camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        for (Entity entity : systemManager.entitySystem.populations.get(Food.class).getEntities()) {
+        for (Entity entity : systemManager.worldSystem.populations.get(Food.class).getEntities()) {
             Food n = (Food) entity;
             Position pos = Position.getPosition(n);
             if (!systemManager.renderSystem.inView(pos)) continue;

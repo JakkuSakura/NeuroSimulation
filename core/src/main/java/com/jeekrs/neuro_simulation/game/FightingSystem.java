@@ -1,4 +1,4 @@
-package com.jeekrs.neuro_simulation.systems;
+package com.jeekrs.neuro_simulation.game;
 
 import com.jeekrs.neuro_simulation.components.abilities.Fighting;
 
